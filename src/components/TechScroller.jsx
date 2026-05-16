@@ -1,23 +1,22 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 
-// Tech items with emoji logos (SVG logos would need external files)
 const stackItems = [
-  { name: "React",      icon: "⚛️",  color: "#61DAFB" },
-  { name: "TypeScript", icon: "📘",  color: "#3178C6" },
-  { name: "Node.js",    icon: "🟩",  color: "#339933" },
-  { name: "Next.js",    icon: "▲",   color: "#ffffff" },
-  { name: "Vite",       icon: "⚡",   color: "#646CFF" },
-  { name: "Python",     icon: "🐍",  color: "#3776AB" },
-  { name: "Rust",       icon: "🦀",  color: "#FF7043" },
-  { name: "Go",         icon: "🐹",  color: "#00ADD8" },
-  { name: "Docker",     icon: "🐳",  color: "#2496ED" },
-  { name: "AWS",        icon: "☁️",  color: "#FF9900" },
-  { name: "PostgreSQL", icon: "🐘",  color: "#336791" },
-  { name: "Redis",      icon: "🔴",  color: "#DC382D" },
-  { name: "GraphQL",    icon: "◈",   color: "#E10098" },
-  { name: "C++",        icon: "⚙️",  color: "#00599C" },
-  { name: "Java",       icon: "☕",  color: "#ED8B00" },
-  { name: "Linux",      icon: "🐧",  color: "#FCC624" },
+  { name: "React",      iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg", color: "#61DAFB" },
+  { name: "TypeScript", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg", color: "#3178C6" },
+  { name: "Node.js",    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg", color: "#339933" },
+  { name: "Next.js",    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg", color: "#ffffff" },
+  { name: "Vite",       iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg", color: "#646CFF" },
+  { name: "Python",     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg", color: "#3776AB" },
+  { name: "Rust",       iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg", color: "#FF7043" },
+  { name: "Go",         iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg", color: "#00ADD8" },
+  { name: "Docker",     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg", color: "#2496ED" },
+  { name: "AWS",        iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg", color: "#FF9900" },
+  { name: "PostgreSQL", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg", color: "#336791" },
+  { name: "Redis",      iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg", color: "#DC382D" },
+  { name: "GraphQL",    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg", color: "#E10098" },
+  { name: "C++",        iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg", color: "#00599C" },
+  { name: "Java",       iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg", color: "#ED8B00" },
+  { name: "Linux",      iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg", color: "#FCC624" },
 ];
 
 export default function TechScroller() {
@@ -44,8 +43,8 @@ export default function TechScroller() {
     const track = trackRef.current;
     if (!track) return;
 
-    const ITEM_W = 160; // approximate width of each item
-    const TOTAL = stackItems.length * ITEM_W;
+    // Dynamically calculate exact width of one set of items
+    const TOTAL = track.scrollWidth / 3;
 
     function loop() {
       const s = stateRef.current;
@@ -118,7 +117,6 @@ export default function TechScroller() {
     <section className="stack-strip">
       <div className="stack-strip-head">
         <p className="eyebrow">tech stack</p>
-        <span className="stack-hint">hover to pause · drag to push · hold to collect</span>
       </div>
 
       <div className="stack-track-wrapper">
@@ -142,7 +140,7 @@ export default function TechScroller() {
                   "--angle": `${(idx % stackItems.length) * (360 / stackItems.length)}deg`
                 }}
               >
-                <span className="chip-icon">{item.icon}</span>
+                <img src={item.iconUrl} alt={item.name} className="chip-icon-img" />
                 <span className="chip-name">{item.name}</span>
               </div>
             ))}

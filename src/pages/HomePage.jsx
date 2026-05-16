@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import TechScroller from "../components/TechScroller.jsx";
+import Timeline from "../components/Timeline.jsx";
 
 // Each "mode" has a display string and a label shown below as subtitle
 const heroModes = [
@@ -97,9 +98,6 @@ export default function HomePage({ onActivate }) {
         </p>
 
         <div className="hero-links">
-          <Link to="/projects" className="btn">View Projects</Link>
-          <Link to="/experience" className="btn">My Journey</Link>
-          <Link to="/blogs" className="btn">Read Blogs</Link>
           <Link to="/contact" className="btn btn-accent">Get In Touch →</Link>
         </div>
       </section>
@@ -142,6 +140,14 @@ export default function HomePage({ onActivate }) {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="section compact-section" style={{ padding: "0 4vw" }}>
+        <div className="section-head">
+          <p className="eyebrow">my journey</p>
+          <h2>My path in technology</h2>
+        </div>
+        <Timeline />
       </section>
 
       <TechScroller />

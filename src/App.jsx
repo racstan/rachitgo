@@ -13,7 +13,7 @@ import { languages } from "./data/languages.js";
 import { portfolioItems } from "./data/portfolio.js";
 
 export default function App() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
   const [activeItemId, setActiveItemId] = useState("profile");
   const [languageIndex, setLanguageIndex] = useState(0);
   const [runToken, setRunToken] = useState(0);
