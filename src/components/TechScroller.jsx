@@ -137,7 +137,10 @@ export default function TechScroller() {
               <div
                 key={`${item.name}-${idx}`}
                 className="stack-chip"
-                style={{ "--chip-color": item.color }}
+                style={{ 
+                  "--chip-color": item.color,
+                  "--angle": `${(idx % stackItems.length) * (360 / stackItems.length)}deg`
+                }}
               >
                 <span className="chip-icon">{item.icon}</span>
                 <span className="chip-name">{item.name}</span>
