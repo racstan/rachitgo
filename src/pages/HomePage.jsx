@@ -78,10 +78,12 @@ export default function HomePage({ onActivate }) {
         <p className="eyebrow">software developer / freelancer / builder</p>
 
         {/* Big h1 types / deletes / cycles through languages */}
-        <h1 className="hero-typing" style={{ color: mode.color }}>
-          {displayText}
-          <span className="hero-cursor" style={{ background: mode.color }} />
-        </h1>
+        <div className="hero-typing-container">
+          <h1 className="hero-typing" style={{ color: mode.color }}>
+            {displayText}
+            <span className="hero-cursor" style={{ background: mode.color }} />
+          </h1>
+        </div>
 
         {/* Subtitle shows which language/encoding */}
         <p className="hero-mode-label">

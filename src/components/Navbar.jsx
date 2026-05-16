@@ -17,7 +17,11 @@ export default function Navbar({ theme, onToggleTheme }) {
     <nav className="navbar">
       {/* Brand — static, rainbow on hover */}
       <div className="brand-static" tabIndex={0}>
-        <span className="brand-name-static">Rachit Asthana</span>
+        <span className="brand-name-static name-group">
+          {"Rachit Asthana".split("").map((char, i) => (
+            <span key={i} className="name-char">{char === " " ? "\u00A0" : char}</span>
+          ))}
+        </span>
         <span className="brand-sub-static">software engineer</span>
       </div>
 

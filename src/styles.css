@@ -83,24 +83,37 @@ a { color: inherit; text-decoration: none; }
 .brand-name-static {
   font-family: 'JetBrains Mono', monospace;
   font-size: 16px; font-weight: 700; white-space: nowrap;
-  background: var(--text);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-  transition: background 0.3s ease;
+  display: flex; gap: 0;
 }
 
-.brand-static:hover .brand-name-static {
-  background: linear-gradient(90deg,
-    #ff0080, #ff4d00, #ffe000, #00ff80, #00cfff, #a020f0, #ff0080);
-  background-size: 200% 100%;
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: rainbowShift 2s linear infinite;
+.name-char {
+  color: var(--text);
+  transition: color 0.1s, text-shadow 0.1s, transform 0.1s;
+  display: inline-block;
+  cursor: default;
 }
 
-@keyframes rainbowShift {
-  0%   { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+.name-group:hover .name-char {
+  color: var(--muted);
+}
+
+.name-group .name-char:hover {
+  color: var(--accent);
+  text-shadow: 0 0 12px var(--accent);
+  transform: translateY(-3px) scale(1.1);
+  z-index: 2; position: relative;
+}
+
+.name-group .name-char:has(+ .name-char:hover),
+.name-group .name-char:hover + .name-char {
+  color: color-mix(in srgb, var(--accent) 60%, var(--muted));
+  text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 50%, transparent);
+  transform: translateY(-1px) scale(1.05);
+}
+
+.name-group .name-char:has(+ .name-char + .name-char:hover),
+.name-group .name-char:hover + .name-char + .name-char {
+  color: color-mix(in srgb, var(--accent) 20%, var(--muted));
 }
 
 .brand-sub-static {
@@ -699,16 +712,24 @@ a { color: inherit; text-decoration: none; }
 /* ═══════════════════════════════════════════
    HERO TYPING
 ═══════════════════════════════════════════ */
-.hero-typing {
-  font-size: clamp(28px, 6vw, 110px);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+.hero-typing-container {
+  display: flex; justify-content: center; align-items: center;
+  min-height: 3.5em; /* Allows up to 3 lines without shifting content below */
+  width: 100%;
   margin-bottom: 24px;
+}
+
+.hero-typing {
+  font-size: clamp(20px, 4vw, 80px); /* Slightly smaller to fit more hex chars */
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   color: var(--accent);
   transition: color 0.4s ease;
-  white-space: nowrap;
+  white-space: pre-wrap; /* Allows wrapping */
+  word-break: break-word;
   text-align: center;
+  margin: 0;
 }
 
 /* Ensure container prevents layout shift */
@@ -720,7 +741,6 @@ a { color: inherit; text-decoration: none; }
   min-height: 70vh;
   padding: 80px 4vw;
   position: relative;
-  overflow: hidden; 
 }
 
 .hero p {
@@ -843,28 +863,110 @@ a { color: inherit; text-decoration: none; }
 }
 
 .stack-chip {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 18px; border-radius: 10px;
-  border: 1px solid color-mix(in srgb, var(--chip-color, var(--accent)) 30%, var(--line));
-  background: color-mix(in srgb, var(--chip-color, var(--accent)) 8%, var(--panel));
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 12px; 
+  background: transparent;
+  border: none;
   white-space: nowrap; flex-shrink: 0;
-  transition: border-color 200ms, background 200ms, transform 200ms;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 300ms;
   cursor: grab;
   user-select: none;
+  filter: grayscale(80%) opacity(0.7);
 }
 
 .stack-chip:hover {
-  border-color: var(--chip-color, var(--accent));
-  background: color-mix(in srgb, var(--chip-color, var(--accent)) 15%, var(--panel));
-  transform: translateY(-2px);
+  transform: translateY(-10px) scale(1.15);
+  filter: grayscale(0%) opacity(1);
 }
 
-.chip-icon { font-size: 18px; line-height: 1; }
-.chip-name {
-  font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600;
-  color: var(--chip-color, var(--text));
+.chip-icon-img {
+  width: 56px; height: 56px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
 }
 
+
+
+/* ═══════════════════════════════════════════
+   TIMELINE (GITHUB STYLE)
+═══════════════════════════════════════════ */
+.timeline-container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.timeline-branch {
+  position: absolute;
+  left: 24px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--line) 5%, var(--line) 95%, transparent);
+}
+
+.timeline-row {
+  display: flex; gap: 24px;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-node {
+  position: relative;
+  width: 50px; flex-shrink: 0;
+  display: flex; justify-content: center; align-items: flex-start;
+  padding-top: 24px;
+  z-index: 2;
+}
+
+.timeline-dot-inner {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.timeline-content {
+  flex: 1;
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.timeline-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 8px; flex-wrap: wrap; gap: 8px;
+}
+
+.timeline-role {
+  font-size: 20px; font-weight: 800;
+}
+
+.timeline-year {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; color: var(--muted);
+}
+
+.timeline-company {
+  color: var(--muted); font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; margin-bottom: 12px;
+}
+
+.timeline-desc {
+  color: var(--text-dim); line-height: 1.6; font-size: 15px; margin-bottom: 16px;
+}
+
+.timeline-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+
+.timeline-tag {
+  font-size: 11px; padding: 4px 10px; border-radius: 6px;
+  background: var(--bg); border: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace; font-weight: 600;
+}
 
 
 /* Skills section */
