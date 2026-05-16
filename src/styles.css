@@ -306,24 +306,53 @@ a { color: inherit; text-decoration: none; }
 
 /* ═══ BUTTONS ═══ */
 .btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  border: 1px solid var(--line); border-radius: 8px;
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid var(--line); border-radius: 12px;
   background: var(--panel-2); color: var(--text);
-  padding: 10px 16px;
-  font-family: 'JetBrains Mono', monospace; font-size: 13px;
-  transition: border-color 150ms, color 150ms, background 150ms, transform 150ms, box-shadow 150ms;
+  padding: 14px 28px;
+  font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s;
+  z-index: -1;
+}
+
+.btn:hover::before {
+  left: 100%;
 }
 
 .btn:hover {
   border-color: var(--accent); color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px var(--glow);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.btn:active {
+  transform: translateY(-1px) scale(0.98);
 }
 
 .btn-accent {
-  background: color-mix(in srgb, var(--accent) 12%, var(--panel));
-  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
-  color: var(--accent);
+  background: var(--accent);
+  color: white !important;
+  border: none;
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.btn-accent:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--accent) 40%, transparent);
+  color: white !important;
 }
 
 /* ═══ SECTIONS ═══ */
@@ -671,36 +700,41 @@ a { color: inherit; text-decoration: none; }
    HERO TYPING
 ═══════════════════════════════════════════ */
 .hero-typing {
-  font-size: clamp(24px, 5vw, 110px);
-  font-weight: 700;
+  font-size: clamp(28px, 6vw, 110px);
+  font-weight: 800;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   margin-bottom: 24px;
   color: var(--accent);
   transition: color 0.4s ease;
   white-space: nowrap;
+  text-align: center;
 }
 
 /* Ensure container prevents layout shift */
 .hero {
-  display: flex; flex-direction: column; justify-content: center;
-  min-height: 60vh;
-  padding: 0 4vw;
+  display: flex; flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 70vh;
+  padding: 80px 4vw;
   position: relative;
-  overflow: hidden; /* Prevent horizontal scroll from long single-line text */
+  overflow: hidden; 
 }
 
 .hero p {
   color: var(--text-dim);
-  font-size: clamp(16px, 1.2vw, 20px);
-  max-width: 600px;
+  font-size: clamp(16px, 1.3vw, 22px);
+  max-width: 700px;
   line-height: 1.6;
-  margin-bottom: 40px;
+  margin: 0 auto 48px;
 }
 
 .hero-links {
-  display: flex; gap: 16px;
-  flex-wrap: wrap;
+  display: flex; gap: 20px;
+  justify-content: center;
+  width: 100%;
 }
 
 .hero-cursor {
