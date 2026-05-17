@@ -72,8 +72,28 @@ function useTypingCycle(modes) {
 
 export default function HomePage({ onActivate }) {
   const { displayText, phase, mode } = useTypingCycle(heroModes);
+  const containerRef = useRef(null);
+  const textRef = useRef(null);
+  const [textScale, setTextScale] = useState(1);
 
   useEffect(() => { onActivate("profile"); }, [onActivate]);
+
+  useEffect(() => {
+    function updateScale() {
+      const container = containerRef.current;
+      const textEl = textRef.current;
+      if (!container || !textEl) return;
+      const containerWidth = container.clientWidth;
+      const textWidth = textEl.scrollWidth;
+      if (!containerWidth || !textWidth) return;
+      const nextScale = Math.min(1, containerWidth / textWidth);
+      setTextScale(Number.isFinite(nextScale) ? nextScale : 1);
+    }
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, [displayText]);
 
   return (
     <section className="portfolio">
@@ -81,9 +101,14 @@ export default function HomePage({ onActivate }) {
         <p className="eyebrow">software developer / freelancer / builder</p>
 
         {/* Big h1 types / deletes / cycles through languages */}
-        <div className="hero-typing-container">
-          <h1 className="hero-typing" style={{ color: mode.color }}>
-            {displayText}
+        <div className="hero-typing-container" ref={containerRef}>
+          <h1
+            className="hero-typing"
+            style={{ color: mode.color, transform: `scale(${textScale})` }}
+          >
+            <span ref={textRef} className="hero-typing-text">
+              {displayText}
+            </span>
             <span className="hero-cursor" style={{ background: mode.color }} />
           </h1>
         </div>
@@ -108,6 +133,9 @@ export default function HomePage({ onActivate }) {
           <Link to="/experience" className="hero-link secondary-link">
             <WaveText text="My Journey" />
           </Link>
+          <Link to="/contact" className="hero-link secondary-link">
+            <WaveText text="Contact Me" />
+          </Link>
         </div>
       </section>
 
@@ -124,6 +152,9 @@ export default function HomePage({ onActivate }) {
               "Show the receipts",
             ]}
           />
+          <a className="github-link" href="https://github.com/rachitasthana" target="_blank" rel="noreferrer">
+            github.com/rachitasthana
+          </a>
         </div>
         <div className="github-strip">
           {[

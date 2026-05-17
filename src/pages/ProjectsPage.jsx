@@ -6,18 +6,21 @@ import HoverTypingText from "../components/HoverTypingText.jsx";
 const projectGroups = [
   {
     id: "academic",
+    activateId: "academics",
     title: "Academic projects",
     summary: "Coursework and research prototypes focused on fundamentals and clarity.",
     highlights: ["Coursework prototypes", "Research experiments", "Capstone builds"],
   },
   {
     id: "work",
+    activateId: "experience",
     title: "Work projects",
     summary: "Client and team builds that ship to production and support real users.",
     highlights: ["Product dashboards", "Workflow automation", "Production releases"],
   },
   {
     id: "hobby",
+    activateId: "project-web",
     title: "Hobby projects",
     summary: "Personal experiments and open-source ideas for learning and fun.",
     highlights: ["UI experiments", "Developer tooling", "Learning builds"],
@@ -50,8 +53,8 @@ export default function ProjectsPage({ onActivate }) {
             key={group.id}
             element="article"
             className="portfolio-card project-card"
-            onMouseEnter={() => onActivate(group.id)}
-            onFocus={() => onActivate(group.id)}
+            onMouseEnter={() => onActivate(group.activateId)}
+            onFocus={() => onActivate(group.activateId)}
             tabIndex={0}
           >
             <span>Category</span>

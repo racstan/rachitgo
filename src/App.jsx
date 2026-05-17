@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { ChevronUp, ChevronDown } from "lucide-react";
 import Navbar from "./components/Navbar.jsx";
 import BinaryCursor from "./components/BinaryCursor.jsx";
 import BinaryRain from "./components/BinaryRain.jsx";
@@ -39,6 +40,24 @@ export default function App() {
     setRunToken((value) => value + 1);
   }
 
+  function scrollToSection(direction) {
+    const sections = Array.from(
+      document.querySelectorAll(".hero, .section, .page, .stack-strip"),
+    );
+    if (!sections.length) return;
+
+    const positions = sections.map((el) => el.getBoundingClientRect().top + window.scrollY);
+    const current = window.scrollY + 10;
+
+    if (direction === "down") {
+      const next = positions.find((pos) => pos > current + 10);
+      if (next !== undefined) window.scrollTo({ top: next, behavior: "smooth" });
+    } else {
+      const prev = [...positions].reverse().find((pos) => pos < current - 10);
+      if (prev !== undefined) window.scrollTo({ top: prev, behavior: "smooth" });
+    }
+  }
+
   return (
     <>
       <BinaryRain theme={theme} />
@@ -67,6 +86,14 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+      <div className="scroll-controls">
+        <button className="scroll-key" onClick={() => scrollToSection("up")} aria-label="Scroll up">
+          <ChevronUp size={18} />
+        </button>
+        <button className="scroll-key" onClick={() => scrollToSection("down")} aria-label="Scroll down">
+          <ChevronDown size={18} />
+        </button>
+      </div>
       <Footer />
       <BinaryCursor />
     </>

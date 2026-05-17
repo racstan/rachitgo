@@ -7,13 +7,9 @@ function lerp(current, target, amount) {
 }
 
 export default function BinaryCursor() {
-  const coreRef = useRef(null);
-  const ringRef = useRef(null);
-  const glowRef = useRef(null);
+  const atomRef = useRef(null);
   const targetRef = useRef({ x: START_POS, y: START_POS });
-  const corePos = useRef({ x: START_POS, y: START_POS });
-  const ringPos = useRef({ x: START_POS, y: START_POS });
-  const glowPos = useRef({ x: START_POS, y: START_POS });
+  const atomPos = useRef({ x: START_POS, y: START_POS });
   const animRef = useRef(null);
 
   useEffect(() => {
@@ -22,24 +18,15 @@ export default function BinaryCursor() {
       targetRef.current.y = event.clientY;
     }
 
-    function setPos(el, pos) {
-      if (!el) return;
-      el.style.left = `${pos.x}px`;
-      el.style.top = `${pos.y}px`;
-    }
-
     function animate() {
       const target = targetRef.current;
-      corePos.current.x = lerp(corePos.current.x, target.x, 0.28);
-      corePos.current.y = lerp(corePos.current.y, target.y, 0.28);
-      ringPos.current.x = lerp(ringPos.current.x, target.x, 0.16);
-      ringPos.current.y = lerp(ringPos.current.y, target.y, 0.16);
-      glowPos.current.x = lerp(glowPos.current.x, target.x, 0.1);
-      glowPos.current.y = lerp(glowPos.current.y, target.y, 0.1);
+      atomPos.current.x = lerp(atomPos.current.x, target.x, 0.22);
+      atomPos.current.y = lerp(atomPos.current.y, target.y, 0.22);
 
-      setPos(coreRef.current, corePos.current);
-      setPos(ringRef.current, ringPos.current);
-      setPos(glowRef.current, glowPos.current);
+      if (atomRef.current) {
+        atomRef.current.style.left = `${atomPos.current.x}px`;
+        atomRef.current.style.top = `${atomPos.current.y}px`;
+      }
 
       animRef.current = requestAnimationFrame(animate);
     }
@@ -55,9 +42,18 @@ export default function BinaryCursor() {
 
   return (
     <div className="binary-cursor" aria-hidden="true">
-      <div className="cursor-glow" ref={glowRef} />
-      <div className="cursor-ring" ref={ringRef} />
-      <div className="cursor-core" ref={coreRef} />
+      <div className="atom-cursor" ref={atomRef}>
+        <div className="atom-core" />
+        <div className="atom-orbit orbit-one">
+          <span className="atom-electron" />
+        </div>
+        <div className="atom-orbit orbit-two">
+          <span className="atom-electron" />
+        </div>
+        <div className="atom-orbit orbit-three">
+          <span className="atom-electron" />
+        </div>
+      </div>
     </div>
   );
 }

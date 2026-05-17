@@ -46,7 +46,6 @@
 * { box-sizing: border-box; margin: 0; }
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
 }
 
 body {
@@ -56,7 +55,6 @@ body {
   min-height: 100vh;
   user-select: none;
   position: relative;
-  scroll-snap-type: y proximity;
 }
 
 body::before {
@@ -82,6 +80,18 @@ body::before {
 button, a { font: inherit; }
 button { cursor: pointer; border: none; background: none; color: inherit; }
 a { color: inherit; text-decoration: none; }
+
+* { user-select: none; }
+
+::selection { background: transparent; }
+
+:where(p, h1, h2, h3, h4, h5, h6, span, a, button, li, strong) {
+  transition: color 120ms ease, text-shadow 120ms ease;
+}
+
+:where(p, h1, h2, h3, h4, h5, h6, span, a, button, li, strong):hover {
+  text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent);
+}
 
 /* ═══ SCROLLBAR ═══ */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -122,6 +132,44 @@ a { color: inherit; text-decoration: none; }
   background: color-mix(in srgb, var(--bg) 60%, transparent);
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   padding: 0 24px;
+}
+
+/* ═══ SCROLL CONTROLS ═══ */
+.scroll-controls {
+  position: fixed;
+  right: clamp(16px, 3vw, 32px);
+  bottom: clamp(24px, 5vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 60;
+}
+
+.scroll-key {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.3),
+    0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 120ms, box-shadow 120ms, border-color 120ms, color 120ms;
+}
+
+.scroll-key:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.scroll-key:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.35),
+    0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 /* ═══ FOOTER ═══ */
@@ -456,13 +504,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ═══ SECTIONS ═══ */
-.hero,
-.section,
-.page {
-  scroll-snap-align: start;
-  scroll-margin-top: 90px;
-}
-
 .section, .page {
   padding: clamp(36px, 5vw, 72px) clamp(18px, 5vw, 72px);
 }
@@ -496,6 +537,17 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800; line-height: 1; letter-spacing: -1px;
   margin: 0 0 24px;
 }
+
+.github-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  display: inline-block;
+  margin-top: -12px;
+  transition: color 150ms;
+}
+
+.github-link:hover { color: var(--accent); }
 
 /* ═══ GRIDS ═══ */
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -805,42 +857,64 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none; overflow: hidden;
 }
 
-.cursor-core,
-.cursor-ring,
-.cursor-glow {
+.atom-cursor {
   position: fixed; left: 0; top: 0;
+  width: 56px; height: 56px;
   transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
   pointer-events: none;
 }
 
-.cursor-core {
+.atom-core {
+  position: absolute; left: 50%; top: 50%;
   width: 6px; height: 6px;
   border-radius: 999px;
   background: var(--accent);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 70%, transparent);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent);
 }
 
-.cursor-ring {
-  width: 34px; height: 34px;
+.atom-orbit {
+  position: absolute; inset: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent-2) 40%, transparent);
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--accent-2) 45%, transparent);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-2) 25%, transparent);
-  animation: cursorPulse 1.8s ease-in-out infinite;
+  transform-style: preserve-3d;
+  --tilt: 60deg;
+  --twist: 0deg;
+  animation: atomSpin 2s linear infinite;
 }
 
-.cursor-glow {
-  width: 90px; height: 90px;
-  border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent), transparent 65%);
-  filter: blur(10px);
-  opacity: 0.7;
-  mix-blend-mode: screen;
+.atom-electron {
+  position: absolute; left: 50%; top: -3px;
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: var(--accent-2);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent-2) 60%, transparent);
+  transform: translateX(-50%);
 }
 
-@keyframes cursorPulse {
-  0% { transform: translate(-50%, -50%) scale(0.86); opacity: 0.65; }
-  50% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(0.86); opacity: 0.65; }
+.orbit-one {
+  --tilt: 65deg;
+  --twist: 0deg;
+  animation-duration: 1.6s;
+}
+
+.orbit-two {
+  --tilt: 75deg;
+  --twist: 60deg;
+  animation-duration: 2.1s;
+  animation-direction: reverse;
+}
+
+.orbit-three {
+  --tilt: 55deg;
+  --twist: 120deg;
+  animation-duration: 2.6s;
+}
+
+@keyframes atomSpin {
+  from { transform: rotateX(var(--tilt)) rotateZ(var(--twist)) rotate(0deg); }
+  to { transform: rotateX(var(--tilt)) rotateZ(var(--twist)) rotate(360deg); }
 }
 
 @media (hover: none) {
@@ -892,11 +966,17 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.02em;
   color: var(--accent);
   transition: color 0.4s ease;
-  white-space: pre-wrap; /* Allows wrapping */
-  word-break: break-word;
+  white-space: nowrap;
+  display: inline-block;
+  transform-origin: center;
+  max-width: 100%;
   text-align: center;
   margin: 0;
   padding: 6px 0;
+}
+
+.hero-typing-text {
+  display: inline-block;
 }
 
 /* Ensure container prevents layout shift */
@@ -986,6 +1066,19 @@ a { color: inherit; text-decoration: none; }
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
+.tilt-card:active {
+  animation: cardBuzz 0.25s linear;
+}
+
+@keyframes cardBuzz {
+  0% { transform: translateX(0) translateY(0) scale(0.99); }
+  20% { transform: translateX(-2px) translateY(1px) scale(0.99); }
+  40% { transform: translateX(2px) translateY(-1px) scale(0.99); }
+  60% { transform: translateX(-1px) translateY(2px) scale(0.99); }
+  80% { transform: translateX(1px) translateY(-2px) scale(0.99); }
+  100% { transform: translateX(0) translateY(0) scale(0.99); }
+}
+
 .tilt-card:hover {
   border-color: var(--card-accent, var(--accent));
   box-shadow: 0 12px 40px color-mix(in srgb, var(--card-accent, var(--accent)) 18%, transparent);
@@ -1047,12 +1140,58 @@ a { color: inherit; text-decoration: none; }
   transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 300ms;
   cursor: grab;
   user-select: none;
-  filter: grayscale(80%) opacity(0.7);
+  opacity: 0.9;
+  position: relative;
 }
 
 .stack-chip:hover {
   transform: translateY(-10px) scale(1.15);
-  filter: grayscale(0%) opacity(1);
+  opacity: 1;
+}
+
+.stack-chip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translate(-50%, 6px);
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  color: var(--text);
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 8px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease, transform 150ms ease;
+  z-index: 20;
+}
+
+.stack-chip:hover::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.stack-chip::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  width: 8px; height: 8px;
+  background: var(--panel);
+  border-left: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  transform: translateX(-50%) rotate(45deg);
+  opacity: 0;
+  transition: opacity 150ms ease;
+  z-index: 19;
+}
+
+.stack-chip:hover::before {
+  opacity: 1;
 }
 
 .chip-icon-img {

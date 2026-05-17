@@ -1,22 +1,102 @@
 import React, { useEffect, useRef, useCallback } from "react";
 
 const stackItems = [
-  { name: "React",      iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg", color: "#61DAFB" },
-  { name: "TypeScript", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg", color: "#3178C6" },
-  { name: "Node.js",    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg", color: "#339933" },
-  { name: "Next.js",    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg", color: "#ffffff" },
-  { name: "Vite",       iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg", color: "#646CFF" },
-  { name: "Python",     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg", color: "#3776AB" },
-  { name: "Rust",       iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg", color: "#FF7043" },
-  { name: "Go",         iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg", color: "#00ADD8" },
-  { name: "Docker",     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg", color: "#2496ED" },
-  { name: "AWS",        iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg", color: "#FF9900" },
-  { name: "PostgreSQL", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg", color: "#336791" },
-  { name: "Redis",      iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg", color: "#DC382D" },
-  { name: "GraphQL",    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg", color: "#E10098" },
-  { name: "C++",        iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg", color: "#00599C" },
-  { name: "Java",       iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg", color: "#ED8B00" },
-  { name: "Linux",      iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg", color: "#FCC624" },
+  {
+    name: "React",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+    color: "#61DAFB",
+    summary: "Component systems and UI architecture.",
+  },
+  {
+    name: "TypeScript",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    color: "#3178C6",
+    summary: "Typed UI and API contracts.",
+  },
+  {
+    name: "Node.js",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
+    color: "#339933",
+    summary: "APIs, tooling, and automation.",
+  },
+  {
+    name: "Next.js",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
+    color: "#ffffff",
+    summary: "Production React and routing.",
+  },
+  {
+    name: "Vite",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg",
+    color: "#646CFF",
+    summary: "Fast dev tooling and builds.",
+  },
+  {
+    name: "Python",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+    color: "#3776AB",
+    summary: "Automation and data workflows.",
+  },
+  {
+    name: "Rust",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg",
+    color: "#FF7043",
+    summary: "Systems tools and CLI apps.",
+  },
+  {
+    name: "Go",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg",
+    color: "#00ADD8",
+    summary: "Backend services and tooling.",
+  },
+  {
+    name: "Docker",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+    color: "#2496ED",
+    summary: "Containerized builds and deploys.",
+  },
+  {
+    name: "AWS",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+    color: "#FF9900",
+    summary: "Infra, hosting, and cloud tooling.",
+  },
+  {
+    name: "PostgreSQL",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+    color: "#336791",
+    summary: "Relational data and queries.",
+  },
+  {
+    name: "Redis",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
+    color: "#DC382D",
+    summary: "Caching and realtime state.",
+  },
+  {
+    name: "GraphQL",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg",
+    color: "#E10098",
+    summary: "Typed APIs and query layers.",
+  },
+  {
+    name: "C++",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
+    color: "#00599C",
+    summary: "Performance-focused systems work.",
+  },
+  {
+    name: "Java",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg",
+    color: "#ED8B00",
+    summary: "Backend fundamentals and tooling.",
+  },
+  {
+    name: "Linux",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg",
+    color: "#FCC624",
+    summary: "Dev environments and servers.",
+  },
 ];
 
 export default function TechScroller() {
@@ -24,8 +104,8 @@ export default function TechScroller() {
   const animRef = useRef(null);
   const stateRef = useRef({
     offset: 0,
-    velocity: -0.7,          // negative = left scroll
-    targetSpeed: -0.7,
+    velocity: -0.45,          // negative = left scroll
+    targetSpeed: -0.45,
     dragging: false,
     lastX: 0,
     lastTime: 0,
@@ -65,10 +145,10 @@ export default function TechScroller() {
 
   // Slow on hover
   const onMouseEnter = () => {
-    stateRef.current.targetSpeed = -0.18;
+    stateRef.current.targetSpeed = -0.12;
   };
   const onMouseLeave = () => {
-    stateRef.current.targetSpeed = -0.7;
+    stateRef.current.targetSpeed = -0.45;
   };
 
   // Drag (rubber-band push)
@@ -121,6 +201,7 @@ export default function TechScroller() {
                 key={`${item.name}-${idx}`}
                 className="stack-chip"
                 title={item.name}
+                data-tooltip={item.summary}
                 style={{ 
                   "--chip-color": item.color,
                   "--angle": `${(idx % stackItems.length) * (360 / stackItems.length)}deg`

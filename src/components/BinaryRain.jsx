@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useCallback } from "react";
 
 // WorldBox-inspired binary digits that fall, react to clicks (change angle/direction)
-const PARTICLE_COUNT = 90;
-const GRAVITY = 0.12;
-const FRICTION = 0.995;
-const CLICK_FORCE = 6;
+const PARTICLE_COUNT = 80;
+const GRAVITY = 0.08;
+const FRICTION = 0.996;
+const CLICK_FORCE = 5;
 
 function createParticle(w, h) {
   return {
     x: Math.random() * w,
     y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.35,
-    vy: Math.random() * 0.7 + 0.35,
+    vx: (Math.random() - 0.5) * 0.28,
+    vy: Math.random() * 0.5 + 0.3,
     char: Math.random() > 0.5 ? "1" : "0",
     size: 11 + Math.random() * 4,
     angle: (Math.random() - 0.5) * 0.4,
@@ -65,7 +65,7 @@ export default function BinaryRain({ theme }) {
         p.vy += GRAVITY * 0.05;
         p.vx *= FRICTION;
         p.vy *= FRICTION;
-        if (p.vy < 0.22) p.vy = 0.22;
+        if (p.vy < 0.18) p.vy = 0.18;
         p.x += p.vx;
         p.y += p.vy;
         p.angle += p.angleV;
@@ -74,7 +74,7 @@ export default function BinaryRain({ theme }) {
         if (p.y > h + 20) {
           p.y = -Math.random() * 180;
           p.x = Math.random() * w;
-          p.vy = Math.random() * 0.7 + 0.35;
+          p.vy = Math.random() * 0.5 + 0.3;
           p.char = Math.random() > 0.5 ? "1" : "0";
         }
         if (p.x < -20) p.x = w + 20;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Sun, Moon, Menu, X } from "lucide-react";
+import WaveText from "./WaveText.jsx";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -47,7 +48,7 @@ export default function Navbar({ theme, onToggleTheme }) {
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
             onClick={() => setMobileOpen(false)}
           >
-            {item.label}
+            <WaveText text={item.label} />
           </NavLink>
         ))}
       </div>
