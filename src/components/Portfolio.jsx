@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import TiltCard from "./TiltCard.jsx";
 import { portfolioItems } from "../data/portfolio.js";
 import { languages } from "../data/languages.js";
 
@@ -64,20 +65,20 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
           <h2>Software engineer focused on products that ship and systems that hold up.</h2>
         </div>
         <div className="two-col">
-          <article className="plain-panel">
+          <TiltCard element="article" className="plain-panel">
             <strong>What I care about</strong>
             <p>
               Clear architecture, production quality UX, measurable performance, and readable code that teams can
               extend without friction.
             </p>
-          </article>
-          <article className="plain-panel">
+          </TiltCard>
+          <TiltCard element="article" className="plain-panel">
             <strong>How I work</strong>
             <p>
               Product-first delivery with structured engineering execution: scope, design, implementation, testing,
               rollout, and iterative polish.
             </p>
-          </article>
+          </TiltCard>
         </div>
       </section>
 
@@ -87,21 +88,21 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
           <h2>Product engineering with enough systems depth to debug the hard parts.</h2>
         </div>
         <div className="service-grid">
-          <article>
-            <span>01</span>
+          <TiltCard element="article" className="service-card">
+            <span className="service-num">01</span>
             <h3>React products</h3>
             <p>Frontend interfaces, dashboards, portfolio sites, interaction design, and production polish.</p>
-          </article>
-          <article>
-            <span>02</span>
+          </TiltCard>
+          <TiltCard element="article" className="service-card">
+            <span className="service-num">02</span>
             <h3>Developer tooling</h3>
             <p>CLI tools, automation, source inspection, build workflows, and faster feedback loops.</p>
-          </article>
-          <article>
-            <span>03</span>
+          </TiltCard>
+          <TiltCard element="article" className="service-card">
+            <span className="service-num">03</span>
             <h3>Systems learning</h3>
             <p>Readable demos around runtimes, compilers, operating systems, memory, and execution flow.</p>
-          </article>
+          </TiltCard>
         </div>
         <div className="language-band" aria-label="Languages represented on this page">
           {languages.map((language) => (
@@ -117,8 +118,9 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
         </div>
         <div className="card-grid">
           {projects.map((project) => (
-            <article
+            <TiltCard
               key={project.id}
+              element="article"
               className={`portfolio-card ${activeId === project.id ? "active" : ""}`}
               onMouseEnter={() => onActivate(project.id)}
               onFocus={() => onActivate(project.id)}
@@ -129,28 +131,28 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
               <h3>{project.title}</h3>
               <strong>{project.subtitle}</strong>
               <p>{project.detail}</p>
-            </article>
+            </TiltCard>
           ))}
         </div>
       </section>
 
       <section className="section two-col" id="experience">
-        <article className="plain-panel" onMouseEnter={() => onActivate("experience")} onFocus={() => onActivate("experience")} tabIndex={0}>
+        <TiltCard element="article" className="plain-panel" onMouseEnter={() => onActivate("experience")} onFocus={() => onActivate("experience")} tabIndex={0}>
           <p className="eyebrow">experience</p>
           <h2>{experience.title}</h2>
           <strong>{experience.subtitle}</strong>
           <p>{experience.detail}</p>
-        </article>
-        <article className="plain-panel" onMouseEnter={() => onActivate("academics")} onFocus={() => onActivate("academics")} tabIndex={0}>
+        </TiltCard>
+        <TiltCard element="article" className="plain-panel" onMouseEnter={() => onActivate("academics")} onFocus={() => onActivate("academics")} tabIndex={0}>
           <p className="eyebrow">academics</p>
           <h2>{academics.title}</h2>
           <strong>{academics.subtitle}</strong>
           <p>{academics.detail}</p>
-        </article>
+        </TiltCard>
       </section>
 
       <section className="section" id="skills">
-        <article className="plain-panel" onMouseEnter={() => onActivate("skills")} onFocus={() => onActivate("skills")} tabIndex={0}>
+        <TiltCard element="article" className="plain-panel" onMouseEnter={() => onActivate("skills")} onFocus={() => onActivate("skills")} tabIndex={0}>
           <p className="eyebrow">skills</p>
           <h2>{skills.title}</h2>
           <strong>{skills.subtitle}</strong>
@@ -162,11 +164,11 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
               <span key={language.id}>{language.name}</span>
             ))}
           </div>
-        </article>
+        </TiltCard>
       </section>
 
       <section className="section compact-section" id="academics">
-        <article className="plain-panel">
+        <TiltCard element="article" className="plain-panel">
           <p className="eyebrow">addition feature</p>
           <h2>Low-level execution lab</h2>
           <p>
@@ -177,7 +179,7 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
             <button onClick={onToggleLab}>{labOpen ? "Hide Lab View" : "Open Lab View"}</button>
             <a href="#profile">Back to top</a>
           </div>
-        </article>
+        </TiltCard>
       </section>
 
       <footer

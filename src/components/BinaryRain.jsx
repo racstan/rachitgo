@@ -1,22 +1,23 @@
 import React, { useEffect, useRef, useCallback } from "react";
 
 // WorldBox-inspired binary digits that fall, react to clicks (change angle/direction)
-const PARTICLE_COUNT = 80;
-const GRAVITY = 0.15;
-const FRICTION = 0.99;
-const CLICK_FORCE = 8;
+const PARTICLE_COUNT = 90;
+const GRAVITY = 0.12;
+const FRICTION = 0.995;
+const CLICK_FORCE = 6;
 
 function createParticle(w, h) {
   return {
     x: Math.random() * w,
     y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.5,
-    vy: Math.random() * 0.8 + 0.2,
+    vx: (Math.random() - 0.5) * 0.35,
+    vy: Math.random() * 0.7 + 0.35,
     char: Math.random() > 0.5 ? "1" : "0",
     size: 11 + Math.random() * 4,
     angle: (Math.random() - 0.5) * 0.4,
     angleV: (Math.random() - 0.5) * 0.02,
     opacity: 0.15 + Math.random() * 0.25,
+    colorType: Math.random() > 0.5 ? "green" : "yellow",
   };
 }
 
@@ -56,19 +57,26 @@ export default function BinaryRain({ theme }) {
       ctx.clearRect(0, 0, w, h);
 
       const isDark = theme === "dark";
-      const baseColor = isDark ? "rgba(63, 185, 80," : "rgba(26, 127, 55,";
+      const greenBase = isDark ? "rgba(63, 185, 80," : "rgba(26, 127, 55,";
+      const yellowBase = isDark ? "rgba(255, 215, 0," : "rgba(204, 153, 0,";
 
       for (const p of particlesRef.current) {
         // Gravity
         p.vy += GRAVITY * 0.05;
         p.vx *= FRICTION;
         p.vy *= FRICTION;
+        if (p.vy < 0.22) p.vy = 0.22;
         p.x += p.vx;
         p.y += p.vy;
         p.angle += p.angleV;
 
         // Wrap around
-        if (p.y > h + 20) { p.y = -20; p.x = Math.random() * w; p.vy = Math.random() * 0.8 + 0.2; }
+        if (p.y > h + 20) {
+          p.y = -Math.random() * 180;
+          p.x = Math.random() * w;
+          p.vy = Math.random() * 0.7 + 0.35;
+          p.char = Math.random() > 0.5 ? "1" : "0";
+        }
         if (p.x < -20) p.x = w + 20;
         if (p.x > w + 20) p.x = -20;
 
@@ -76,7 +84,7 @@ export default function BinaryRain({ theme }) {
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
         ctx.font = `${p.size}px "JetBrains Mono", monospace`;
-        ctx.fillStyle = `${baseColor}${p.opacity})`;
+        ctx.fillStyle = `${p.colorType === 'green' ? greenBase : yellowBase}${p.opacity})`;
         ctx.textAlign = "center";
         ctx.fillText(p.char, 0, 0);
         ctx.restore();

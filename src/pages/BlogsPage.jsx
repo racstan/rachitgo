@@ -1,4 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
+import TiltCard from "../components/TiltCard.jsx";
+import HoverTypingText from "../components/HoverTypingText.jsx";
 
 const blogs = [
   {
@@ -57,31 +59,13 @@ const blogs = [
   },
 ];
 
-function useTilt(strength = 10) {
-  const ref = useRef(null);
-  function onMove(e) {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = ((e.clientX - rect.left)  / rect.width  - 0.5) * strength;
-    const y = ((e.clientY - rect.top)   / rect.height - 0.5) * -strength;
-    el.style.transform = `perspective(600px) rotateX(${y}deg) rotateY(${x}deg) scale(1.02)`;
-  }
-  function onLeave() {
-    if (ref.current) ref.current.style.transform = "";
-  }
-  return { ref, onMouseMove: onMove, onMouseLeave: onLeave };
-}
-
 function BlogCard({ blog }) {
-  const tilt = useTilt();
   return (
-    <a
+    <TiltCard
+      element="a"
       href={blog.href}
       className="blog-card"
-      style={{ "--blog-color": blog.tagColor, transition: "transform 0.15s ease" }}
-      {...tilt}
-      ref={tilt.ref}
+      style={{ "--blog-color": blog.tagColor }}
     >
       <div className="blog-card-top">
         <span className="blog-tag" style={{ color: blog.tagColor, borderColor: `${blog.tagColor}44` }}>{blog.tag}</span>
@@ -93,7 +77,7 @@ function BlogCard({ blog }) {
         <span className="blog-read-time">{blog.readTime}</span>
         <span className="blog-arrow" style={{ color: blog.tagColor }}>Read →</span>
       </div>
-    </a>
+    </TiltCard>
   );
 }
 
@@ -102,7 +86,16 @@ export default function BlogsPage() {
     <section className="page">
       <div className="section-head">
         <p className="eyebrow">engineering writings</p>
-        <h2>Things I learned<br />the hard way.</h2>
+        <HoverTypingText
+          element="h2"
+          variants={[
+            "Things I learned\nthe hard way.",
+            "Notes from the build\nand the bugs.",
+            "Lessons from shipping\nreal software.",
+            "Systems notes and\nengineering stories.",
+            "What broke and\nwhat I learned.",
+          ]}
+        />
       </div>
       <p style={{ color: "var(--muted)", marginBottom: "40px", fontSize: "17px", lineHeight: "1.7" }}>
         Deep dives into systems programming, compiler internals, database engines, and

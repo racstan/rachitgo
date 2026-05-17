@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Inspector from "../components/Inspector.jsx";
+import HoverTypingText from "../components/HoverTypingText.jsx";
+import WaveText from "../components/WaveText.jsx";
 
 // Maps text to its low-level representation on hover
 function textToHex(str) {
@@ -85,7 +87,16 @@ export default function LabPage({
     <section className="section page">
       <div className="section-head">
         <p className="eyebrow">⚡ interactive lab</p>
-        <h2>Low-Level Execution Lab</h2>
+        <HoverTypingText
+          element="h2"
+          variants={[
+            "Low-Level Execution Lab",
+            "See code become signals",
+            "From source to machine",
+            "Watch bytes come alive",
+            "Inspect the runtime flow",
+          ]}
+        />
       </div>
       <p className="lab-note">
         Hover over any highlighted text below to see how the computer converts user input through the full pipeline —
@@ -94,7 +105,7 @@ export default function LabPage({
 
       {/* Hoverable text demo */}
       <div className="lab-hover-demo">
-        <h3>Hover to Inspect</h3>
+        <h3><WaveText text="Hover to Inspect" /></h3>
         <p style={{ lineHeight: "2.2", fontSize: "15px" }}>
           {hoverableContent.map((item, i) => (
             <React.Fragment key={i}>

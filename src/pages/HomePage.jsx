@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import TechScroller from "../components/TechScroller.jsx";
 import Timeline from "../components/Timeline.jsx";
+import HoverTypingText from "../components/HoverTypingText.jsx";
+import WaveText from "../components/WaveText.jsx";
+import { MoveRight } from "lucide-react";
+import TiltCard from "../components/TiltCard.jsx";
 
 // Each "mode" has a display string and a label shown below as subtitle
 const heroModes = [
@@ -9,7 +13,6 @@ const heroModes = [
   { value: "52 61 63 68 69 74 20 41 73 74 68 61 6E 61",   label: "hexadecimal",   color: "var(--accent-2)" },
   { value: "01010010 01100001 01100011 01101000 01101001", label: "binary",        color: "var(--accent)" },
   { value: "रचित अस्थाना",                                 label: "hindi",         color: "#f9a825" },
-  { value: "రచిత్ అస్థానా",                               label: "telugu",        color: "#e040fb" },
   { value: 'print("Rachit Asthana")',                      label: "python",        color: "#4fc3f7" },
   { value: 'println!("Rachit Asthana");',                  label: "rust",          color: "#ff7043" },
   { value: "UmFjaGl0IEFzdGhhbmE=",                        label: "base64",        color: "#69f0ae" },
@@ -95,31 +98,44 @@ export default function HomePage({ onActivate }) {
         </p>
 
         <p className="hero-desc">
-          I build production web software, developer tools, and systems experiments
-          with clean UX, maintainable architecture, and measurable outcomes.
+          <WaveText text="I build production web software, developer tools, and systems experiments with clean UX, maintainable architecture, and measurable outcomes." />
         </p>
 
         <div className="hero-links">
-          <Link to="/contact" className="btn btn-accent">Get In Touch →</Link>
+          <Link to="/projects" className="hero-link primary-link">
+            <WaveText text="View Projects" /> <MoveRight size={18} />
+          </Link>
+          <Link to="/experience" className="hero-link secondary-link">
+            <WaveText text="My Journey" />
+          </Link>
         </div>
       </section>
 
       <section className="section compact-section">
         <div className="section-head">
-          <p className="eyebrow">github profile snapshot</p>
-          <h2>Proof over claims</h2>
+          <p className="eyebrow"><WaveText text="github profile snapshot" /></p>
+          <HoverTypingText
+            element="h2"
+            variants={[
+              "Proof over claims",
+              "Signals over slogans",
+              "Evidence beats hype",
+              "Work, not talk",
+              "Show the receipts",
+            ]}
+          />
         </div>
         <div className="github-strip">
           {[
-            { label: "Repositories", value: "42 public repos" },
-            { label: "Total Stars",  value: "180+ stars" },
-            { label: "Followers",    value: "95 followers" },
-            { label: "Pinned Focus", value: "React, systems, tooling" },
+            { label: "Repositories", value: "Open-source and personal work" },
+            { label: "Signals",       value: "Feedback, usage, and reviews" },
+            { label: "Community",     value: "Consistent learning and sharing" },
+            { label: "Pinned Focus",  value: "React, systems, tooling" },
           ].map((stat) => (
-            <article key={stat.label} className="tilt-card">
-              <strong>{stat.label}</strong>
-              <p>{stat.value}</p>
-            </article>
+            <TiltCard key={stat.label} element="article" className="github-card">
+              <strong><WaveText text={stat.label} /></strong>
+              <p><WaveText text={stat.value} /></p>
+            </TiltCard>
           ))}
         </div>
       </section>
@@ -127,7 +143,16 @@ export default function HomePage({ onActivate }) {
       <section className="section compact-section">
         <div className="section-head">
           <p className="eyebrow">what I build</p>
-          <h2>Built for those who care about craft.</h2>
+          <HoverTypingText
+            element="h2"
+            variants={[
+              "Built for those who care about craft.",
+              "Made for teams who care about quality.",
+              "Designed for clarity and polish.",
+              "Engineered for real-world use.",
+              "Crafted for lasting impact.",
+            ]}
+          />
         </div>
         <div className="service-grid">
           {[
@@ -135,11 +160,11 @@ export default function HomePage({ onActivate }) {
             { num: "02", title: "Projects with impact",desc: "Summaries focused on business context, not just screenshots." },
             { num: "03", title: "Fast contact path",   desc: "Direct ways to reach me and discuss work quickly." },
           ].map((s) => (
-            <article key={s.num} className="tilt-card service-card">
-              <span className="service-num">{s.num}</span>
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
-            </article>
+            <TiltCard key={s.num} element="article" className="service-card">
+              <span className="service-num"><WaveText text={s.num} /></span>
+              <h3><WaveText text={s.title} /></h3>
+              <p><WaveText text={s.desc} /></p>
+            </TiltCard>
           ))}
         </div>
       </section>
@@ -147,7 +172,16 @@ export default function HomePage({ onActivate }) {
       <section className="section compact-section" style={{ padding: "0 4vw" }}>
         <div className="section-head">
           <p className="eyebrow">my journey</p>
-          <h2>My path in technology</h2>
+          <HoverTypingText
+            element="h2"
+            variants={[
+              "My path in technology",
+              "The road to shipping",
+              "How the story unfolded",
+              "Timeline of growth",
+              "Building through the years",
+            ]}
+          />
         </div>
         <Timeline />
       </section>

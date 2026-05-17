@@ -1,5 +1,7 @@
-import React, { useRef } from "react";
-import Timeline from "../components/Timeline.jsx";
+import React from "react";
+import TiltCard from "../components/TiltCard.jsx";
+import HoverTypingText from "../components/HoverTypingText.jsx";
+import Timeline, { timelineData } from "../components/Timeline.jsx";
 
 const skills = [
   { cat: "Languages",  items: ["JavaScript", "TypeScript", "Python", "Rust", "Go", "C", "C++", "Java", "Bash"] },
@@ -8,52 +10,38 @@ const skills = [
   { cat: "Systems",    items: ["Linux", "Docker", "AWS", "Nginx", "Git", "CI/CD"] },
 ];
 
-// 3D tilt card hook
-function useTilt(strength = 12) {
-  const ref = useRef(null);
-  function onMove(e) {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width  - 0.5) * strength;
-    const y = ((e.clientY - rect.top)  / rect.height - 0.5) * -strength;
-    el.style.transform = `perspective(600px) rotateX(${y}deg) rotateY(${x}deg) scale(1.03)`;
-  }
-  function onLeave() {
-    const el = ref.current;
-    if (!el) return;
-    el.style.transform = "perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)";
-  }
-  return { ref, onMouseMove: onMove, onMouseLeave: onLeave };
-}
-
-function TiltCard({ children, className = "", color }) {
-  const tilt = useTilt(10);
-  return (
-    <div
-      {...tilt}
-      className={`tilt-card ${className}`}
-      style={{ "--card-accent": color, transition: "transform 0.15s ease" }}
-    >
-      {children}
-    </div>
-  );
-}
-
 export default function ExperiencePage() {
   return (
     <section className="page experience-page">
       <div className="section-head">
         <p className="eyebrow">my roadmap</p>
-        <h2>From first line of code<br />to production systems.</h2>
+        <HoverTypingText
+          element="h2"
+          variants={[
+            "From first line of code\nto production systems.",
+            "From curiosity to production\nsystems.",
+            "From learning to shipping\nreal software.",
+            "From notebooks to systems\nin the wild.",
+            "From experiments to\nproduction work.",
+          ]}
+        />
       </div>
 
-      <Timeline />
+      <Timeline items={[...timelineData].reverse()} />
 
       {/* Skills grid */}
       <div className="section-head" style={{ marginTop: "64px" }}>
         <p className="eyebrow">technical skills</p>
-        <h2>The full stack, top to bottom.</h2>
+        <HoverTypingText
+          element="h2"
+          variants={[
+            "The full stack, top to bottom.",
+            "Frontend to backend to systems.",
+            "From UI polish to infra glue.",
+            "A stack built for shipping.",
+            "Skills that span the build.",
+          ]}
+        />
       </div>
       <div className="skills-grid">
         {skills.map((group) => (

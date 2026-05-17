@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Sun, Moon, Menu, X } from "lucide-react";
 
@@ -12,10 +12,19 @@ const navItems = [
 
 export default function Navbar({ theme, onToggleTheme }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <nav className="navbar">
-      {/* Brand — static, rainbow on hover */}
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      {/* Brand — static, wave on hover */}
       <div className="brand-static" tabIndex={0}>
         <span className="brand-name-static name-group">
           {"Rachit Asthana".split("").map((char, i) => (

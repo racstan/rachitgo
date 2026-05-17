@@ -1,46 +1,46 @@
 import React, { useEffect, useRef } from "react";
 
-const ORBIT_COUNT = 12;
-const ORBIT_RADIUS = 38;
+const START_POS = -200;
+
+function lerp(current, target, amount) {
+  return current + (target - current) * amount;
+}
 
 export default function BinaryCursor() {
-  const ref = useRef(null);
-  const mouseRef = useRef({ x: -200, y: -200 });
-  const bitsRef = useRef([]);
+  const coreRef = useRef(null);
+  const ringRef = useRef(null);
+  const glowRef = useRef(null);
+  const targetRef = useRef({ x: START_POS, y: START_POS });
+  const corePos = useRef({ x: START_POS, y: START_POS });
+  const ringPos = useRef({ x: START_POS, y: START_POS });
+  const glowPos = useRef({ x: START_POS, y: START_POS });
   const animRef = useRef(null);
 
   useEffect(() => {
-    const root = ref.current;
-    if (!root) return;
-
-    // Create orbit bits
-    bitsRef.current = Array.from({ length: ORBIT_COUNT }, (_, i) => {
-      const span = document.createElement("span");
-      span.className = "orbit-bit";
-      span.textContent = Math.random() > 0.5 ? "1" : "0";
-      root.appendChild(span);
-      return {
-        el: span,
-        angle: (Math.PI * 2 * i) / ORBIT_COUNT,
-        speed: 0.015 + Math.random() * 0.01,
-        radius: ORBIT_RADIUS + (Math.random() - 0.5) * 12,
-      };
-    });
-
     function move(event) {
-      mouseRef.current.x = event.clientX;
-      mouseRef.current.y = event.clientY;
+      targetRef.current.x = event.clientX;
+      targetRef.current.y = event.clientY;
+    }
+
+    function setPos(el, pos) {
+      if (!el) return;
+      el.style.left = `${pos.x}px`;
+      el.style.top = `${pos.y}px`;
     }
 
     function animate() {
-      const { x, y } = mouseRef.current;
-      for (const bit of bitsRef.current) {
-        bit.angle += bit.speed;
-        const bx = x + Math.cos(bit.angle) * bit.radius;
-        const by = y + Math.sin(bit.angle) * bit.radius;
-        bit.el.style.left = `${bx}px`;
-        bit.el.style.top = `${by}px`;
-      }
+      const target = targetRef.current;
+      corePos.current.x = lerp(corePos.current.x, target.x, 0.28);
+      corePos.current.y = lerp(corePos.current.y, target.y, 0.28);
+      ringPos.current.x = lerp(ringPos.current.x, target.x, 0.16);
+      ringPos.current.y = lerp(ringPos.current.y, target.y, 0.16);
+      glowPos.current.x = lerp(glowPos.current.x, target.x, 0.1);
+      glowPos.current.y = lerp(glowPos.current.y, target.y, 0.1);
+
+      setPos(coreRef.current, corePos.current);
+      setPos(ringRef.current, ringPos.current);
+      setPos(glowRef.current, glowPos.current);
+
       animRef.current = requestAnimationFrame(animate);
     }
 
@@ -50,9 +50,14 @@ export default function BinaryCursor() {
     return () => {
       window.removeEventListener("pointermove", move);
       if (animRef.current) cancelAnimationFrame(animRef.current);
-      for (const bit of bitsRef.current) bit.el.remove();
     };
   }, []);
 
-  return <div className="binary-cursor" ref={ref} aria-hidden="true" />;
+  return (
+    <div className="binary-cursor" aria-hidden="true">
+      <div className="cursor-glow" ref={glowRef} />
+      <div className="cursor-ring" ref={ringRef} />
+      <div className="cursor-core" ref={coreRef} />
+    </div>
+  );
 }

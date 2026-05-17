@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 
 const stackItems = [
   { name: "React",      iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg", color: "#61DAFB" },
@@ -24,19 +24,14 @@ export default function TechScroller() {
   const animRef = useRef(null);
   const stateRef = useRef({
     offset: 0,
-    velocity: -1.2,          // negative = left scroll
-    paused: false,
+    velocity: -0.7,          // negative = left scroll
+    targetSpeed: -0.7,
     dragging: false,
-    dragStartX: 0,
-    dragStartOffset: 0,
-    collapsed: false,
-    collapseProgress: 0,
-    positions: [],            // for collapse animation
+    lastX: 0,
+    lastTime: 0,
   });
-  const [collapsed, setCollapsed] = useState(false);
-  const holdTimerRef = useRef(null);
 
-  const items = [...stackItems, ...stackItems, ...stackItems]; // triple for seamless loop
+  const items = [...stackItems, ...stackItems]; // double for seamless loop
 
   // Main animation loop
   useEffect(() => {
@@ -44,25 +39,22 @@ export default function TechScroller() {
     if (!track) return;
 
     // Dynamically calculate exact width of one set of items
-    const TOTAL = track.scrollWidth / 3;
+    const TOTAL = track.scrollWidth / 2;
 
     function loop() {
       const s = stateRef.current;
 
-      if (!s.paused && !s.dragging && !s.collapsed) {
-        // Rubber-band decay: velocity drifts toward -1.2 (left)
-        s.velocity += (-1.2 - s.velocity) * 0.04;
+      if (!s.dragging) {
+        // Elastic drift back to target speed
+        s.velocity += (s.targetSpeed - s.velocity) * 0.05;
         s.offset += s.velocity;
-
-        // Seamless wrap
-        if (Math.abs(s.offset) >= TOTAL) {
-          s.offset = s.offset % TOTAL;
-        }
       }
 
-      if (!s.collapsed) {
-        track.style.transform = `translateX(${s.offset}px)`;
-      }
+      // Seamless wrap
+      if (s.offset <= -TOTAL) s.offset += TOTAL;
+      if (s.offset > 0) s.offset -= TOTAL;
+
+      track.style.transform = `translateX(${s.offset}px)`;
 
       animRef.current = requestAnimationFrame(loop);
     }
@@ -71,46 +63,39 @@ export default function TechScroller() {
     return () => cancelAnimationFrame(animRef.current);
   }, []);
 
-  // Pause on hover
-  const onMouseEnter = () => { stateRef.current.paused = true; };
+  // Slow on hover
+  const onMouseEnter = () => {
+    stateRef.current.targetSpeed = -0.18;
+  };
   const onMouseLeave = () => {
-    stateRef.current.paused = false;
-    // Give it a push back to normal speed
-    stateRef.current.velocity = -1.2;
+    stateRef.current.targetSpeed = -0.7;
   };
 
   // Drag (rubber-band push)
   const onPointerDown = useCallback((e) => {
     const s = stateRef.current;
     s.dragging = true;
-    s.dragStartX = e.clientX;
-    s.dragStartOffset = s.offset;
+    s.lastX = e.clientX;
+    s.lastTime = performance.now();
     trackRef.current?.setPointerCapture(e.pointerId);
-
-    // Hold timer for collapse
-    holdTimerRef.current = setTimeout(() => {
-      s.collapsed = true;
-      setCollapsed(true);
-    }, 600);
   }, []);
 
   const onPointerMove = useCallback((e) => {
     const s = stateRef.current;
     if (!s.dragging) return;
-    const delta = e.clientX - s.dragStartX;
-    s.offset = s.dragStartOffset + delta;
-    s.velocity = delta * 0.05; // carry momentum from drag speed
+    const now = performance.now();
+    const delta = e.clientX - s.lastX;
+    const dt = Math.max(now - s.lastTime, 16);
+    s.offset += delta;
+    s.velocity = (delta / dt) * 16;
+    s.lastX = e.clientX;
+    s.lastTime = now;
   }, []);
 
   const onPointerUp = useCallback((e) => {
     const s = stateRef.current;
     s.dragging = false;
-    clearTimeout(holdTimerRef.current);
-
-    if (s.collapsed) {
-      s.collapsed = false;
-      setCollapsed(false);
-    }
+    trackRef.current?.releasePointerCapture(e.pointerId);
   }, []);
 
   return (
@@ -121,7 +106,7 @@ export default function TechScroller() {
 
       <div className="stack-track-wrapper">
         <div
-          className={`stack-track-inner ${collapsed ? "collapsed" : ""}`}
+          className="stack-track-inner"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           onPointerDown={onPointerDown}

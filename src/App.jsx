@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import BinaryCursor from "./components/BinaryCursor.jsx";
 import BinaryRain from "./components/BinaryRain.jsx";
+import Footer from "./components/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ProjectsPage from "./pages/ProjectsPage.jsx";
 import ExperiencePage from "./pages/ExperiencePage.jsx";
@@ -66,6 +67,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+      <Footer />
       <BinaryCursor />
     </>
   );
