@@ -1,82 +1,83 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import TechScroller from "../components/TechScroller.jsx";
 import Timeline from "../components/Timeline.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
 import WaveText from "../components/WaveText.jsx";
-import { MoveRight } from "lucide-react";
 import TiltCard from "../components/TiltCard.jsx";
+import { profile } from "../data/profile.js";
 
-// Each "mode" has a display string and a label shown below as subtitle
 const heroModes = [
-  { value: "Rachit Asthana",                               label: "english",       color: "var(--text)" },
-  { value: "52 61 63 68 69 74 20 41 73 74 68 61 6E 61",   label: "hexadecimal",   color: "var(--accent-2)" },
-  { value: "01010010 01100001 01100011 01101000 01101001", label: "binary",        color: "var(--accent)" },
-  { value: "रचित अस्थाना",                                 label: "hindi",         color: "#f9a825" },
-  { value: 'print("Rachit Asthana")',                      label: "python",        color: "#4fc3f7" },
-  { value: 'println!("Rachit Asthana");',                  label: "rust",          color: "#ff7043" },
-  { value: "UmFjaGl0IEFzdGhhbmE=",                        label: "base64",        color: "#69f0ae" },
+  { value: "Rachit Asthana", label: "english", color: "var(--text)" },
+  { value: "52 61 63 68 69 74 20 41 73 74 68 61 6E 61", label: "hexadecimal", color: "var(--accent-2)" },
+  { value: "01010010 01100001 01100011 01101000 01101001", label: "binary", color: "var(--accent)" },
+  { value: "रचित अस्थाना", label: "hindi", color: "#f9a825" },
+  { value: 'print("Rachit Asthana")', label: "python", color: "#4fc3f7" },
+  { value: 'println!("Rachit Asthana");', label: "rust", color: "#ff7043" },
+  { value: "UmFjaGl0IEFzdGhhbmE=", label: "base64", color: "#69f0ae" },
 ];
 
-function useTypingCycle(modes) {
+function useHeroModes(modes) {
   const [modeIndex, setModeIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
-  const [phase, setPhase] = useState("typing"); // typing | pausing | deleting | switching
-  const charRef = useRef(0);
-  const timerRef = useRef(null);
 
   useEffect(() => {
-    const target = modes[modeIndex].value;
+    const mode = modes[modeIndex];
+    let charIndex = 0;
+    let timer = null;
+    let phase = "typing";
 
-    function clear() { if (timerRef.current) clearTimeout(timerRef.current); }
-
-    function type() {
-      charRef.current += 1;
-      setDisplayText(target.slice(0, charRef.current));
-      if (charRef.current < target.length) {
-        timerRef.current = setTimeout(type, 55 + Math.random() * 35);
-      } else {
-        setPhase("pausing");
-        timerRef.current = setTimeout(startDelete, 1800);
-      }
-    }
-
-    function startDelete() {
-      setPhase("deleting");
-      del();
-    }
-
-    function del() {
-      charRef.current -= 1;
-      setDisplayText(target.slice(0, charRef.current));
-      if (charRef.current > 0) {
-        timerRef.current = setTimeout(del, 28 + Math.random() * 18);
-      } else {
-        setPhase("switching");
-        timerRef.current = setTimeout(() => {
-          setModeIndex((i) => (i + 1) % modes.length);
-        }, 300);
-      }
-    }
-
-    setPhase("typing");
-    charRef.current = 0;
     setDisplayText("");
-    timerRef.current = setTimeout(type, 200);
 
-    return clear;
-  }, [modeIndex]); // eslint-disable-line react-hooks/exhaustive-deps
+    function tick() {
+      if (phase === "typing") {
+        charIndex += 1;
+        setDisplayText(mode.value.slice(0, charIndex));
+        if (charIndex >= mode.value.length) {
+          phase = "holding";
+          timer = window.setTimeout(tick, 2300);
+          return;
+        }
+        timer = window.setTimeout(tick, 95);
+        return;
+      }
 
-  return { displayText, phase, mode: modes[modeIndex] };
+      if (phase === "holding") {
+        phase = "deleting";
+        timer = window.setTimeout(tick, 80);
+        return;
+      }
+
+      charIndex -= 1;
+      setDisplayText(mode.value.slice(0, Math.max(charIndex, 0)));
+      if (charIndex > 0) {
+        timer = window.setTimeout(tick, 58);
+        return;
+      }
+
+      setModeIndex((idx) => (idx + 1) % modes.length);
+    }
+
+    timer = window.setTimeout(tick, 220);
+
+    return () => {
+      if (timer) window.clearTimeout(timer);
+    };
+  }, [modeIndex, modes]);
+
+  return { displayText, mode: modes[modeIndex] };
 }
 
 export default function HomePage({ onActivate }) {
-  const { displayText, phase, mode } = useTypingCycle(heroModes);
+  const { displayText, mode } = useHeroModes(heroModes);
   const containerRef = useRef(null);
   const textRef = useRef(null);
-  const [textScale, setTextScale] = useState(1);
+  const [fontSize, setFontSize] = useState(76);
 
-  useEffect(() => { onActivate("profile"); }, [onActivate]);
+  useEffect(() => {
+    onActivate("profile");
+  }, [onActivate]);
+
+  const targetText = useMemo(() => mode.value, [mode.value]);
 
   useEffect(() => {
     function updateScale() {
@@ -84,59 +85,30 @@ export default function HomePage({ onActivate }) {
       const textEl = textRef.current;
       if (!container || !textEl) return;
       const containerWidth = container.clientWidth;
-      const textWidth = textEl.scrollWidth;
-      if (!containerWidth || !textWidth) return;
-      const nextScale = Math.min(1, containerWidth / textWidth);
-      setTextScale(Number.isFinite(nextScale) ? nextScale : 1);
+      if (!containerWidth) return;
+
+      const length = targetText.length;
+      const nextSize = length > 44 ? 38 : length > 28 ? 50 : 76;
+      setFontSize(containerWidth < 560 ? Math.min(nextSize, 42) : nextSize);
     }
 
     updateScale();
     window.addEventListener("resize", updateScale);
     return () => window.removeEventListener("resize", updateScale);
-  }, [displayText]);
+  }, [targetText]);
 
   return (
     <section className="portfolio">
       <section className="hero">
-        <p className="eyebrow">software developer / freelancer / builder</p>
-
-        {/* Big h1 types / deletes / cycles through languages */}
         <div className="hero-typing-container" ref={containerRef}>
-          <h1
-            className="hero-typing"
-            style={{ color: mode.color, transform: `scale(${textScale})` }}
-          >
-            <span ref={textRef} className="hero-typing-text">
+          <h1 className="hero-typing" style={{ color: mode.color, fontSize: `${fontSize}px` }}>
+            <span ref={textRef} className="hero-typing-text" data-full-text={targetText}>
               {displayText}
             </span>
             <span className="hero-cursor" style={{ background: mode.color }} />
           </h1>
         </div>
-
-        {/* Subtitle shows which language/encoding */}
-        <p className="hero-mode-label">
-          <span className="hero-mode-tag">{mode.label}</span>
-          {phase === "typing" && " ← typing..."}
-          {phase === "deleting" && " ← deleting..."}
-          {phase === "pausing" && " ← compiled ✓"}
-          {phase === "switching" && " ← switching..."}
-        </p>
-
-        <p className="hero-desc">
-          <WaveText text="I build production web software, developer tools, and systems experiments with clean UX, maintainable architecture, and measurable outcomes." />
-        </p>
-
-        <div className="hero-links">
-          <Link to="/projects" className="hero-link primary-link">
-            <WaveText text="View Projects" /> <MoveRight size={18} />
-          </Link>
-          <Link to="/experience" className="hero-link secondary-link">
-            <WaveText text="My Journey" />
-          </Link>
-          <Link to="/contact" className="hero-link secondary-link">
-            <WaveText text="Contact Me" />
-          </Link>
-        </div>
+        <p className="hero-role-line">{profile.roleLine}</p>
       </section>
 
       <section className="section compact-section">
@@ -152,16 +124,14 @@ export default function HomePage({ onActivate }) {
               "Show the receipts",
             ]}
           />
-          <a className="github-link" href="https://github.com/rachitasthana" target="_blank" rel="noreferrer">
-            github.com/rachitasthana
-          </a>
         </div>
+
         <div className="github-strip">
           {[
             { label: "Repositories", value: "Open-source and personal work" },
-            { label: "Signals",       value: "Feedback, usage, and reviews" },
-            { label: "Community",     value: "Consistent learning and sharing" },
-            { label: "Pinned Focus",  value: "React, systems, tooling" },
+            { label: "Signals", value: "Feedback, usage, and reviews" },
+            { label: "Community", value: "Consistent learning and sharing" },
+            { label: "Pinned Focus", value: "React, systems, tooling" },
           ].map((stat) => (
             <TiltCard key={stat.label} element="article" className="github-card">
               <strong><WaveText text={stat.label} /></strong>
@@ -187,9 +157,9 @@ export default function HomePage({ onActivate }) {
         </div>
         <div className="service-grid">
           {[
-            { num: "01", title: "Clear positioning",   desc: "Who I am, what I build, and what roles I take in one quick pass." },
-            { num: "02", title: "Projects with impact",desc: "Summaries focused on business context, not just screenshots." },
-            { num: "03", title: "Fast contact path",   desc: "Direct ways to reach me and discuss work quickly." },
+            { num: "01", title: "Clear positioning", desc: "Who I am, what I build, and what roles I take in one quick pass." },
+            { num: "02", title: "Projects with impact", desc: "Summaries focused on business context, not just screenshots." },
+            { num: "03", title: "Fast contact path", desc: "Direct ways to reach me and discuss work quickly." },
           ].map((s) => (
             <TiltCard key={s.num} element="article" className="service-card">
               <span className="service-num"><WaveText text={s.num} /></span>

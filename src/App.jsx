@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ArrowUp, ArrowDown } from "lucide-react";
 import Navbar from "./components/Navbar.jsx";
 import BinaryCursor from "./components/BinaryCursor.jsx";
 import BinaryRain from "./components/BinaryRain.jsx";
@@ -44,17 +44,20 @@ export default function App() {
     const sections = Array.from(
       document.querySelectorAll(".hero, .section, .page, .stack-strip"),
     );
-    if (!sections.length) return;
+    if (!sections.length) {
+      window.scrollBy({ top: direction === "down" ? window.innerHeight * 0.85 : -window.innerHeight * 0.85, behavior: "smooth" });
+      return;
+    }
 
     const positions = sections.map((el) => el.getBoundingClientRect().top + window.scrollY);
-    const current = window.scrollY + 10;
+    const current = window.scrollY;
 
     if (direction === "down") {
-      const next = positions.find((pos) => pos > current + 10);
-      if (next !== undefined) window.scrollTo({ top: next, behavior: "smooth" });
+      const next = positions.find((pos) => pos > current + 80);
+      window.scrollTo({ top: next ?? document.documentElement.scrollHeight, behavior: "smooth" });
     } else {
-      const prev = [...positions].reverse().find((pos) => pos < current - 10);
-      if (prev !== undefined) window.scrollTo({ top: prev, behavior: "smooth" });
+      const prev = [...positions].reverse().find((pos) => pos < current - 80);
+      window.scrollTo({ top: prev ?? 0, behavior: "smooth" });
     }
   }
 
@@ -86,14 +89,16 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <div className="scroll-controls">
+
+      <div className="scroll-controls" aria-label="Page scroll controls">
         <button className="scroll-key" onClick={() => scrollToSection("up")} aria-label="Scroll up">
-          <ChevronUp size={18} />
+          <ArrowUp size={18} className="scroll-arrow" />
         </button>
         <button className="scroll-key" onClick={() => scrollToSection("down")} aria-label="Scroll down">
-          <ChevronDown size={18} />
+          <ArrowDown size={18} className="scroll-arrow" />
         </button>
       </div>
+
       <Footer />
       <BinaryCursor />
     </>

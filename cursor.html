@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursor Trail Effect</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: #ffffff;
+      overflow: hidden; /* Prevent scrollbars from trail moving out of bounds */
+      cursor: crosshair; /* Optional: change default cursor */
+      font-family: sans-serif;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-top: 20vh;
+      opacity: 0.5;
+      user-select: none;
+    }
+
+    .svg-wrapper {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: 0;
+      left: 0;
+      pointer-events: none; /* Let clicks pass through the trail */
+      will-change: transform;
+      z-index: 9999;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* CSS from CodePen */
+    .eins {
+      transform-origin: 60px 60px;
+      transform: rotateZ(60deg);
+    }
+    .zwei {
+      transform-origin: 60px 60px;
+      transform: rotateZ(-60deg);
+    }
+    .all {
+      transform-origin: 60px 60px;
+      transform: scaleX(.32);
+    }
+    .group {
+      animation: turnIt 3.5s linear infinite;
+      transform-origin: 60px 60px;
+      transform-box: content-box;
+    }
+
+    @keyframes turnIt {
+      100% {
+        transform: rotate(1turn);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Move your mouse around!</h1>
+
+<script>
+  // Original SVG Content
+  const svgContent = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+      <g class="eins">
+        <g class="all">
+          <mask id="Mask">
+            <circle class="xmask" cx="60" cy="60" r="100" fill="#fff" />
+            <circle class="xmask" cx="60" cy="60" r="50" fill="#000" />
+          </mask>
+          <g class="group" mask="url(#Mask)">
+            <circle class="go" cx="60" cy="65" r="48" style="fill:#000;"/>
+            <circle class="go" cx="60" cy="55" r="48" style="fill:#000;"/>
+          </g>
+        </g>
+      </g>
+      <g class="zwei">
+        <g class="all">
+          <mask id="Mask2">
+            <circle class="xmask" cx="60" cy="60" r="100" fill="#fff" />
+            <circle class="xmask" cx="60" cy="60" r="50" fill="#000" />
+          </mask>
+          <g class="group" style="animation-delay: -0.33s" mask="url(#Mask2)">
+            <circle class="go" cx="60" cy="65" r="48" style="fill:#000;"/>
+            <circle class="go" cx="60" cy="55" r="48" style="fill:#000;"/>
+          </g>
+        </g>
+      </g>
+      <g class="drei">
+        <g class="all">
+          <mask id="Mask3">
+            <circle class="xmask" cx="60" cy="60" r="100" fill="#fff" />
+            <circle class="xmask" cx="60" cy="60" r="50" fill="#000" />
+          </mask>
+          <g class="group" style="animation-delay: -0.66s" mask="url(#Mask3)">
+            <circle class="go" cx="60" cy="65" r="48" style="fill:#000;"/>
+            <circle class="go" cx="60" cy="55" r="48" style="fill:#000;"/>
+          </g>
+        </g>
+      </g>
+      <circle class="go" cx="60" cy="60" r="4" style="fill:#000;"/>
+    </svg>
+  `;
+
+  // Number of elements in the trail
+  const trailCount = 12;
+  const elements = [];
+  const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+  // Initialize the trail elements
+  for (let i = 0; i < trailCount; i++) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'svg-wrapper';
+    
+    // The leading element is the atom, the rest are just simple dots forming a cleaner trail
+    if (i === 0) {
+      wrapper.innerHTML = svgContent;
+    } else {
+      wrapper.innerHTML = '<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="8" fill="#000"/></svg>';
+    }
+    
+    // Trail fading/shrinking effect
+    const scale = 1 - (i / trailCount) * 0.8; // gradually gets smaller
+    const opacity = 1 - (i / trailCount) * 0.7; // gradually fades out
+    
+    wrapper.style.opacity = opacity;
+
+    document.body.appendChild(wrapper);
+    
+    elements.push({
+      element: wrapper,
+      x: mouse.x,
+      y: mouse.y,
+      scale: scale
+    });
+  }
+
+  // Track mouse movements
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  // Track touch movements for mobile
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+    }
+  });
+
+  // Animation loop
+  function animate() {
+    let targetX = mouse.x;
+    let targetY = mouse.y;
+
+    elements.forEach((p, index) => {
+      // Lerp (Linear Interpolation) for smooth following
+      // The lower the multiplier (0.3), the longer the trail lag
+      const easing = 0.35;
+      
+      p.x += (targetX - p.x) * easing;
+      p.y += (targetY - p.y) * easing;
+
+      // Using translate3d for better performance (hardware acceleration)
+      p.element.style.transform = `translate3d(calc(${p.x}px - 50%), calc(${p.y}px - 50%), 0) scale(${p.scale})`;
+
+      // The current element's position becomes the target for the next element in the trail
+      targetX = p.x;
+      targetY = p.y;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  // Start the animation
+  animate();
+</script>
+</body>
+</html>

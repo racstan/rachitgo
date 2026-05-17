@@ -1,14 +1,8 @@
 import React from "react";
 import TiltCard from "../components/TiltCard.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
-import Timeline, { timelineData } from "../components/Timeline.jsx";
-
-const skills = [
-  { cat: "Languages",  items: ["JavaScript", "TypeScript", "Python", "Rust", "Go", "C", "C++", "Java", "Bash"] },
-  { cat: "Frontend",   items: ["React", "Next.js", "Vite", "CSS Modules", "Framer Motion", "Tailwind"] },
-  { cat: "Backend",    items: ["Node.js", "Express", "FastAPI", "PostgreSQL", "Redis", "GraphQL"] },
-  { cat: "Systems",    items: ["Linux", "Docker", "AWS", "Nginx", "Git", "CI/CD"] },
-];
+import Timeline from "../components/Timeline.jsx";
+import { experienceTimeline, skillGroups } from "../data/profile.js";
 
 export default function ExperiencePage() {
   return (
@@ -18,16 +12,16 @@ export default function ExperiencePage() {
         <HoverTypingText
           element="h2"
           variants={[
-            "From first line of code\nto production systems.",
-            "From curiosity to production\nsystems.",
-            "From learning to shipping\nreal software.",
-            "From notebooks to systems\nin the wild.",
-            "From experiments to\nproduction work.",
+            "From VIT to product engineering.",
+            "Internships, research, and products.",
+            "Data, full-stack, and AI systems.",
+            "The work behind the portfolio.",
+            "A practical engineering timeline.",
           ]}
         />
       </div>
 
-      <Timeline items={[...timelineData].reverse()} />
+      <Timeline items={experienceTimeline} />
 
       {/* Skills grid */}
       <div className="section-head" style={{ marginTop: "64px" }}>
@@ -44,7 +38,7 @@ export default function ExperiencePage() {
         />
       </div>
       <div className="skills-grid">
-        {skills.map((group) => (
+        {skillGroups.map((group) => (
           <TiltCard key={group.cat} className="skill-card" color="var(--accent)">
             <h3 className="skill-cat">{group.cat}</h3>
             <div className="skill-items">

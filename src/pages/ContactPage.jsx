@@ -9,7 +9,7 @@ function ContactCard({ item }) {
     <TiltCard
       element="a"
       href={item.href}
-      target={item.href.startsWith("mailto") ? "_self" : "_blank"}
+      target={item.href.startsWith("mailto") || item.href.startsWith("tel") ? "_self" : "_blank"}
       rel="noopener noreferrer"
       className="contact-card"
       data-color={item.color}

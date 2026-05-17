@@ -2,30 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import TiltCard from "../components/TiltCard.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
-
-const projectGroups = [
-  {
-    id: "academic",
-    activateId: "academics",
-    title: "Academic projects",
-    summary: "Coursework and research prototypes focused on fundamentals and clarity.",
-    highlights: ["Coursework prototypes", "Research experiments", "Capstone builds"],
-  },
-  {
-    id: "work",
-    activateId: "experience",
-    title: "Work projects",
-    summary: "Client and team builds that ship to production and support real users.",
-    highlights: ["Product dashboards", "Workflow automation", "Production releases"],
-  },
-  {
-    id: "hobby",
-    activateId: "project-web",
-    title: "Hobby projects",
-    summary: "Personal experiments and open-source ideas for learning and fun.",
-    highlights: ["UI experiments", "Developer tooling", "Learning builds"],
-  },
-];
+import { projectCards } from "../data/profile.js";
 
 export default function ProjectsPage({ onActivate }) {
   useEffect(() => {
@@ -39,16 +16,16 @@ export default function ProjectsPage({ onActivate }) {
         <HoverTypingText
           element="h2"
           variants={[
-            "Project categories",
-            "Work, academic, and hobby builds",
-            "What I build across contexts",
-            "Projects by focus area",
-            "A snapshot of what I ship",
+            "Projects with real context.",
+            "Healthcare, research, and embedded systems.",
+            "What I have built so far.",
+            "From prototypes to product systems.",
+            "A practical project snapshot.",
           ]}
         />
       </div>
       <div className="card-grid">
-        {projectGroups.map((group) => (
+        {projectCards.map((group) => (
           <TiltCard
             key={group.id}
             element="article"

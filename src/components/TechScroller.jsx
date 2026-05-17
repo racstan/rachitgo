@@ -1,141 +1,156 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 
 const stackItems = [
+  {
+    name: "Laravel",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",
+    color: "#FF2D20",
+    summary: "Backend product architecture.",
+    experience: "Used Laravel for DoctlySuite, building scalable clinical workflows and backend application structure.",
+  },
+  {
+    name: "PHP",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg",
+    color: "#777BB4",
+    summary: "Backend application development.",
+    experience: "Built server-side features and REST-oriented workflows with PHP and Laravel.",
+  },
   {
     name: "React",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
     color: "#61DAFB",
     summary: "Component systems and UI architecture.",
+    experience: "Built production React interfaces with reusable components, page-level state, and performance-focused rendering.",
   },
   {
     name: "TypeScript",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
     color: "#3178C6",
     summary: "Typed UI and API contracts.",
+    experience: "Use strict typing for frontends and APIs to reduce runtime bugs and improve developer velocity.",
   },
   {
     name: "Node.js",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
     color: "#339933",
     summary: "APIs, tooling, and automation.",
-  },
-  {
-    name: "Next.js",
-    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
-    color: "#ffffff",
-    summary: "Production React and routing.",
-  },
-  {
-    name: "Vite",
-    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg",
-    color: "#646CFF",
-    summary: "Fast dev tooling and builds.",
+    experience: "Designed backend services, automation scripts, and build tooling for day-to-day product delivery.",
   },
   {
     name: "Python",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
     color: "#3776AB",
     summary: "Automation and data workflows.",
+    experience: "Built scripting and automation utilities for workflows, data handling, and backend prototyping.",
   },
   {
-    name: "Rust",
-    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg",
-    color: "#FF7043",
-    summary: "Systems tools and CLI apps.",
-  },
-  {
-    name: "Go",
-    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg",
-    color: "#00ADD8",
-    summary: "Backend services and tooling.",
+    name: "Tailwind",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+    color: "#38BDF8",
+    summary: "Utility-first UI styling.",
+    experience: "Used Tailwind CSS for fast, consistent frontend styling in full-stack projects.",
   },
   {
     name: "Docker",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
     color: "#2496ED",
     summary: "Containerized builds and deploys.",
+    experience: "Containerized local and production workflows for consistent environments and smoother deployments.",
   },
   {
     name: "AWS",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
     color: "#FF9900",
     summary: "Infra, hosting, and cloud tooling.",
+    experience: "Worked with AWS as part of cloud-focused full-stack and DevOps practice.",
+  },
+  {
+    name: "Azure",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azure/azure-original.svg",
+    color: "#0078D4",
+    summary: "Cloud and AI fundamentals.",
+    experience: "Certified in Azure AI Fundamentals and comfortable with cloud-backed AI workflows.",
+  },
+  {
+    name: "GCP",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg",
+    color: "#4285F4",
+    summary: "Cloud and ML fundamentals.",
+    experience: "Completed GCP ML Fundamentals and use cloud concepts across product and AI work.",
+  },
+  {
+    name: "MySQL",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg",
+    color: "#4479A1",
+    summary: "Structured relational data.",
+    experience: "Used MySQL in data analytics workflows and backend systems; completed MySQL for BI coursework.",
   },
   {
     name: "PostgreSQL",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
     color: "#336791",
     summary: "Relational data and queries.",
+    experience: "Comfortable designing relational data flows for backend applications.",
   },
   {
-    name: "Redis",
-    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
-    color: "#DC382D",
-    summary: "Caching and realtime state.",
-  },
-  {
-    name: "GraphQL",
-    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg",
-    color: "#E10098",
-    summary: "Typed APIs and query layers.",
-  },
-  {
-    name: "C++",
-    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
-    color: "#00599C",
-    summary: "Performance-focused systems work.",
-  },
-  {
-    name: "Java",
-    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg",
-    color: "#ED8B00",
-    summary: "Backend fundamentals and tooling.",
+    name: "Firebase",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg",
+    color: "#FFCA28",
+    summary: "App backend services.",
+    experience: "Used Firebase as part of database and application backend exploration.",
   },
   {
     name: "Linux",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg",
     color: "#FCC624",
     summary: "Dev environments and servers.",
+    experience: "Daily Linux usage across development, server operations, shell automation, and debugging workflows.",
   },
 ];
 
+function getHoverPosition(target, container) {
+  const chipRect = target.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+  return {
+    x: chipRect.left - containerRect.left + chipRect.width / 2,
+    y: chipRect.top - containerRect.top,
+  };
+}
+
 export default function TechScroller() {
+  const wrapperRef = useRef(null);
   const trackRef = useRef(null);
   const animRef = useRef(null);
+  const [hovered, setHovered] = useState(null);
   const stateRef = useRef({
     offset: 0,
-    velocity: -0.45,          // negative = left scroll
-    targetSpeed: -0.45,
+    velocity: -0.28,
+    targetSpeed: -0.28,
     dragging: false,
     lastX: 0,
     lastTime: 0,
   });
 
-  const items = [...stackItems, ...stackItems]; // double for seamless loop
+  const items = [...stackItems, ...stackItems];
 
-  // Main animation loop
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    // Dynamically calculate exact width of one set of items
-    const TOTAL = track.scrollWidth / 2;
+    const total = track.scrollWidth / 2;
 
     function loop() {
       const s = stateRef.current;
 
       if (!s.dragging) {
-        // Elastic drift back to target speed
-        s.velocity += (s.targetSpeed - s.velocity) * 0.05;
+        s.velocity += (s.targetSpeed - s.velocity) * 0.04;
         s.offset += s.velocity;
       }
 
-      // Seamless wrap
-      if (s.offset <= -TOTAL) s.offset += TOTAL;
-      if (s.offset > 0) s.offset -= TOTAL;
+      if (s.offset <= -total) s.offset += total;
+      if (s.offset > 0) s.offset -= total;
 
       track.style.transform = `translateX(${s.offset}px)`;
-
       animRef.current = requestAnimationFrame(loop);
     }
 
@@ -143,15 +158,15 @@ export default function TechScroller() {
     return () => cancelAnimationFrame(animRef.current);
   }, []);
 
-  // Slow on hover
   const onMouseEnter = () => {
     stateRef.current.targetSpeed = -0.12;
   };
+
   const onMouseLeave = () => {
-    stateRef.current.targetSpeed = -0.45;
+    stateRef.current.targetSpeed = -0.28;
+    setHovered(null);
   };
 
-  // Drag (rubber-band push)
   const onPointerDown = useCallback((e) => {
     const s = stateRef.current;
     s.dragging = true;
@@ -178,13 +193,24 @@ export default function TechScroller() {
     trackRef.current?.releasePointerCapture(e.pointerId);
   }, []);
 
+  function showChipCard(e, item) {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const pos = getHoverPosition(e.currentTarget, wrapper);
+    setHovered({
+      ...item,
+      x: pos.x,
+      y: pos.y,
+    });
+  }
+
   return (
     <section className="stack-strip">
       <div className="stack-strip-head">
         <p className="eyebrow">tech stack</p>
       </div>
 
-      <div className="stack-track-wrapper">
+      <div className="stack-track-wrapper" ref={wrapperRef}>
         <div
           className="stack-track-inner"
           onMouseEnter={onMouseEnter}
@@ -197,21 +223,29 @@ export default function TechScroller() {
         >
           <div ref={trackRef} className="stack-track-moving">
             {items.map((item, idx) => (
-              <div
+              <button
                 key={`${item.name}-${idx}`}
                 className="stack-chip"
+                type="button"
                 title={item.name}
-                data-tooltip={item.summary}
-                style={{ 
-                  "--chip-color": item.color,
-                  "--angle": `${(idx % stackItems.length) * (360 / stackItems.length)}deg`
-                }}
+                onMouseEnter={(e) => showChipCard(e, item)}
+                onFocus={(e) => showChipCard(e, item)}
+                onBlur={() => setHovered(null)}
+                style={{ "--chip-color": item.color }}
               >
                 <img src={item.iconUrl} alt={item.name} className="chip-icon-img" draggable="false" />
-              </div>
+              </button>
             ))}
           </div>
         </div>
+
+        {hovered && (
+          <article className="stack-hover-card" style={{ left: hovered.x, top: hovered.y }}>
+            <strong style={{ color: hovered.color }}>{hovered.name}</strong>
+            <p>{hovered.summary}</p>
+            <span>{hovered.experience}</span>
+          </article>
+        )}
       </div>
     </section>
   );
