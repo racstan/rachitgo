@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TiltCard from "./TiltCard.jsx";
 import WaveText from "./WaveText.jsx";
 import { journeyTimeline } from "../data/profile.js";
@@ -8,6 +8,7 @@ export const timelineData = journeyTimeline;
 export default function Timeline({ items }) {
   const data = items || timelineData;
   const rowRefs = useRef([]);
+  const [expanded, setExpanded] = useState(null);
 
   useEffect(() => {
     const rows = rowRefs.current.filter(Boolean);
@@ -43,7 +44,7 @@ export default function Timeline({ items }) {
           <div className="timeline-node">
             <div className="timeline-dot-inner" style={{ borderColor: item.color, background: `${item.color}22` }} />
           </div>
-          <TiltCard className="timeline-content" color={item.color}>
+          <TiltCard className={`timeline-content ${expanded === i ? "is-expanded" : ""}`} color={item.color}>
             <div className="timeline-header">
               <span className="timeline-role"><WaveText text={item.role} /></span>
               <span className="timeline-year">{item.year}</span>
@@ -55,6 +56,16 @@ export default function Timeline({ items }) {
                 <span key={t} className="timeline-tag" style={{ borderColor: `${item.color}55`, color: item.color }}>{t}</span>
               ))}
             </div>
+            <button
+              type="button"
+              className="timeline-expand"
+              onClick={(event) => {
+                event.stopPropagation();
+                setExpanded((value) => (value === i ? null : i));
+              }}
+            >
+              {expanded === i ? "Collapse" : "Click to expand"}
+            </button>
           </TiltCard>
         </div>
       ))}

@@ -88,8 +88,9 @@ export default function HomePage({ onActivate }) {
       if (!containerWidth) return;
 
       const length = targetText.length;
-      const nextSize = length > 44 ? 38 : length > 28 ? 50 : 76;
-      setFontSize(containerWidth < 560 ? Math.min(nextSize, 42) : nextSize);
+      const estimatedSize = Math.floor(containerWidth / Math.max(length * 0.58, 1));
+      const naturalSize = length > 44 ? 34 : length > 28 ? 48 : 76;
+      setFontSize(Math.max(14, Math.min(naturalSize, estimatedSize, containerWidth < 560 ? 42 : 76)));
     }
 
     updateScale();

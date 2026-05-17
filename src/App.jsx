@@ -11,6 +11,7 @@ import ExperiencePage from "./pages/ExperiencePage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import LabPage from "./pages/LabPage.jsx";
 import BlogsPage from "./pages/BlogsPage.jsx";
+import StackPage from "./pages/StackPage.jsx";
 import { languages } from "./data/languages.js";
 import { portfolioItems } from "./data/portfolio.js";
 
@@ -72,6 +73,7 @@ export default function App() {
           <Route path="/experience" element={<ExperiencePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/blogs" element={<BlogsPage />} />
+          <Route path="/stack/:slug" element={<StackPage />} />
           <Route
             path="/lab"
             element={

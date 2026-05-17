@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 
-const stackItems = [
+export const stackItems = [
   {
     name: "Laravel",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",
@@ -108,6 +109,10 @@ const stackItems = [
   },
 ];
 
+export function stackSlug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 function getHoverPosition(target, container) {
   const chipRect = target.getBoundingClientRect();
   const containerRect = container.getBoundingClientRect();
@@ -120,8 +125,11 @@ function getHoverPosition(target, container) {
 export default function TechScroller() {
   const wrapperRef = useRef(null);
   const trackRef = useRef(null);
+  const itemRefs = useRef([]);
+  const popoverRef = useRef(null);
   const animRef = useRef(null);
   const [hovered, setHovered] = useState(null);
+  const hoveredRef = useRef(null);
   const stateRef = useRef({
     offset: 0,
     velocity: -0.28,
@@ -132,6 +140,16 @@ export default function TechScroller() {
   });
 
   const items = [...stackItems, ...stackItems];
+
+  function movePopover(idx) {
+    const wrapper = wrapperRef.current;
+    const popover = popoverRef.current;
+    const target = itemRefs.current[idx];
+    if (!wrapper || !popover || !target) return;
+    const pos = getHoverPosition(target, wrapper);
+    popover.style.left = `${pos.x}px`;
+    popover.style.top = `${pos.y}px`;
+  }
 
   useEffect(() => {
     const track = trackRef.current;
@@ -151,6 +169,7 @@ export default function TechScroller() {
       if (s.offset > 0) s.offset -= total;
 
       track.style.transform = `translateX(${s.offset}px)`;
+      if (hoveredRef.current) movePopover(hoveredRef.current.idx);
       animRef.current = requestAnimationFrame(loop);
     }
 
@@ -164,7 +183,10 @@ export default function TechScroller() {
 
   const onMouseLeave = () => {
     stateRef.current.targetSpeed = -0.28;
-    setHovered(null);
+    if (!hoveredRef.current?.pinned) {
+      hoveredRef.current = null;
+      setHovered(null);
+    }
   };
 
   const onPointerDown = useCallback((e) => {
@@ -193,15 +215,11 @@ export default function TechScroller() {
     trackRef.current?.releasePointerCapture(e.pointerId);
   }, []);
 
-  function showChipCard(e, item) {
-    const wrapper = wrapperRef.current;
-    if (!wrapper) return;
-    const pos = getHoverPosition(e.currentTarget, wrapper);
-    setHovered({
-      ...item,
-      x: pos.x,
-      y: pos.y,
-    });
+  function showChipCard(idx, item, pinned = false) {
+    const next = { ...item, idx, pinned };
+    hoveredRef.current = next;
+    setHovered(next);
+    requestAnimationFrame(() => movePopover(idx));
   }
 
   return (
@@ -225,12 +243,21 @@ export default function TechScroller() {
             {items.map((item, idx) => (
               <button
                 key={`${item.name}-${idx}`}
+                ref={(node) => {
+                  itemRefs.current[idx] = node;
+                }}
                 className="stack-chip"
                 type="button"
                 title={item.name}
-                onMouseEnter={(e) => showChipCard(e, item)}
-                onFocus={(e) => showChipCard(e, item)}
-                onBlur={() => setHovered(null)}
+                onMouseEnter={() => showChipCard(idx, item)}
+                onFocus={() => showChipCard(idx, item)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  showChipCard(idx, item, true);
+                }}
+                onBlur={() => {
+                  if (!hoveredRef.current?.pinned) setHovered(null);
+                }}
                 style={{ "--chip-color": item.color }}
               >
                 <img src={item.iconUrl} alt={item.name} className="chip-icon-img" draggable="false" />
@@ -240,10 +267,17 @@ export default function TechScroller() {
         </div>
 
         {hovered && (
-          <article className="stack-hover-card" style={{ left: hovered.x, top: hovered.y }}>
+          <article
+            ref={popoverRef}
+            className={`stack-hover-card ${hovered.pinned ? "is-pinned" : ""}`}
+            style={{ "--chip-color": hovered.color }}
+          >
             <strong style={{ color: hovered.color }}>{hovered.name}</strong>
             <p>{hovered.summary}</p>
             <span>{hovered.experience}</span>
+            <Link className="stack-expand-link" to={`/stack/${stackSlug(hovered.name)}`}>
+              Expand page
+            </Link>
           </article>
         )}
       </div>
