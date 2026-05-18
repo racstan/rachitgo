@@ -39,7 +39,6 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
             <span key={i} className="name-char">{char === " " ? "\u00A0" : char}</span>
           ))}
         </span>
-        <span className="brand-sub-static">software engineer</span>
       </div>
 
       {/* Spacer */}

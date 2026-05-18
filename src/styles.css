@@ -1003,6 +1003,81 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--line) 65%, transparent);
 }
 
+/* ═══ NEWSLETTER ═══ */
+.newsletter-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.newsletter-copy p {
+  color: var(--muted);
+  margin: 10px 0 0;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: grid;
+  gap: 10px;
+}
+
+.newsletter-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.newsletter-fields {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.newsletter-input {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: var(--panel-2);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.newsletter-input:disabled {
+  opacity: 0.7;
+}
+
+.newsletter-button {
+  white-space: nowrap;
+}
+
+.newsletter-error {
+  color: var(--danger);
+  font-size: 12px;
+  margin: 0;
+}
+
+.newsletter-success {
+  display: grid;
+  gap: 6px;
+}
+
+.newsletter-success p {
+  color: var(--muted);
+  margin: 0;
+}
+
 /* ═══ TECH SCROLLER ═══ */
 .stack-strip {
   padding: 34px clamp(24px, 6vw, 92px) 56px;
@@ -2457,6 +2532,7 @@ a { color: inherit; text-decoration: none; }
   .contact-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
   .stack-detail-card { grid-template-columns: 1fr; }
+  .newsletter-card { grid-template-columns: 1fr; }
   .professional-hero,
   .professional-grid,
   .professional-skill-grid,
@@ -2476,4 +2552,6 @@ a { color: inherit; text-decoration: none; }
   .timeline-left { width: 40px; }
   .timeline-dot { width: 38px; height: 38px; font-size: 18px; }
   .timeline-role { font-size: 18px; }
+  .newsletter-fields { flex-direction: column; align-items: stretch; }
+  .newsletter-button { width: 100%; justify-content: center; }
 }

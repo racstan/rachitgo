@@ -73,5 +73,6 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), githubProxy()],
+    envPrefix: ["VITE_", "BREVO_"],
   };
 });

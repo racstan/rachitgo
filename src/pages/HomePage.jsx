@@ -5,6 +5,7 @@ import HoverTypingText from "../components/HoverTypingText.jsx";
 import WaveText from "../components/WaveText.jsx";
 import TiltCard from "../components/TiltCard.jsx";
 import GitHubContributions from "../components/GitHubContributions.jsx";
+import NewsletterSignup from "../components/NewsletterSignup.jsx";
 import { fetchContributions } from "../lib/github.js";
 import { profile } from "../data/profile.js";
 
@@ -238,6 +239,7 @@ export default function HomePage({ onActivate }) {
       </section>
 
       <TechScroller />
+      <NewsletterSignup />
     </section>
   );
 }
