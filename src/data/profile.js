@@ -17,6 +17,7 @@ export const projectCards = [
     title: "DoctlySuite",
     summary: "A comprehensive system for medical professionals, from small clinics to hospital-scale workflows.",
     highlights: ["Laravel, React, Inertia.js", "AI-driven clinical features", "Patient and workflow management"],
+    href: "https://github.com/racstan",
   },
   {
     id: "afib-research",
@@ -24,6 +25,7 @@ export const projectCards = [
     title: "AFib Detection Research",
     summary: "Machine learning system for early atrial fibrillation detection using ECG waveform signals.",
     highlights: ["Signal preprocessing", "ML classification", "Accepted for ICSCDS 2025"],
+    href: "https://github.com/racstan",
   },
   {
     id: "iot-systems",
@@ -31,6 +33,7 @@ export const projectCards = [
     title: "IoT & Embedded Systems",
     summary: "Academic systems spanning ESP32-CAM access control, EV battery monitoring, automation, and autonomous vehicles.",
     highlights: ["ESP32-CAM face lock", "EV BMS prototype", "RFID and ultrasonic control"],
+    href: "https://github.com/racstan",
   },
 ];
 

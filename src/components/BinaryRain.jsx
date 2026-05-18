@@ -104,7 +104,7 @@ export default function BinaryRain({ theme }) {
       canvas.style.height = h + "px";
     }
 
-    function onClick(e) {
+    function onPointerDown(e) {
       const mx = e.clientX;
       const my = e.clientY;
       for (const p of particlesRef.current) {
@@ -126,12 +126,12 @@ export default function BinaryRain({ theme }) {
     }
 
     window.addEventListener("resize", onResize);
-    canvas.addEventListener("click", onClick);
+    window.addEventListener("pointerdown", onPointerDown, { passive: true });
 
     return () => {
       if (animRef.current) cancelAnimationFrame(animRef.current);
       window.removeEventListener("resize", onResize);
-      canvas.removeEventListener("click", onClick);
+      window.removeEventListener("pointerdown", onPointerDown);
     };
   }, [theme, init]);
 

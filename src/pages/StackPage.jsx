@@ -38,6 +38,29 @@ export default function StackPage() {
           </p>
         </div>
       </TiltCard>
+
+      <section className="stack-detail-index">
+        <p className="eyebrow">more stack pages</p>
+        <div className="stack-detail-grid">
+          {stackItems.map((entry) => (
+            <TiltCard
+              key={entry.name}
+              element={Link}
+              to={`/stack/${stackSlug(entry.name)}`}
+              className="stack-detail-link"
+              color={entry.color}
+            >
+              <div className="stack-detail-link-icon" style={{ "--chip-color": entry.color }}>
+                <img src={entry.iconUrl} alt={entry.name} draggable="false" />
+              </div>
+              <div>
+                <strong>{entry.name}</strong>
+                <p>{entry.summary}</p>
+              </div>
+            </TiltCard>
+          ))}
+        </div>
+      </section>
     </section>
   );
 }

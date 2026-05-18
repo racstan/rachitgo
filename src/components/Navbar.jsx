@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import { BriefcaseBusiness, Moon, Sparkles, Sun, Menu, X } from "lucide-react";
 import WaveText from "./WaveText.jsx";
 
 const navItems = [
@@ -11,7 +11,14 @@ const navItems = [
   { to: "/contact", label: "Contact" },
 ];
 
-export default function Navbar({ theme, onToggleTheme }) {
+const professionalItems = [
+  { href: "#professional-projects", label: "Projects" },
+  { href: "#professional-experience", label: "Experience" },
+  { href: "#professional-skills", label: "Skills" },
+  { href: "#professional-contact", label: "Contact" },
+];
+
+export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -24,7 +31,7 @@ export default function Navbar({ theme, onToggleTheme }) {
   }, []);
 
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+    <nav className={`navbar ${scrolled ? "scrolled" : ""} ${mode === "professional" ? "professional-navbar" : ""}`}>
       {/* Brand — static, wave on hover */}
       <div className="brand-static" tabIndex={0}>
         <span className="brand-name-static name-group">
@@ -39,8 +46,17 @@ export default function Navbar({ theme, onToggleTheme }) {
       <div style={{ flex: 1 }} />
 
       {/* Nav links — RHS */}
-      <div className={`nav-links ${mobileOpen ? "open" : ""}`}>
-        {navItems.map((item) => (
+      <div id="primary-navigation" className={`nav-links ${mobileOpen ? "open" : ""}`}>
+        {mode === "professional" ? professionalItems.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className="nav-link"
+            onClick={() => setMobileOpen(false)}
+          >
+            {item.label}
+          </a>
+        )) : navItems.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
@@ -53,6 +69,11 @@ export default function Navbar({ theme, onToggleTheme }) {
         ))}
       </div>
 
+      <button className="mode-toggle" onClick={onToggleMode} aria-label="Toggle professional mode">
+        {mode === "professional" ? <BriefcaseBusiness size={15} /> : <Sparkles size={15} />}
+        <span>{mode === "professional" ? "Professional" : "Full"}</span>
+      </button>
+
       {/* Theme toggle */}
       <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
         {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
@@ -63,6 +84,8 @@ export default function Navbar({ theme, onToggleTheme }) {
         className="mobile-nav-btn"
         onClick={() => setMobileOpen((v) => !v)}
         aria-label="Toggle menu"
+        aria-expanded={mobileOpen}
+        aria-controls="primary-navigation"
       >
         {mobileOpen ? <X size={16} /> : <Menu size={16} />}
       </button>

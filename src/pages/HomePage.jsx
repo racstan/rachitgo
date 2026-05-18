@@ -4,6 +4,8 @@ import Timeline from "../components/Timeline.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
 import WaveText from "../components/WaveText.jsx";
 import TiltCard from "../components/TiltCard.jsx";
+import GitHubContributions from "../components/GitHubContributions.jsx";
+import { fetchContributions } from "../lib/github.js";
 import { profile } from "../data/profile.js";
 
 const heroModes = [
@@ -72,12 +74,42 @@ export default function HomePage({ onActivate }) {
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const [fontSize, setFontSize] = useState(76);
+  const roleOptions = ["Software Developer", "Freelancer", "Builder"];
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [calendar, setCalendar] = useState(null);
+  const [repos, setRepos] = useState([]);
+  const [loadingCalendar, setLoadingCalendar] = useState(true);
+  const [calendarError, setCalendarError] = useState("");
 
   useEffect(() => {
     onActivate("profile");
   }, [onActivate]);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoadingCalendar(true);
+    setCalendarError("");
+
+    fetchContributions({ signal: controller.signal, username: profile.githubHandle })
+      .then(({ calendar: nextCalendar, repos: nextRepos }) => {
+        setCalendar(nextCalendar);
+        setRepos(nextRepos);
+      })
+      .catch((error) => {
+        if (error?.name === "AbortError") return;
+        setCalendar(null);
+        setRepos([]);
+        setCalendarError(error?.message || "Unable to load GitHub contributions.");
+      })
+      .finally(() => {
+        setLoadingCalendar(false);
+      });
+
+    return () => controller.abort();
+  }, []);
+
   const targetText = useMemo(() => mode.value, [mode.value]);
+  const roleText = roleOptions[roleIndex % roleOptions.length];
 
   useEffect(() => {
     function updateScale() {
@@ -109,7 +141,15 @@ export default function HomePage({ onActivate }) {
             <span className="hero-cursor" style={{ background: mode.color }} />
           </h1>
         </div>
-        <p className="hero-role-line">{profile.roleLine}</p>
+        <button
+          type="button"
+          className="hero-role-line"
+          onPointerEnter={() => setRoleIndex((index) => (index + 1) % roleOptions.length)}
+          onFocus={() => setRoleIndex((index) => (index + 1) % roleOptions.length)}
+          title={roleOptions.join(" / ")}
+        >
+          {roleText}
+        </button>
       </section>
 
       <section className="section compact-section">
@@ -127,18 +167,27 @@ export default function HomePage({ onActivate }) {
           />
         </div>
 
-        <div className="github-strip">
-          {[
-            { label: "Repositories", value: "Open-source and personal work" },
-            { label: "Signals", value: "Feedback, usage, and reviews" },
-            { label: "Community", value: "Consistent learning and sharing" },
-            { label: "Pinned Focus", value: "React, systems, tooling" },
-          ].map((stat) => (
-            <TiltCard key={stat.label} element="article" className="github-card">
-              <strong><WaveText text={stat.label} /></strong>
-              <p><WaveText text={stat.value} /></p>
-            </TiltCard>
-          ))}
+        <div className="github-snapshot">
+          <div className="github-strip">
+            {[
+              { label: "Repositories", value: "Open-source and personal work" },
+              { label: "Signals", value: "Feedback, usage, and reviews" },
+              { label: "Community", value: "Consistent learning and sharing" },
+              { label: "Pinned Focus", value: "React, systems, tooling" },
+            ].map((stat) => (
+              <TiltCard key={stat.label} element="article" className="github-card">
+                <strong><WaveText text={stat.label} /></strong>
+                <p><WaveText text={stat.value} /></p>
+              </TiltCard>
+            ))}
+          </div>
+          <GitHubContributions
+            calendar={calendar}
+            loading={loadingCalendar}
+            error={calendarError}
+            username={profile.githubHandle}
+            repos={repos}
+          />
         </div>
       </section>
 

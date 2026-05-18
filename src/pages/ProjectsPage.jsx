@@ -42,9 +42,15 @@ export default function ProjectsPage({ onActivate }) {
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <Link className="project-card-action" to="/contact">
-              Explore More
-            </Link>
+            {group.href?.startsWith("http") ? (
+              <a className="project-card-action" href={group.href} target="_blank" rel="noreferrer">
+                Explore More
+              </a>
+            ) : (
+              <Link className="project-card-action" to={group.href || "/projects"}>
+                Explore More
+              </Link>
+            )}
           </TiltCard>
         ))}
       </div>

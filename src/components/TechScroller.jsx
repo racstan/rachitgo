@@ -118,7 +118,7 @@ function getHoverPosition(target, container) {
   const containerRect = container.getBoundingClientRect();
   return {
     x: chipRect.left - containerRect.left + chipRect.width / 2,
-    y: chipRect.top - containerRect.top,
+    y: chipRect.bottom - containerRect.top,
   };
 }
 
@@ -183,10 +183,6 @@ export default function TechScroller() {
 
   const onMouseLeave = () => {
     stateRef.current.targetSpeed = -0.28;
-    if (!hoveredRef.current?.pinned) {
-      hoveredRef.current = null;
-      setHovered(null);
-    }
   };
 
   const onPointerDown = useCallback((e) => {
@@ -222,8 +218,26 @@ export default function TechScroller() {
     requestAnimationFrame(() => movePopover(idx));
   }
 
+  function togglePinnedCard(idx, item) {
+    if (hoveredRef.current?.idx === idx && hoveredRef.current?.pinned) {
+      hoveredRef.current = null;
+      setHovered(null);
+      return;
+    }
+    showChipCard(idx, item, true);
+  }
+
   return (
-    <section className="stack-strip">
+    <section
+      id="tech-stack"
+      className="stack-strip"
+      onMouseLeave={() => {
+        if (!hoveredRef.current?.pinned) {
+          hoveredRef.current = null;
+          setHovered(null);
+        }
+      }}
+    >
       <div className="stack-strip-head">
         <p className="eyebrow">tech stack</p>
       </div>
@@ -249,15 +263,16 @@ export default function TechScroller() {
                 className="stack-chip"
                 type="button"
                 title={item.name}
-                onMouseEnter={() => showChipCard(idx, item)}
-                onFocus={() => showChipCard(idx, item)}
+                onFocus={() => showChipCard(idx, item, false)}
                 onClick={(event) => {
                   event.stopPropagation();
-                  showChipCard(idx, item, true);
+                  togglePinnedCard(idx, item);
                 }}
                 onBlur={() => {
                   if (!hoveredRef.current?.pinned) setHovered(null);
                 }}
+                aria-expanded={hovered?.idx === idx}
+                aria-controls="stack-hover-card"
                 style={{ "--chip-color": item.color }}
               >
                 <img src={item.iconUrl} alt={item.name} className="chip-icon-img" draggable="false" />
@@ -269,8 +284,15 @@ export default function TechScroller() {
         {hovered && (
           <article
             ref={popoverRef}
+            id="stack-hover-card"
             className={`stack-hover-card ${hovered.pinned ? "is-pinned" : ""}`}
             style={{ "--chip-color": hovered.color }}
+            onMouseLeave={() => {
+              if (!hoveredRef.current?.pinned) {
+                hoveredRef.current = null;
+                setHovered(null);
+              }
+            }}
           >
             <strong style={{ color: hovered.color }}>{hovered.name}</strong>
             <p>{hovered.summary}</p>

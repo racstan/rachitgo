@@ -1,19 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import TiltCard from "../components/TiltCard.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
 import WaveText from "../components/WaveText.jsx";
 import { contacts } from "../data/contacts.js";
 
 function ContactCard({ item }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const value = item.copyValue || item.href;
+    if (!value) return;
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = value;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+      }
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1200);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  function openLink() {
+    if (!item.href) return;
+    if (item.href.startsWith("mailto:") || item.href.startsWith("tel:")) {
+      window.location.href = item.href;
+      return;
+    }
+    window.open(item.href, "_blank", "noopener,noreferrer");
+  }
+
   return (
     <TiltCard
-      element="a"
-      href={item.href}
-      target={item.href.startsWith("mailto") || item.href.startsWith("tel") ? "_self" : "_blank"}
-      rel="noopener noreferrer"
+      element="article"
+      role="link"
+      aria-label={`${item.platform} ${item.handle}`}
       className="contact-card"
       data-color={item.color}
       color={item.color}
+      onClick={openLink}
     >
       <div className="contact-card-icon" style={{ background: `${item.color}22`, borderColor: `${item.color}44`, color: item.color }}>
         <span
@@ -29,6 +66,15 @@ function ContactCard({ item }) {
         <div className="contact-handle">{item.handle}</div>
         <p className="contact-desc">{item.desc}</p>
       </div>
+      <button
+        type="button"
+        className="contact-copy"
+        data-no-card-drag
+        onClick={handleCopy}
+        aria-label={`Copy ${item.platform} link`}
+      >
+        {copied ? "Copied" : "Copy"}
+      </button>
       <div className="contact-arrow">→</div>
     </TiltCard>
   );
