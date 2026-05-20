@@ -160,7 +160,7 @@ export default function TechScroller() {
 
     function loop() {
       const s = stateRef.current;
-      const isPaused = hoveredRef.current?.pinned || isHoveredTrackRef.current;
+      const isPaused = hoveredRef.current !== null;
 
       if (!s.dragging && !isPaused) {
         s.velocity += (s.targetSpeed - s.velocity) * 0.04;
@@ -285,6 +285,7 @@ export default function TechScroller() {
                 className="stack-chip"
                 type="button"
                 title={item.name}
+                onMouseEnter={() => showChipCard(idx, item, false)}
                 onFocus={() => showChipCard(idx, item, false)}
                 onClick={(event) => {
                   event.stopPropagation();

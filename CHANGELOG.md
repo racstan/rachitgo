@@ -10,6 +10,9 @@
 - **Full Case Studies coverage**: Added detailed data subpages for MySQL, PostgreSQL, Firebase, and Linux so all 15 tech items in the scroller strip are fully featured.
 - **Resume AI Panel Overlap Fix**: Adjusted widget positioning to prevent the floating FAB from overlapping page content.
 - **Pure Black Dark Mode & Aesthetics**: Applied pure black background (`#000000`) for dark mode theme, centered the footer copyright, updated copyright to "Rachit Asthana", and fixed spelling errors.
+- **Tech Stack Scroller Robust Pausing**: Ensured the scroller pauses instantly when hovering or clicking technology chips, remaining completely static during active popover card interaction to prevent off-screen shifting.
+- **Timeline Tag Popovers & Integration**: Integrated interactive technology tags (e.g., `Laravel`, `React`, `Python`, `MySQL`, etc.) in the Journey and Experience timelines, which display a custom details popover card on click and link directly to expanded case study subpages.
+- **Scroll-to-Top Navigation Reset**: Implemented immediate scroll coordinate reset (`window.scrollTo(0, 0)`) on React Router path transitions, preventing layout cut-off issues when navigating to tech detail or project case study pages.
 
 ## 2026-05-18
 

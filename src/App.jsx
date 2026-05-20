@@ -69,6 +69,10 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  useEffect(() => {
     document.documentElement.dataset.mode = mode;
     try {
       window.localStorage.setItem("portfolio-mode", mode);

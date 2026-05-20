@@ -70,6 +70,12 @@ Research date: 2026-05-20
    - **Action**: Restructured the widget FAB and panel with CSS Grid relative layout flow to prevent overlaps between the launcher button and input form.
 6. **Tech Marquee Scroller Hover & Click Pauses** (Completed)
    - **Action**: Modified marquee scroller loop velocity to immediately pause movement when hovered or card is pinned.
+7. **Robust Marquee Scrolling Interrupts** (Completed)
+   - **Action**: Re-engineered scroll loop tracking state to pause immediately whenever a popover card is showing or active (whether hovered or clicked/pinned), preventing content drift.
+8. **Interactive Timeline Tags Integration** (Completed)
+   - **Action**: Converted static timeline technology tags (e.g. Laravel, React) into interactive popover links that display matching stack summaries and expand detail links.
+9. **Scroll Restoration on Navigation** (Completed)
+   - **Action**: Integrated window scroll coordinate resets on all route changes, solving page-cut-off rendering glitches on page loads.
 
 ### [MEDIUM PRIORITY]
 7. **Interactive Lab API Playpen**

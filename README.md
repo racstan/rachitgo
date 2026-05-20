@@ -8,6 +8,7 @@ A React + Vite portfolio with two presentation modes, glassmorphism UI, and keyb
 - Glass surfaces across cards, navbar, command palette, and professional sections.
 - Draggable tilt cards with slow, peaceful return motion.
 - Tech stack scroller with click/focus details and deep-linkable stack pages for every technology.
+- Interactive timeline tags: Clickable technology tags on Journey/Experience cards that open info popovers linking directly to detailed technology pages.
 - Quick Switch command palette for fast navigation and mode toggling.
 - Resume AI Widget: A conversational chatbot using LLMs (supporting OpenRouter, Google, OpenAI, Groq, Cerebras, etc. through `.env` configurations) to answer recruiter inquiries.
 - Downloads Dropdown & Inline Viewer: Premium navigation options to view or download Rachit Asthana's CV or Resume PDFs inline.
