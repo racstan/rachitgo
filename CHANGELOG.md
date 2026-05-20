@@ -13,6 +13,7 @@
 - **Tech Stack Scroller Robust Pausing**: Ensured the scroller pauses instantly when hovering or clicking technology chips, remaining completely static during active popover card interaction to prevent off-screen shifting.
 - **Timeline Tag Popovers & Integration**: Integrated interactive technology tags (e.g., `Laravel`, `React`, `Python`, `MySQL`, etc.) in the Journey and Experience timelines, which display a custom details popover card on click and link directly to expanded case study subpages.
 - **Scroll-to-Top Navigation Reset**: Implemented immediate scroll coordinate reset (`window.scrollTo(0, 0)`) on React Router path transitions, preventing layout cut-off issues when navigating to tech detail or project case study pages.
+- **Stack Card Layout Overlap Fix**: Converted `.stack-detail-card` layout from CSS Grid to a clean, responsive Flex Column, resolving text overlaps and layout squeeze caused by grid row-column mismatch.
 
 ## 2026-05-18
 

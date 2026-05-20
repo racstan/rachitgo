@@ -76,6 +76,8 @@ Research date: 2026-05-20
    - **Action**: Converted static timeline technology tags (e.g. Laravel, React) into interactive popover links that display matching stack summaries and expand detail links.
 9. **Scroll Restoration on Navigation** (Completed)
    - **Action**: Integrated window scroll coordinate resets on all route changes, solving page-cut-off rendering glitches on page loads.
+10. **Stack Detail Card Overlap Fix** (Completed)
+    - **Action**: Converted `.stack-detail-card` layout from CSS Grid to a clean, responsive Flex Column, resolving text overlaps and layout squeeze caused by grid row-column mismatch.
 
 ### [MEDIUM PRIORITY]
 7. **Interactive Lab API Playpen**

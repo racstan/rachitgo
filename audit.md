@@ -29,6 +29,7 @@ Updated: 2026-05-20
 - **Scroller Control Interruption & Pause Robustness**: Rebuilt TechScroller animation loop pausing using reactive detection of active popover state, stopping scrolling completely when hovering or pinning cards.
 - **Interactive Timeline Tag Popovers**: Mapped static timeline tags in My Journey and My Experience sections to interactive popover elements that mirror TechScroller cards, permitting direct detail page expansion.
 - **Scroll Position Restoration**: Configured explicit `window.scrollTo` cleanup triggers on React Router transitions to resolve partial-scroll clipping when moving between portfolio views.
+- **Stack Card Layout Overlap Fix**: Converted `.stack-detail-card` layout from CSS Grid to a clean, responsive Flex Column, resolving text overlaps and layout squeeze caused by grid row-column mismatch.
 
 - **Scroll Event Throttling**: Optimized the scroll listener in App.jsx and Navbar.jsx using requestAnimationFrame ticking, preventing virtual DOM recalculations when scroll boundaries are unchanged.
 - **Canvas Performance & Reflow Guard**: Cached container boundaries and theme variables outside the requestAnimationFrame loop in Inspector.jsx, eliminating forced synchronous layouts.
