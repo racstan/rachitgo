@@ -114,10 +114,21 @@ export default function BinaryCursor({ emoji = "01", theme }) {
     ));
 
     function onPointerMove(event) {
-      cursorRef.current.active = true;
-      cursorRef.current.x = event.clientX;
-      cursorRef.current.y = event.clientY;
-      lastMoveRef.current = performance.now();
+      const target = event.target;
+      const isOverInteractive = target && (
+        target.closest("a, button, input, select, textarea, [role='button'], summary, .nav-dropdown") ||
+        target.closest(".resume-ai-panel") ||
+        target.closest(".resume-ai-fab")
+      );
+
+      if (isOverInteractive) {
+        cursorRef.current.active = false;
+      } else {
+        cursorRef.current.active = true;
+        cursorRef.current.x = event.clientX;
+        cursorRef.current.y = event.clientY;
+        lastMoveRef.current = performance.now();
+      }
     }
 
     function onPointerLeave() {

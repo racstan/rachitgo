@@ -7,12 +7,13 @@ A React + Vite portfolio with two presentation modes, glassmorphism UI, and keyb
 - Dual modes: Full (interactive) and Professional (clean, recruiter-friendly) with hardware fallback detection.
 - Glass surfaces across cards, navbar, command palette, and professional sections.
 - Draggable tilt cards with slow, peaceful return motion.
-- Tech stack scroller with click/focus details and deep-linkable stack pages.
-- Quick Switch command palette for fast navigation.
+- Tech stack scroller with click/focus details and deep-linkable stack pages for every technology.
+- Quick Switch command palette for fast navigation and mode toggling.
+- Resume AI Widget: A conversational chatbot using LLMs (supporting OpenRouter, Google, OpenAI, Groq, Cerebras, etc. through `.env` configurations) to answer recruiter inquiries.
+- Downloads Dropdown & Inline Viewer: Premium navigation options to view or download Rachit Asthana's CV or Resume PDFs inline.
 - Binary rain background and a springy cursor trail in Full mode.
 - GitHub snapshot with contribution calendar and top repositories via a server-side GraphQL request.
-- Stack detail pages for every tech item, plus a stack index.
-- Scroll controls for section-by-section navigation.
+- Scroll controls for section-by-section navigation, fading in dynamically on scroll.
 - Error boundary to keep the UI stable on component failures.
 
 ## Keyboard Navigation
@@ -32,11 +33,14 @@ A React + Vite portfolio with two presentation modes, glassmorphism UI, and keyb
 - Build: `npm run build`
 - Preview build: `npm run preview`
 
-## GitHub Contributions
+## Serverless / API Proxy Setup
 
-- Add `GITHUB_TOKEN` and `GITHUB_USERNAME` to [.env](.env).
-- The client calls `/api/github`, which proxies GitHub GraphQL using the token for contributions and top repositories.
-- Vite dev server includes a middleware proxy for `/api/github`; production should use the serverless handler in [api/github.js](api/github.js).
+- Add the following keys to your [.env](.env) file:
+  - `GITHUB_TOKEN` and `GITHUB_USERNAME` (for contribution calendar & top repositories).
+  - AI Provider credentials (for the Resume AI Widget):
+    - `OPENROUTER_API_KEY` (highly recommended, defaults to a free model like `google/gemini-2.5-flash:free` or `meta-llama/llama-3-8b-instruct:free`).
+    - Or standard keys like `GEMINI_API_KEY`, `OPENAI_API_KEY`, `GROQ_API_KEY`, `MISTRAL_API_KEY`, etc.
+- The client routes requests through `/api/github` and `/api/chat` proxies to preserve API keys in client-side production builds.
 
 ## Notes
 

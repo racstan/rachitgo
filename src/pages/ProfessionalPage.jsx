@@ -22,6 +22,7 @@ export default function ProfessionalPage() {
           <p className="professional-role">{profile.roleLine}</p>
           <p className="professional-summary">{profile.summary}</p>
           <div className="professional-actions">
+            <a href="/CV2026.pdf" target="_blank" rel="noopener noreferrer" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>Download Resume</a>
             <a href={`mailto:${profile.email}`}>Email me</a>
             <a href={profile.githubUrl} target="_blank" rel="noreferrer">GitHub</a>
             <a href={profile.linkedinUrl} target="_blank" rel="noreferrer">LinkedIn</a>
@@ -76,7 +77,12 @@ export default function ProfessionalPage() {
       <Section id="professional-contact" eyebrow="contact" title="Reach out directly">
         <div className="professional-contact-grid">
           {contacts.map((contact) => (
-            <a key={contact.id} className="professional-card professional-contact-card" href={contact.href}>
+            <a
+              key={contact.id}
+              className="professional-card professional-contact-card"
+              href={contact.href}
+              {...(contact.href.startsWith("/") || contact.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
               <strong>{contact.platform}</strong>
               <span>{contact.handle}</span>
             </a>

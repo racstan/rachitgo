@@ -75,7 +75,7 @@ export default function HomePage({ onActivate }) {
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const [fontSize, setFontSize] = useState(76);
-  const roleOptions = ["Software Developer", "Freelancer", "Builder"];
+  const roleOptions = ["Full Stack Developer", "Software Developer", "Freelancer", "Builder"];
   const [roleIndex, setRoleIndex] = useState(0);
   const [calendar, setCalendar] = useState(null);
   const [repos, setRepos] = useState([]);

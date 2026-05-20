@@ -130,6 +130,7 @@ export default function TechScroller() {
   const animRef = useRef(null);
   const [hovered, setHovered] = useState(null);
   const hoveredRef = useRef(null);
+  const isHoveredTrackRef = useRef(false);
   const stateRef = useRef({
     offset: 0,
     velocity: -0.28,
@@ -159,10 +160,13 @@ export default function TechScroller() {
 
     function loop() {
       const s = stateRef.current;
+      const isPaused = hoveredRef.current?.pinned || isHoveredTrackRef.current;
 
-      if (!s.dragging) {
+      if (!s.dragging && !isPaused) {
         s.velocity += (s.targetSpeed - s.velocity) * 0.04;
         s.offset += s.velocity;
+      } else if (isPaused) {
+        s.velocity = 0;
       }
 
       if (s.offset <= -total) s.offset += total;
@@ -174,14 +178,32 @@ export default function TechScroller() {
     }
 
     animRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animRef.current);
+
+    function handleDocumentClick(e) {
+      if (hoveredRef.current?.pinned) {
+        const clickedInsideTrack = trackRef.current?.contains(e.target);
+        const clickedInsidePopover = popoverRef.current?.contains(e.target);
+        if (!clickedInsideTrack && !clickedInsidePopover) {
+          hoveredRef.current = null;
+          setHovered(null);
+        }
+      }
+    }
+    document.addEventListener("click", handleDocumentClick);
+
+    return () => {
+      cancelAnimationFrame(animRef.current);
+      document.removeEventListener("click", handleDocumentClick);
+    };
   }, []);
 
   const onMouseEnter = () => {
-    stateRef.current.targetSpeed = -0.12;
+    isHoveredTrackRef.current = true;
+    stateRef.current.targetSpeed = 0;
   };
 
   const onMouseLeave = () => {
+    isHoveredTrackRef.current = false;
     stateRef.current.targetSpeed = -0.28;
   };
 

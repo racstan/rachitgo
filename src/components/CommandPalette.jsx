@@ -2,15 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Command, ExternalLink, Search } from "lucide-react";
 
-const actions = [
-  { label: "Home", hint: "Hero and GitHub snapshot", path: "/" },
-  { label: "Projects", hint: "DoctlySuite, research, embedded systems", path: "/projects" },
-  { label: "Experience", hint: "Timeline, internships, skills", path: "/experience" },
-  { label: "Contact", hint: "Email, GitHub, LinkedIn", path: "/contact" },
-  { label: "Tech Stack", hint: "Jump to moving stack section", path: "/", hash: "tech-stack" },
-];
-
-export default function CommandPalette() {
+export default function CommandPalette({ mode, onToggleMode }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -18,13 +10,33 @@ export default function CommandPalette() {
   const lastFocusRef = useRef(null);
   const navigate = useNavigate();
 
+  const actionsList = useMemo(() => {
+    return [
+      { label: "Home", hint: "Hero and GitHub snapshot", path: "/" },
+      { label: "Projects", hint: "DoctlySuite, research, embedded systems", path: "/projects" },
+      { label: "Experience", hint: "Timeline, internships, skills", path: "/experience" },
+      { label: "Contact", hint: "Email, GitHub, LinkedIn", path: "/contact" },
+      { label: "Blogs", hint: "Tech blogs and system design articles", path: "/blogs" },
+      { label: "Tech Stack", hint: "Jump to moving stack section", path: "/", hash: "tech-stack" },
+      {
+        label: mode === "professional" ? "Switch to Developer (Full) Mode" : "Switch to Professional Mode",
+        hint: mode === "professional" ? "Toggle background binary rain & coding lab" : "Toggle minimal executive/resume view",
+        action: "toggleMode"
+      },
+      { label: "View Resume", hint: "Open Resume PDF in browser viewer", path: "/resume" },
+      { label: "Download Resume", hint: "Download PDF file directly", action: "downloadResume" },
+      { label: "View CV", hint: "Open CV PDF in browser viewer", path: "/resume" },
+      { label: "Download CV", hint: "Download PDF file directly", action: "downloadCV" },
+    ];
+  }, [mode]);
+
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return actions;
-    return actions.filter((action) => (
+    if (!normalized) return actionsList;
+    return actionsList.filter((action) => (
       `${action.label} ${action.hint}`.toLowerCase().includes(normalized)
     ));
-  }, [query]);
+  }, [query, actionsList]);
 
   useEffect(() => {
     if (!open) return;
@@ -87,6 +99,22 @@ export default function CommandPalette() {
   function runAction(action) {
     setOpen(false);
     setQuery("");
+
+    if (action.action === "toggleMode") {
+      onToggleMode?.();
+      return;
+    }
+
+    if (action.action === "downloadResume" || action.action === "downloadCV") {
+      const link = document.createElement("a");
+      link.href = "/CV2026.pdf";
+      link.download = action.action === "downloadResume" ? "Rachit_Asthana_Resume.pdf" : "Rachit_Asthana_CV.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+
     navigate(action.path);
     if (action.hash) {
       window.setTimeout(() => {
@@ -103,10 +131,9 @@ export default function CommandPalette() {
         onClick={() => setOpen(true)}
         aria-label="Open command palette"
         aria-keyshortcuts="Control+K /"
+        data-label="quick switch"
       >
         <Command size={15} />
-        <span>Quick switch</span>
-        <kbd>/</kbd>
       </button>
 
       {open && (

@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-meta">
-          <span>&copy; {new Date().getFullYear()}</span>
+          <span>&copy; 2026 Rachit Asthana</span>
         </div>
       </div>
     </footer>

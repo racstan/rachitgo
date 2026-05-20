@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-05-20
+
+- **Navbar Drag & Spring-Bounce Physics**: Integrated 3D hover-tilt and spring-damped drag-and-bounce physics into the main navigation bar, mirroring the card interactions for a unified tactile experience.
+- **Resume AI Chat Proxy**: Created `/api/chat` supporting multi-provider integration (OpenRouter, Gemini, Mistral, Groq, Cerebras, etc.) driven entirely by secure server-side `.env` configuration keys.
+- **Dynamic PDF Viewer & Downloads Navigation**: Developed `/resume` page for viewing the resume PDF inline, and replaced static navbar items with a premium 'Downloads' dropdown.
+- **Responsive Layout & Center-Alignment**: Resolved right-side cut-off bugs by refactoring `.app-shell` padding overrides in desktop/mobile viewport styling.
+- **Interruption Controls on Marquee Scroller**: Added mouse hover and pin detection to pause marquee velocity automatically.
+- **Full Case Studies coverage**: Added detailed data subpages for MySQL, PostgreSQL, Firebase, and Linux so all 15 tech items in the scroller strip are fully featured.
+- **Resume AI Panel Overlap Fix**: Adjusted widget positioning to prevent the floating FAB from overlapping page content.
+- **Pure Black Dark Mode & Aesthetics**: Applied pure black background (`#000000`) for dark mode theme, centered the footer copyright, updated copyright to "Rachit Asthana", and fixed spelling errors.
+
 ## 2026-05-18
 
 - Added stack detail index links and improved tech stack padding/fade.

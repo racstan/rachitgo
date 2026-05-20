@@ -41,7 +41,7 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55 }}
       >
-        <p className="eyebrow">software developer / freelancer / builder</p>
+        <p className="eyebrow">full stack developer / software developer / freelancer / builder</p>
         <h1>Rachit Asthana</h1>
         <p>
           I build web products, developer tools, automation, and systems-minded experiments. The portfolio stays

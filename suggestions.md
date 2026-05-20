@@ -1,58 +1,91 @@
 # Portfolio Suggestions
 
-Research date: 2026-05-17
+Research date: 2026-05-20
 
 ## Standout Portfolio References
 
 ### Brittany Chiang
-
-- Source: https://brittanychiang.com/
-- Interesting feature: clean two-column, recruiter-readable layout with strong writing and minimal distraction.
-- Useful idea for this portfolio: keep the main content legible and use the interactive layer as support, not as the product itself.
-- Implemented now: Professional Mode is a one-page, recruiter-readable layout with simplified navigation, lower motion, and direct proof sections.
+- **Interesting feature**: Clean two-column, recruiter-readable layout with strong writing and minimal distraction.
+- **Useful idea**: Keep the main content legible and use the interactive layer as support, not as the product itself.
+- **Implemented**: *Professional Mode* is a one-page, recruiter-readable layout with simplified navigation, lower motion, and direct proof sections.
 
 ### Bruno Simon
-
-- Source: https://bruno-simon.com/
-- Interesting feature: one memorable interaction defines the site: a playful 3D world used as navigation.
-- Useful idea for this portfolio: keep one signature interaction, but avoid making every interaction physically heavy.
-- Implemented now: card movement remains playful, but bounded and lightweight instead of unbounded collision physics.
+- **Interesting feature**: One memorable interaction defines the entire site (e.g., a playful 3D world).
+- **Useful idea**: Keep one signature interaction, but avoid making every interaction physically heavy or complex.
+- **Implemented**: Card drag movement remains playful, but bounded and lightweight instead of using unbounded physics.
 
 ### Josh Comeau
-
-- Source: https://www.joshwcomeau.com/
-- Interesting feature: the site behaves like a content engine, with useful interactive explanations and deep technical writing.
-- Useful idea for this portfolio: add proof pages and searchable navigation so visitors can move from visual polish into substance.
-- Implemented now: stack items have detail pages, and the command palette gives fast access to proof areas.
+- **Interesting feature**: The site behaves like a content engine with interactive, visual explanations.
+- **Useful idea**: Add proof pages and searchable navigation so visitors can move from visual polish into substance.
+- **Implemented**: Stack items have detail pages, and the command palette gives fast access to proof areas.
 
 ### Robby Leonardi
+- **Interesting feature**: The resume is turned into a scrollable, memorable story.
+- **Useful idea**: Keep the narrative timeline readable, avoiding layout surprises or sudden jumps.
+- **Implemented**: Timeline cards only expand through explicit click controls when text is actually clamped.
 
-- Source: http://www.rleonardi.com/interactive-resume/
-- Interesting feature: a resume is turned into a scrollable story, making progression memorable.
-- Useful idea for this portfolio: keep the My Journey timeline narrative-led, but do not expand content on hover because it causes layout surprise.
-- Implemented now: timeline cards only expand through explicit click controls when text is actually clamped.
+---
 
-### Patrick David / Themed Developer Portfolios
+## Stability & Performance Enhancements
 
-- Source: https://wordpress.com/go/web-design/web-developer-portfolio-examples/
-- Interesting feature: a strong visual theme can make the site memorable when it is consistent across sections.
-- Useful idea for this portfolio: keep the cursor, glass surface, binary atmosphere, and technical identity consistent instead of adding unrelated gimmicks.
-- Implemented now: the glass and navigation behavior has been normalized across more panels.
+### [COMPLETED]
+1. **Decouple React Renders from Canvas rAF Loops** (Completed)
+   - **Action**: Cached container boundaries and theme variables outside the requestAnimationFrame loop in Inspector.jsx, eliminating forced synchronous layouts.
+2. **Prevent Canvas/rAF Memory Leaks** (Completed)
+   - **Action**: Every animation frame loop registers and cleans up via returned callback cancellation.
+3. **Throttle Scroll State Event Handlers** (Completed)
+   - **Action**: Handled scroll position shifts with a passive requestAnimationFrame throttle, preventing React component updates on identical scroll ranges.
+4. **Layout Alignment & Right-Side Cut-off Fix** (Completed)
+   - **Action**: Removed hardcoded horizontal margins from the `.app-shell` container, allowing correct centering and layout boundaries on all viewports.
+5. **Scroll Controls Smart Opacity & Hover Logic** (Completed)
+   - **Action**: Modified scroll control buttons to remain transparent by default (`0.12` opacity) and fade in smoothly upon actual scroll events or cursor hover.
 
-### Glassmorphism References (Erichologist / Ibbatta)
+### [MEDIUM PRIORITY]
+6. **Group DOM Reads and Writes**
+   - **Why**: Interleaving reads (`getBoundingClientRect()`) and writes (`style.transform`) triggers synchronous reflows.
+   - **Action**: In `TechScroller.jsx` and `Timeline.jsx`, batch all geometry measurements during initial loads and cache them. Apply transform updates separately inside animation ticks.
+7. **Granular Element Error Boundaries**
+   - **Why**: A local runtime canvas fail shouldn't crash the entire screen or navigation shell.
+   - **Action**: Wrap the code lab, the scroller, and the cursor trail in individual `<ErrorBoundary>` instances so fallbacks are scoped.
 
-- Source: https://codepen.io/erichologist/pen/PwzzovO
-- Source: https://codepen.io/ibbatta/pen/ZYOzrzg
-- Interesting feature: layered highlights, strong blur, and crisp borders create a convincing frosted glass surface.
-- Useful idea for this portfolio: increase the glass sheen on cards, navbar, and overlays without sacrificing contrast.
-- Implemented now: glass layers were refreshed across cards, navbar, and the command palette, with stronger blur and highlights.
+### [LOW PRIORITY]
+8. **Hardware-Acceleration Battery Fallbacks**
+   - **Why**: Running heavy matrix rains and particle paths drains batteries on mobile devices or laptops in power-saver mode.
+   - **Action**: Check `navigator.connection` (network state) or implement media queries for `prefers-reduced-motion` to automatically turn off secondary canvas details.
 
-## Next High-Value Ideas
+---
 
-- Add real case-study pages for DoctlySuite and AFib research with problem, constraints, architecture, outcome, and screenshots.
-- Add a small "proof mode" toggle that hides decorative effects and emphasizes recruiter-readable content.
-- Keep Professional Mode as the default fallback for low/no hardware acceleration.
-- Use `?mode=full` or `?mode=professional` during review to force either mode without relying on browser graphics detection.
-- Add downloadable resume access from the contact page once the final PDF is intended for public visitors.
-- Replace placeholder blog posts with one or two real engineering notes.
-- Finish the accessibility pass: reduced-motion toggle and contrast checks.
+## Feature & Interaction Enhancements
+
+### [COMPLETED]
+1. **Add Real Case-Study Pages & Full Tech-Stack Deep Dive** (Completed)
+   - **Action**: Created case study pages at `/projects/:id` (DoctlySuite, AFib Research, IoT Systems) and built custom detailed project logs for all 15 skills in the scroller strip.
+2. **Wire Up Resume CV Download Link & Viewer Dropdown** (Completed)
+   - **Action**: Added CV2026.pdf links and built an inline document viewer dropdown under 'Downloads' in the navbar.
+3. **Resolve Blog Empty Anchors** (Completed)
+   - **Action**: Developed a custom markdown rendering system and modal reader on BlogsPage.jsx.
+4. **Multi-Provider AI Resume Widget Integration** (Completed)
+   - **Action**: Wrote a dynamic backend chat service (`/api/chat`) calling LLM APIs (OpenRouter, Google, OpenAI, etc.) driven by `.env` configurations.
+5. **Resume AI Widget Layout Overlap Fix** (Completed)
+   - **Action**: Restructured the widget FAB and panel with CSS Grid relative layout flow to prevent overlaps between the launcher button and input form.
+6. **Tech Marquee Scroller Hover & Click Pauses** (Completed)
+   - **Action**: Modified marquee scroller loop velocity to immediately pause movement when hovered or card is pinned.
+
+### [MEDIUM PRIORITY]
+7. **Interactive Lab API Playpen**
+   - **Why**: Highlights real-world backend design.
+   - **Action**: Extend `/lab` to show a mock REST/API playground where visitors can send dummy requests to `DoctlySuite` and visually watch how JSON fields get validated and written to DB nodes.
+8. **CLI / Terminal Navigation Overlay**
+   - **Why**: Appeals to developer recruiters and fits the low-level, binary rain theme.
+   - **Action**: Create a toggleable terminal modal triggered by the backtick key (`` ` ``) allowing visitors to query basic profile commands like `cat projects.txt`, `help`, or `clear`.
+9. **Contrast & Light Mode Pass**
+   - **Why**: Accessibility compliance.
+   - **Action**: Audit light-mode variables in `styles.css` for WCAG AA compliance (specifically card border boundaries and text buttons on frosted backdrops).
+
+### [LOW PRIORITY]
+10. **Micro-Auditory Interactions**
+    - **Why**: Creates tactile depth.
+    - **Action**: Add subtle, brief audio feedback ticks on toggling Mode/Theme switches (controlled by a main mute configuration).
+11. **Animated Connectors**
+    - **Why**: Visual storytelling.
+    - **Action**: Use dynamic SVG lines to connect tech stack badges in the scroller to their specific detail descriptions upon focus.

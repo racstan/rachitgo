@@ -5,7 +5,7 @@ export const portfolioItems = [
     title: "Rachit Asthana",
     subtitle: "Software Developer",
     detail: "Computer Science graduate focused on scalable full-stack software, Laravel, React, TypeScript, cloud platforms, DevOps, and AI integrations.",
-    output: ["Rachit Asthana", "Software Developer / Freelancer / Builder"],
+    output: ["Rachit Asthana", "Full Stack Developer / Software Developer / Freelancer / Builder"],
   },
   {
     id: "project-os",

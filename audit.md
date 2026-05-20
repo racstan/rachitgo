@@ -1,69 +1,44 @@
 # Portfolio Audit
 
-Updated: 2026-05-18
+Updated: 2026-05-20
 
 ## Snapshot
 
-- Scope: developer portfolio for Rachit Asthana with CV-backed content, interactive polish, and recruiter-readable flow.
-- Goal: keep the site memorable without making interaction cost higher than content value.
-- Current direction: full mode for the animated technical experience, professional mode for one-page recruiter readability, glass surfaces, bounded cards, stack proof pages, and quick navigation.
+- **Scope**: Developer portfolio for Rachit Asthana with CV-backed content, interactive code simulation, and recruiter-readable layout paths.
+- **Goal**: Provide a highly memorable and premium technical portfolio that showcases building craft, low-level execution context, and clean design without introducing unnecessary interaction friction.
+- **Current Direction**: Dual-mode setup:
+  - **Full Mode**: High-fidelity animated technical experience featuring a canvas spring trail cursor, interactive logic simulation lab, command palette, and reactive card layers.
+  - **Professional Mode**: Clean, recruiter-readable single-page layout based on Brittany Chiang-style minimal distraction, with direct access to proof sections.
 
 ## External Inspiration Reviewed
 
-- Brittany Chiang: clean writing, strong hierarchy, and minimal distraction.
-- Bruno Simon: one unforgettable interaction, but not a pattern to copy everywhere.
-- Josh Comeau: personal site as a proof/content engine, not just a landing page.
-- Robby Leonardi: resume as an interactive story with clear progression.
-- Themed portfolio examples from WordPress/Colorlib-style galleries: consistent visual metaphor matters more than random effects.
-
-Detailed notes are in `suggestions.md`.
+- **Brittany Chiang**: Clean structure, strong readable hierarchy, and low motion. Applied as the foundational aesthetic for Professional Mode.
+- **Bruno Simon**: Highly memorable single-signature interaction. Adapted by keeping card-drag interactions playful but bounded and lightweight to avoid heavy physics.
+- **Josh Comeau**: Focus on building a proof and content engine. Implemented via dedicated tech-stack detail subpages and a command palette to access specific content blocks.
+- **Robby Leonardi**: Memorable narrative progression. Applied to the "My Journey" timeline with explicit, layout-stable expand controls.
+- **Glassmorphism References (Erichologist / Ibbatta)**: Refreshed card shadows, frosted borders, and backdrops across navbar, command palette, and hover overlays to create crisp, premium layers.
 
 ## Strengths
 
-- Strong visual identity: atom cursor, binary field, glass panels, and technical typography feel cohesive.
-- CV-backed content is now more credible than placeholder copy.
-- My Journey timeline gives the portfolio a personal story instead of only project cards.
-- Stack items now have expandable detail pages, giving the site room to grow into proof pages.
-- New command palette improves navigation without adding heavy animation.
-- Professional Mode now provides a Brittany-Chiang-style low-motion reading path.
+- **High-Fidelity Interaction**: Fluid, physics-based spring trail emoji cursor that dynamically follows the pointer and fades on pause. Unified UI physics with a 3D hover-tilt and spring-damped drag-and-bounce behavior on both the project cards and global navbar.
+- **Interactive Code Lab**: The CPU/Execution simulator under `/lab` uses a dynamic canvas map with custom pulsing node connections, mimicking a step-by-step low-level translation of source code down to hardware signals.
+- **Production-Ready Builds**: Clean, modular React component architecture (using React 19 and Vite 7) that builds into a lightweight client bundle under 2 seconds.
+- **Dual-Experience Flexibility**: User-controlled capability toggle (Full Mode / Professional Mode) with local storage persistence and fallback detection for non-accelerated graphic environments.
+- **Translucent Glass Layout**: Cohesive styling utilizing CSS variables for blur and sheens, maintaining legibility in both dark and light modes.
+- **Command Palette & Accessibility**: Focus trapping, ARIA tags, screen-reader skip links, and keybind listeners (arrows, Space, PageUp/PageDown, Home, End) are fully integrated.
 
-## Fixed In This Pass
-
-- Added a GitHub contributions calendar to the Home snapshot section (server-side proxy via `/api/github`).
-- Added top repositories to the GitHub snapshot card.
-- Replaced the cursor with a springy, canvas-based trail that follows the pointer smoothly.
-- Made tech stack detail cards open on click/focus only, with a cloud-like connector treatment.
-- Improved keyboard-only navigation with focus trapping in Quick Switch and ARIA on navigation.
-- Adjusted Quick Switch contrast in light mode for better visibility.
-- Slowed down card drag response and return so the throw feels calmer and more deliberate.
-- Refreshed glassmorphism on cards, navbar, and overlays based on new CodePen references.
-- Unified remaining glass blur values to the shared glass variables for consistency.
-- Added keyboard navigation support: skip link, focus-visible styling, section-to-section shortcuts, and command-palette arrow selection.
-- Replaced the atom cursor with a springy trail cursor.
-- Collapsed and moved the Quick Switch button to the RHS beneath the scroll controls to avoid text overlap.
-- Removed the broken draggable heading scrubber.
-- Increased bounded card drag range and slowed return to avoid glitchy snap-back.
-- Prevented card drag from activating when clicking internal buttons or links.
-- Made timeline expand controls conditional: only clamped/expandable text gets a button.
-- Fixed tech-stack hover card clipping by allowing the popover to render outside the moving track wrapper.
-- Added top/bottom-aware scroll controls.
-- Added `suggestions.md` with external reference notes.
-- Added Professional Mode with hardware-acceleration fallback detection.
-- Added `?mode=full` and `?mode=professional` overrides for testing and review.
-- Added an error boundary so component failures show a stable fallback instead of a blank page.
+- **Scroll Event Throttling**: Optimized the scroll listener in App.jsx and Navbar.jsx using requestAnimationFrame ticking, preventing virtual DOM recalculations when scroll boundaries are unchanged.
+- **Canvas Performance & Reflow Guard**: Cached container boundaries and theme variables outside the requestAnimationFrame loop in Inspector.jsx, eliminating forced synchronous layouts.
+- **Resume/CV PDF Integration**: Integrated CV2026.pdf download links across Navbar, Contact page, and the Professional mode hero CTA.
+- **Detailed Case Studies**: Implemented full, evidence-backed case study detail pages (/projects/:id) for DoctlySuite, AFib Research, and IoT Systems outlining problem statements, metrics, architecture layers, and outcomes.
+- **Interactive Blog Modal Reader**: Replaced empty anchors on BlogsPage.jsx with a premium overlay modal reader that parses and renders code snippets and rich markdown-like text.
 
 ## Remaining Gaps
 
-- Project cards still need true case-study pages with screenshots, architecture decisions, and outcomes.
-- Blog entries are still placeholders and should be replaced with real writing or hidden.
-- GitHub snapshot is still qualitative; avoid fake counts unless using real API-backed data.
-- Tech-stack detail pages are currently short proof stubs, not full evidence pages.
-- Accessibility still needs a complete reduced-motion toggle and contrast review.
+- **Comprehensive Motion Settings**: The application respects user preferences via media queries but could benefit from a dedicated in-app reduced-motion setting.
 
 ## Recommendations
 
-- Build case-study pages first for DoctlySuite and AFib research.
-- Keep one signature motion system and remove effects that compete with reading.
-- Keep Professional Mode stable and low-motion; add richer proof only after case studies exist.
-- Add public resume download only after the CV PDF is ready to expose.
-- Treat every visible metric as sourced or remove it.
+1. **Interactive Lab API Playpen**: Add a mock interactive console to `/lab` allowing recruiters to send mock HTTP request packets and watch system variables mutate.
+2. **Dedicated Settings Panel**: Provide recruiters with explicit toggle options for motion triggers, sounds, and terminal themes.
+

@@ -58,41 +58,56 @@ export default function Inspector({ item, language, onPrevLanguage, onNextLangua
     const ctx = canvas.getContext("2d");
     let frame = 0;
 
+    let cachedWidth = 0;
+    let cachedHeight = 0;
+
+    let lineStyle = "";
+    let textColor = "";
+    let mutedColor = "";
+    let accentColor = "";
+    let accent2Color = "";
+
+    function updateColors() {
+      const styles = getComputedStyle(document.documentElement);
+      lineStyle = styles.getPropertyValue("--line");
+      textColor = styles.getPropertyValue("--text").trim();
+      mutedColor = styles.getPropertyValue("--muted").trim();
+      accentColor = styles.getPropertyValue("--accent").trim();
+      accent2Color = styles.getPropertyValue("--accent-2").trim();
+    }
+
     function resize() {
       const rect = canvas.getBoundingClientRect();
+      cachedWidth = rect.width;
+      cachedHeight = rect.height;
       const scale = window.devicePixelRatio || 1;
       canvas.width = rect.width * scale;
       canvas.height = rect.height * scale;
       ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      updateColors();
     }
 
     function draw() {
-      const rect = canvas.getBoundingClientRect();
-      ctx.clearRect(0, 0, rect.width, rect.height);
+      ctx.clearRect(0, 0, cachedWidth, cachedHeight);
       ctx.font = "12px 'JetBrains Mono', monospace";
       ctx.lineWidth = 1;
 
       const active = Math.max(0, units.findIndex(([key]) => key === step.unit));
 
       // Draw connections
-      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--line");
+      ctx.strokeStyle = lineStyle;
       for (let i = 0; i < units.length - 1; i++) {
-        const a = point(rect, i);
-        const b = point(rect, i + 1);
+        const a = point(cachedWidth, cachedHeight, i);
+        const b = point(cachedWidth, cachedHeight, i + 1);
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
         ctx.stroke();
       }
 
-      const textColor = getComputedStyle(document.documentElement).getPropertyValue("--text").trim();
-      const mutedColor = getComputedStyle(document.documentElement).getPropertyValue("--muted").trim();
-      const accentColor = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
-      const accent2Color = getComputedStyle(document.documentElement).getPropertyValue("--accent-2").trim();
-
       // Draw nodes
       for (let i = 0; i < units.length; i++) {
-        const p = point(rect, i);
+        const p = point(cachedWidth, cachedHeight, i);
         const isActive = i === active;
         ctx.fillStyle = isActive ? `${accent2Color}33` : `${mutedColor}15`;
         ctx.strokeStyle = isActive ? accent2Color : `${mutedColor}40`;
@@ -108,8 +123,8 @@ export default function Inspector({ item, language, onPrevLanguage, onNextLangua
 
       // Animated pulse when running
       if (running) {
-        const from = point(rect, Math.max(0, active - 1));
-        const to = point(rect, active);
+        const from = point(cachedWidth, cachedHeight, Math.max(0, active - 1));
+        const to = point(cachedWidth, cachedHeight, active);
         const t = (Math.sin(frame / 8) + 1) / 2;
         const x = from.x + (to.x - from.x) * t;
         const y = from.y + (to.y - from.y) * t;
@@ -132,9 +147,20 @@ export default function Inspector({ item, language, onPrevLanguage, onNextLangua
 
     resize();
     draw();
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "data-theme") {
+          updateColors();
+        }
+      });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+
     window.addEventListener("resize", resize);
     return () => {
       window.removeEventListener("resize", resize);
+      observer.disconnect();
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, [step.unit, running]);
@@ -155,7 +181,7 @@ export default function Inspector({ item, language, onPrevLanguage, onNextLangua
           {running ? "● simulating" : "○ paused"}
         </span>
       </section>
-
+ 
       <LanguagePicker language={language} onPrev={onPrevLanguage} onNext={onNextLanguage} />
 
       <section className="source-window">
@@ -226,13 +252,13 @@ function LanguagePicker({ language, onPrev, onNext }) {
   );
 }
 
-function point(rect, index) {
+function point(width, height, index) {
   const cols = 2;
   const col = index % cols;
   const row = Math.floor(index / cols);
   const rows = Math.ceil(units.length / cols);
   return {
-    x: rect.width * (0.28 + col * 0.44),
-    y: rect.height * ((row + 0.65) / rows),
+    x: width * (0.28 + col * 0.44),
+    y: height * ((row + 0.65) / rows),
   };
 }
