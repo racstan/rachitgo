@@ -113,22 +113,22 @@ export default function BinaryCursor({ emoji = "01", theme }) {
       new Particle(glyphCanvases[index % glyphCanvases.length], start)
     ));
 
+    const isInteractiveRef = { current: false };
+    const interactiveAlphaRef = { current: 1 };
+
     function onPointerMove(event) {
       const target = event.target;
-      const isOverInteractive = target && (
+      isInteractiveRef.current = !!(target && (
         target.closest("a, button, input, select, textarea, [role='button'], summary, .nav-dropdown") ||
         target.closest(".resume-ai-panel") ||
-        target.closest(".resume-ai-fab")
-      );
+        target.closest(".resume-ai-fab") ||
+        target.closest(".navbar")
+      ));
 
-      if (isOverInteractive) {
-        cursorRef.current.active = false;
-      } else {
-        cursorRef.current.active = true;
-        cursorRef.current.x = event.clientX;
-        cursorRef.current.y = event.clientY;
-        lastMoveRef.current = performance.now();
-      }
+      cursorRef.current.active = true;
+      cursorRef.current.x = event.clientX;
+      cursorRef.current.y = event.clientY;
+      lastMoveRef.current = performance.now();
     }
 
     function onPointerLeave() {
@@ -151,15 +151,25 @@ export default function BinaryCursor({ emoji = "01", theme }) {
       const { width, height } = sizeRef.current;
       contextRef.current.clearRect(0, 0, width, height);
 
-      if (!cursorRef.current.active) return;
+      const targetAlpha = (isInteractiveRef.current || !cursorRef.current.active) ? 0 : 1;
+      const alphaSpeed = 0.05; // Fades out/in gradually over ~300ms
+      if (interactiveAlphaRef.current < targetAlpha) {
+        interactiveAlphaRef.current = Math.min(targetAlpha, interactiveAlphaRef.current + alphaSpeed);
+      } else if (interactiveAlphaRef.current > targetAlpha) {
+        interactiveAlphaRef.current = Math.max(targetAlpha, interactiveAlphaRef.current - alphaSpeed);
+      }
+
+      if (interactiveAlphaRef.current <= 0 && !cursorRef.current.active) {
+        return;
+      }
 
       const now = performance.now();
       const idleMs = now - lastMoveRef.current;
       const fadeStart = 220;
       const fadeEnd = 900;
       const fadeProgress = Math.min(Math.max((idleMs - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-      const trailAlpha = 1 - fadeProgress;
-      const headAlpha = Math.max(0.35, trailAlpha);
+      const trailAlpha = (1 - fadeProgress) * interactiveAlphaRef.current;
+      const headAlpha = Math.max(0.35 * interactiveAlphaRef.current, trailAlpha);
 
       particlesRef.current[0].position.x = cursorRef.current.x;
       particlesRef.current[0].position.y = cursorRef.current.y;
