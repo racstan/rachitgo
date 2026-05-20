@@ -2,7 +2,10 @@
 
 ## 2026-05-20
 
-- **Navbar Drag & Spring-Bounce Physics**: Integrated 3D hover-tilt and spring-damped drag-and-bounce physics into the main navigation bar, mirroring the card interactions for a unified tactile experience.
+- **Navbar Downloads Restructuring**: Replaced the hover-dropdown menu in both Full and Professional modes with a direct, single-click link to the `/resume` page, resolving click issues and embedding direct download buttons inside the CV/Resume page.
+- **Peculiar Rotating Roles**: Added multiple customized/funny nicknames in the hero section ("Citizen of Earth", "Clash of Clans player (Yes I still do upgrades)", "Age of Empires lover", etc.) that rotate dynamically when hovered in both page modes.
+- **Developer-focused Language Nicknames**: Customized technical programming languages in the tech stack with funny nicknames (e.g., `TypeScript (Any-Script in Production)`, `JavaScript (NaN-tastic [object Object] Master)`) visible site-wide.
+- **Navbar Drag & Spring-Bounce Physics**: Integrated 3D hover-tilt and spring-damped drag-and-bounce physics into the main navigation bar, mirroring the card interactions for a tactile experience.
 - **Resume AI Chat Proxy**: Created `/api/chat` supporting multi-provider integration (OpenRouter, Gemini, Mistral, Groq, Cerebras, etc.) driven entirely by secure server-side `.env` configuration keys.
 - **Dynamic PDF Viewer & Downloads Navigation**: Developed `/resume` page for viewing the resume PDF inline, and replaced static navbar items with a premium 'Downloads' dropdown.
 - **Responsive Layout & Center-Alignment**: Resolved right-side cut-off bugs by refactoring `.app-shell` padding overrides in desktop/mobile viewport styling.

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { BriefcaseBusiness, Moon, Sparkles, Sun, Menu, X, ChevronDown } from "lucide-react";
+import { BriefcaseBusiness, Moon, Sparkles, Sun, Menu, X } from "lucide-react";
 import WaveText from "./WaveText.jsx";
 
 const navItems = [
@@ -21,7 +21,6 @@ const professionalItems = [
 export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [downloadsOpen, setDownloadsOpen] = useState(false);
 
   // Navbar bounce/drag state
   const navRef = useRef(null);
@@ -282,66 +281,13 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
                 {item.label}
               </a>
             ))}
-            <div
-              className="nav-dropdown"
-              onMouseEnter={() => setDownloadsOpen(true)}
-              onMouseLeave={() => setDownloadsOpen(false)}
+            <Link
+              to="/resume"
+              className="nav-link"
+              onClick={() => setMobileOpen(false)}
             >
-              <button
-                type="button"
-                className="nav-link dropdown-trigger"
-                onClick={() => setDownloadsOpen((prev) => !prev)}
-                aria-expanded={downloadsOpen}
-              >
-                Downloads <ChevronDown size={12} className={`chevron-icon ${downloadsOpen ? "open" : ""}`} />
-              </button>
-              {downloadsOpen && (
-                <div className="dropdown-menu">
-                  <Link
-                    to="/resume"
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDownloadsOpen(false);
-                      setMobileOpen(false);
-                    }}
-                  >
-                    View Resume
-                  </Link>
-                  <a
-                    href="/CV2026.pdf"
-                    download="Rachit_Asthana_Resume.pdf"
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDownloadsOpen(false);
-                      setMobileOpen(false);
-                    }}
-                  >
-                    Download Resume
-                  </a>
-                  <Link
-                    to="/resume"
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDownloadsOpen(false);
-                      setMobileOpen(false);
-                    }}
-                  >
-                    View CV
-                  </Link>
-                  <a
-                    href="/CV2026.pdf"
-                    download="Rachit_Asthana_CV.pdf"
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDownloadsOpen(false);
-                      setMobileOpen(false);
-                    }}
-                  >
-                    Download CV
-                  </a>
-                </div>
-              )}
-            </div>
+              Downloads
+            </Link>
           </>
         ) : (
           <>
@@ -356,66 +302,13 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
                 <WaveText text={item.label} />
               </NavLink>
             ))}
-            <div
-              className="nav-dropdown"
-              onMouseEnter={() => setDownloadsOpen(true)}
-              onMouseLeave={() => setDownloadsOpen(false)}
+            <Link
+              to="/resume"
+              className="nav-link"
+              onClick={() => setMobileOpen(false)}
             >
-              <button
-                type="button"
-                className="nav-link dropdown-trigger"
-                onClick={() => setDownloadsOpen((prev) => !prev)}
-                aria-expanded={downloadsOpen}
-              >
-                <WaveText text="Downloads" /> <ChevronDown size={12} className={`chevron-icon ${downloadsOpen ? "open" : ""}`} />
-              </button>
-              {downloadsOpen && (
-                <div className="dropdown-menu">
-                  <Link
-                    to="/resume"
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDownloadsOpen(false);
-                      setMobileOpen(false);
-                    }}
-                  >
-                    View Resume
-                  </Link>
-                  <a
-                    href="/CV2026.pdf"
-                    download="Rachit_Asthana_Resume.pdf"
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDownloadsOpen(false);
-                      setMobileOpen(false);
-                    }}
-                  >
-                    Download Resume
-                  </a>
-                  <Link
-                    to="/resume"
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDownloadsOpen(false);
-                      setMobileOpen(false);
-                    }}
-                  >
-                    View CV
-                  </Link>
-                  <a
-                    href="/CV2026.pdf"
-                    download="Rachit_Asthana_CV.pdf"
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDownloadsOpen(false);
-                      setMobileOpen(false);
-                    }}
-                  >
-                    Download CV
-                  </a>
-                </div>
-              )}
-            </div>
+              <WaveText text="Downloads" />
+            </Link>
           </>
         )}
       </div>

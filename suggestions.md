@@ -78,6 +78,10 @@ Research date: 2026-05-20
    - **Action**: Integrated window scroll coordinate resets on all route changes, solving page-cut-off rendering glitches on page loads.
 10. **Stack Detail Card Overlap Fix** (Completed)
     - **Action**: Converted `.stack-detail-card` layout from CSS Grid to a clean, responsive Flex Column, resolving text overlaps and layout squeeze caused by grid row-column mismatch.
+11. **Downloads Hover Dropdown Removal** (Completed)
+    - **Action**: Replaced navbar hover dropdowns with a single-click direct link to the `/resume` route, embedding PDF file downloads directly within the viewer interface to avoid sticky hover menus.
+12. **Rotating Personas & Custom Nicknames** (Completed)
+    - **Action**: Added custom roles (e.g. Clash of Clans player) to the hero section rotation and modified technical languages to display funny nicknames site-wide.
 
 ### [MEDIUM PRIORITY]
 7. **Interactive Lab API Playpen**

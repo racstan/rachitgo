@@ -19,6 +19,22 @@ const identityModes = [
 
 export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }) {
   const [identityIndex, setIdentityIndex] = useState(0);
+  const [roleIndex, setRoleIndex] = useState(0);
+
+  const roleOptions = [
+    "Full Stack Developer",
+    "Software Developer",
+    "Freelancer",
+    "Builder",
+    "Citizen of Earth",
+    "Clash of Clans player (Yes, I still do upgrades)",
+    "Age of Empires lover (Wood please!)",
+    "Coffee-to-Code compiler",
+    "Bug Creator & Solver",
+    "Vim Escaper (Stuck since 2021)",
+    "Systems Tinkerer",
+    "Binary Art Admirer"
+  ];
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -41,7 +57,15 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55 }}
       >
-        <p className="eyebrow">full stack developer / software developer / freelancer / builder</p>
+        <p
+          className="eyebrow"
+          style={{ cursor: "pointer", display: "inline-block" }}
+          onPointerEnter={() => setRoleIndex((prev) => (prev + 1) % roleOptions.length)}
+          onFocus={() => setRoleIndex((prev) => (prev + 1) % roleOptions.length)}
+          title={roleOptions.join(" / ")}
+        >
+          {roleOptions[roleIndex].toLowerCase()}
+        </p>
         <h1>Rachit Asthana</h1>
         <p>
           I build web products, developer tools, automation, and systems-minded experiments. The portfolio stays

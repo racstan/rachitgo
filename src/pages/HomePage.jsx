@@ -75,7 +75,20 @@ export default function HomePage({ onActivate }) {
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const [fontSize, setFontSize] = useState(76);
-  const roleOptions = ["Full Stack Developer", "Software Developer", "Freelancer", "Builder"];
+  const roleOptions = [
+    "Full Stack Developer",
+    "Software Developer",
+    "Freelancer",
+    "Builder",
+    "Citizen of Earth",
+    "Clash of Clans player (Yes, I still do upgrades)",
+    "Age of Empires lover (Wood please!)",
+    "Coffee-to-Code compiler",
+    "Bug Creator & Solver",
+    "Vim Escaper (Stuck since 2021)",
+    "Systems Tinkerer",
+    "Binary Art Admirer"
+  ];
   const [roleIndex, setRoleIndex] = useState(0);
   const [calendar, setCalendar] = useState(null);
   const [repos, setRepos] = useState([]);

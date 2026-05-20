@@ -52,7 +52,7 @@ function withTail(steps) {
 export const languages = [
   {
     id: "python",
-    name: "Python",
+    name: "Python (Executable Pseudocode)",
     fileExt: "py",
     code: makeCode(([a, b]) => `print("${a}")\nprint("${b}")`),
     steps: withTail([
@@ -84,7 +84,7 @@ export const languages = [
   },
   {
     id: "c",
-    name: "C",
+    name: "C (Structured Pointer Torture)",
     fileExt: "c",
     code: makeCode(([a, b]) => `#include <stdio.h>\n\nint main(void) {\n    printf("${a}\\n");\n    printf("${b}\\n");\n    return 0;\n}`),
     steps: withTail([
@@ -116,7 +116,7 @@ export const languages = [
   },
   {
     id: "cpp",
-    name: "C++",
+    name: "C++ (Template Metaprogramming Overload)",
     fileExt: "cpp",
     code: makeCode(([a, b]) => `#include <iostream>\n\nint main() {\n    std::cout << "${a}" << '\\n';\n    std::cout << "${b}" << '\\n';\n}`),
     steps: withTail([
@@ -148,7 +148,7 @@ export const languages = [
   },
   {
     id: "rust",
-    name: "Rust",
+    name: "Rust (Borrow Checker Whipping Boy)",
     fileExt: "rs",
     code: makeCode(([a, b]) => `fn main() {\n    println!("${a}");\n    println!("${b}");\n}`),
     steps: withTail([
@@ -180,7 +180,7 @@ export const languages = [
   },
   {
     id: "javascript",
-    name: "JavaScript",
+    name: "JavaScript (NaN-tastic [object Object] Master)",
     fileExt: "js",
     code: makeCode(([a, b]) => `console.log("${a}");\nconsole.log("${b}");`),
     steps: withTail([
@@ -212,7 +212,7 @@ export const languages = [
   },
   {
     id: "typescript",
-    name: "TypeScript",
+    name: "TypeScript (Any-Script in Production)",
     fileExt: "ts",
     code: makeCode(([a, b]) => `const title: string = "${a}";\nconst detail: string = "${b}";\nconsole.log(title);\nconsole.log(detail);`),
     steps: withTail([
@@ -244,7 +244,7 @@ export const languages = [
   },
   {
     id: "java",
-    name: "Java",
+    name: "Java (AbstractSingletonProxyFactoryBean)",
     fileExt: "java",
     code: makeCode(([a, b]) => `class Portfolio {\n    public static void main(String[] args) {\n        System.out.println("${a}");\n        System.out.println("${b}");\n    }\n}`),
     steps: withTail([
@@ -276,7 +276,7 @@ export const languages = [
   },
   {
     id: "go",
-    name: "Go",
+    name: "Go (if err != nil Generator)",
     fileExt: "go",
     code: makeCode(([a, b]) => `package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("${a}")\n    fmt.Println("${b}")\n}`),
     steps: withTail([
@@ -308,7 +308,7 @@ export const languages = [
   },
   {
     id: "assembly",
-    name: "Assembly",
+    name: "Assembly (Physical Register Juggler)",
     fileExt: "asm",
     code: makeCode(([a, b]) => `section .data\nline1 db "${a}", 10\nline2 db "${b}", 10\n\nsection .text\nglobal _start\n_start:\n    ; write line1\n    ; write line2\n    ; exit`),
     steps: withTail([
@@ -340,7 +340,7 @@ export const languages = [
   },
   {
     id: "bash",
-    name: "Bash",
+    name: "Bash (Automated rm -rf Risk)",
     fileExt: "sh",
     code: makeCode(([a, b]) => `#!/usr/bin/env bash\nprintf '%s\\n' "${a}"\nprintf '%s\\n' "${b}"`),
     steps: withTail([
