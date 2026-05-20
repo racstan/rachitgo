@@ -2684,10 +2684,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .stack-detail-card {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 26px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   max-width: 920px;
 }
 
@@ -2772,7 +2771,6 @@ a { color: inherit; text-decoration: none; }
   .skills-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
-  .stack-detail-card { grid-template-columns: 1fr; }
   .newsletter-card { grid-template-columns: 1fr; }
   .resume-ai-panel { display: none; }
   .command-fab { left: 8px; bottom: 12px; }
