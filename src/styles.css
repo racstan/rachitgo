@@ -870,6 +870,16 @@ a { color: inherit; text-decoration: none; }
   gap: 12px;
 }
 
+.github-contrib-card:not(.is-returning):hover {
+  border-color: var(--accent-2);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--glass) 88%, var(--accent-2) 12%),
+    color-mix(in srgb, var(--glass-strong) 92%, var(--accent-2) 8%)
+  );
+  box-shadow: 0 8px 30px var(--glow-accent);
+}
+
 .github-contrib-head {
   display: flex;
   align-items: center;
@@ -968,7 +978,7 @@ a { color: inherit; text-decoration: none; }
 
 .github-repo-item:hover {
   border-color: var(--accent-2);
-  box-shadow: 0 12px 28px var(--glow);
+  box-shadow: 0 12px 28px var(--glow-accent);
   transform: translateY(-2px);
 }
 
