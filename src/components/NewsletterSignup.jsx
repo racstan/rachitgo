@@ -97,18 +97,19 @@ export default function NewsletterSignup() {
         <HoverTypingText
           element="h2"
           variants={[
-            "Stay updated",
-            "Notes from the build room",
-            "Signals, launches, and lessons",
-            "Fresh drops, zero spam",
+            "Dispatches from the build floor.",
+            "What I'm shipping, learning, and breaking.",
+            "Engineering notes — no fluff, no schedule.",
+            "Short reads from the trenches.",
+            "Updates only when there's something real.",
           ]}
         />
       </div>
 
       <div className="newsletter-card plain-panel" aria-live="polite">
         <div className="newsletter-copy">
-          <strong>Short drops. Real work.</strong>
-          <p>One email when there is something worth sharing: builds, systems, and product lessons.</p>
+          <strong>No spam. No schedule. Just signal.</strong>
+          <p>I send an email when I ship something worth talking about — product launches, engineering deep-dives, and lessons from production.</p>
         </div>
 
         {isSuccess ? (

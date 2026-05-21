@@ -109,20 +109,88 @@ const promptOptions = [
 
 const cannedReplies = [
   {
-    test: /stack|tech|tools/i,
-    reply: "Laravel, React, TypeScript, Node.js, and cloud services for full-stack delivery with clean UX.",
+    test: /stack|tech|tools|language/i,
+    reply: "My core stack is Laravel, React, TypeScript, and PostgreSQL for full-stack work. Python for ML/data science, Docker for deployment, and AWS for cloud infrastructure. I'm also certified in Azure AI and GCP ML Fundamentals.",
   },
   {
-    test: /project|work|case/i,
-    reply: "Recent work includes DoctlySuite, AFib research tooling, and automation-heavy product builds.",
+    test: /project|work|case|build/i,
+    reply: "My flagship project is DoctlySuite — a clinical workflow platform with AI-powered SOAP note generation. I also published AFib detection research (96.4% accuracy, ICSCDS 2025) and built IoT systems with ESP32 microcontrollers.",
   },
   {
-    test: /contact|reach|hire/i,
-    reply: "Best contact is email or LinkedIn. I respond fast to clear scopes and outcomes.",
+    test: /contact|reach|hire|email/i,
+    reply: "Best way to reach me is email: asthanarachit@gmail.com. I also respond quickly on LinkedIn. I'm open for full-stack engineering roles, freelance architecture work, and AI integration projects.",
+  },
+  {
+    test: /doctly|medical|clinical|hipaa/i,
+    reply: "DoctlySuite is a multi-tenant clinical platform built with Laravel, React, and Inertia.js. It features AI-powered scribes using OpenAI Whisper and GPT-4, IndexedDB auto-saving for session recovery, and HIPAA-compliant audit trails. Cut transcription time from hours to minutes in clinical pilots.",
+  },
+  {
+    test: /afib|ecg|heart|cardiac|research/i,
+    reply: "My AFib detection research uses Pan-Tompkins R-peak extraction, Bandpass Butterworth filtering, and an ensemble of Random Forests, XGBoost, and 1D CNN classifiers. Achieved 96.4% accuracy on MIT-BIH data. The paper was accepted at ICSCDS 2025.",
+  },
+  {
+    test: /iot|embedded|esp32|sensor|arduino/i,
+    reply: "I've built face-recognition door locks on ESP32-CAM, real-time EV battery telemetry with Kalman filtering, MQTT sensor networks, and autonomous obstacle-avoidance vehicles — all running on microcontrollers with sub-150ms response times.",
+  },
+  {
+    test: /laravel|php|backend/i,
+    reply: "Laravel is the backbone of my backend work. DoctlySuite runs on it — multi-tenant workspaces, Eloquent with custom scopes, queue-driven AI pipelines, and HIPAA-compliant audit trails. PHP 8.x with named arguments, enums, and fibers.",
+  },
+  {
+    test: /react|frontend|ui|interface/i,
+    reply: "This portfolio itself is built in React 19 with Vite 7. I use React for everything from clinical dashboards to interactive data visualizations — hooks, lazy loading, canvas integrations, and performance-optimized rendering.",
+  },
+  {
+    test: /python|ml|machine.?learn|data.?science/i,
+    reply: "Python powers my ML and data science work. Used PyTorch, Scikit-learn, and SciPy for AFib detection research. At JPMC, I performed EDA on financial datasets with Pandas and R. It's my first tool for exploring any new idea.",
+  },
+  {
+    test: /docker|container|devops|deploy/i,
+    reply: "Multi-stage Docker builds, docker-compose for local dev stacks, and containerized CI/CD pipelines. Every project I build runs identically from my laptop to production. Also experienced with Nginx, systemd, and cloud deployment.",
+  },
+  {
+    test: /aws|cloud|azure|gcp/i,
+    reply: "AWS for production: EC2, RDS, S3, CloudFront, Lambda. Certified in Azure AI Fundamentals (AI-900) and GCP ML Fundamentals. I'm comfortable across all three major clouds.",
+  },
+  {
+    test: /experience|intern|jpmorgan|jpmc|medtour/i,
+    reply: "Data Science Intern at JPMorgan Chase (Nov 2023) — EDA on financial portfolios with Python and R. Data Analytics Trainee at MedTourEasy (Aug 2023) — full lifecycle analytics with Pandas, MySQL, and Scikit-learn. B.Tech CSE (AI & Robotics) from VIT Chennai, CGPA 8.24.",
+  },
+  {
+    test: /education|degree|college|vit|university/i,
+    reply: "B.Tech in Computer Science Engineering with AI & Robotics specialization from Vellore Institute of Technology, Chennai. CGPA 8.24. Graduated July 2025 with a published research paper and production software in my portfolio.",
+  },
+  {
+    test: /certif|azure.?ai|gcp.?ml|sfpc/i,
+    reply: "Certified in Azure AI Fundamentals (AI-900), GCP Machine Learning Fundamentals, SFPC (Scrum Foundation Professional Certificate), MySQL for Business Intelligence, and IIT Bombay Python/Java/C++ certifications.",
+  },
+  {
+    test: /database|mysql|postgres|sql|firebase/i,
+    reply: "MySQL for analytics workflows, PostgreSQL for DoctlySuite (JSONB, full-text search, row-level security), Firebase for rapid prototyping, and ChromaDB for vector search in AI applications.",
+  },
+  {
+    test: /linux|terminal|bash|server/i,
+    reply: "I develop on Linux daily — Bash scripting, systemd services, SSH tunneling, Nginx configuration, and server administration. It's not just a tool, it's my primary operating system.",
+  },
+  {
+    test: /ai|openai|gpt|whisper|langchain/i,
+    reply: "I integrate AI into real products. DoctlySuite uses OpenAI Whisper for voice transcription and GPT-4 for SOAP note generation. I've also worked with LangChain, LangGraph, and ChromaDB for RAG-based applications.",
+  },
+  {
+    test: /resume|cv|download/i,
+    reply: "You can view and download my Resume and CV from the navigation bar — look for the 'Resume' and 'CV' links. They're also available in Professional mode with direct download buttons.",
+  },
+  {
+    test: /freelan|available|open|looking/i,
+    reply: "Yes, I'm open for work! Full-stack engineering roles, freelance architecture projects, and AI integration consulting. Best way to discuss: asthanarachit@gmail.com or LinkedIn.",
+  },
+  {
+    test: /who|about|yourself|tell.?me/i,
+    reply: "I'm Rachit Asthana — a product engineer who builds production software from database schemas to pixel-perfect UIs. CS graduate from VIT Chennai, former JPMC intern, and creator of DoctlySuite. I care about clean architecture, real users, and shipping fast.",
   },
 ];
 
-const defaultReply = "Full-stack product engineering, systems-minded UX, and shipping features that hold up.";
+const defaultReply = "I'm Rachit Asthana — a product engineer specializing in full-stack architecture with Laravel, React, and cloud platforms. Ask me about my projects, tech stack, experience, or anything else!";
 
 function getReply(text) {
   const match = cannedReplies.find((item) => item.test.test(text));

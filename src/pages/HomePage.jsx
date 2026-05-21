@@ -76,18 +76,39 @@ export default function HomePage({ onActivate }) {
   const textRef = useRef(null);
   const [fontSize, setFontSize] = useState(76);
   const roleOptions = [
-    "Full Stack Developer",
+    "Product Engineer",
+    "Full Stack Architect",
+    "Systems Builder",
     "Software Developer",
-    "Freelancer",
-    "Builder",
+    "Freelance Engineer",
     "Citizen of Earth",
     "Clash of Clans player (Yes, I still do upgrades)",
     "Age of Empires lover (Wood please!)",
-    "Coffee-to-Code compiler",
-    "Bug Creator & Solver",
+    "Coffee-to-Code Compiler",
+    "Professional Bug Creator & Solver",
     "Vim Escaper (Stuck since 2021)",
-    "Systems Tinkerer",
-    "Binary Art Admirer"
+    "Linux Daily Driver",
+    "Terminal Over GUI",
+    "Stack Overflow Archaeologist",
+    "Dark Mode Loyalist",
+    "git push --force Survivor",
+    "Ctrl+Z Enthusiast",
+    "npm install Hope",
+    "404 Sleep Not Found",
+    "Laravel Artisan",
+    "React Hook Addict",
+    "TypeScript Evangelist",
+    "Docker Compose Poet",
+    "Postman Collection Curator",
+    "Database Schema Designer",
+    "Cloud Architect in Training",
+    "AI Integration Explorer",
+    "Open Source Contributor",
+    "Weekend Hackathon Warrior",
+    "Documentation Reader (Rare Breed)",
+    "Pixel Perfectionist",
+    "Keyboard Shortcut Maximizer",
+    "sudo rm -rf Fears Collector",
   ];
   const [roleIndex, setRoleIndex] = useState(0);
   const [calendar, setCalendar] = useState(null);
@@ -178,11 +199,11 @@ export default function HomePage({ onActivate }) {
           <HoverTypingText
             element="h2"
             variants={[
-              "Proof over claims",
-              "Signals over slogans",
-              "Evidence beats hype",
-              "Work, not talk",
-              "Show the receipts",
+              "The code speaks louder.",
+              "Green squares don't lie.",
+              "Commit history is the real resume.",
+              "Shipping, not just planning.",
+              "Every square is a build day.",
             ]}
           />
         </div>
@@ -190,10 +211,10 @@ export default function HomePage({ onActivate }) {
         <div className="github-snapshot">
           <div className="github-strip">
             {[
-              { label: "Repositories", value: "Open-source and personal work" },
-              { label: "Signals", value: "Feedback, usage, and reviews" },
-              { label: "Community", value: "Consistent learning and sharing" },
-              { label: "Pinned Focus", value: "React, systems, tooling" },
+              { label: "Open Source", value: "Real projects, public repos" },
+              { label: "Consistency", value: "Building every week, not every quarter" },
+              { label: "Depth", value: "Full-stack systems, not todo apps" },
+              { label: "Focus Areas", value: "Laravel, React, ML, and IoT" },
             ].map((stat) => (
               <TiltCard key={stat.label} element="article" className="github-card">
                 <strong><WaveText text={stat.label} /></strong>
@@ -217,19 +238,19 @@ export default function HomePage({ onActivate }) {
           <HoverTypingText
             element="h2"
             variants={[
-              "Built for those who care about craft.",
-              "Made for teams who care about quality.",
-              "Designed for clarity and polish.",
-              "Engineered for real-world use.",
-              "Crafted for lasting impact.",
+              "Production software that ships and scales.",
+              "Systems built for real users, not demos.",
+              "Engineering with craft, not just code.",
+              "From architecture to deployment — end to end.",
+              "Software people actually depend on.",
             ]}
           />
         </div>
         <div className="service-grid">
           {[
-            { num: "01", title: "Clear positioning", desc: "Who I am, what I build, and what roles I take in one quick pass." },
-            { num: "02", title: "Projects with impact", desc: "Summaries focused on business context, not just screenshots." },
-            { num: "03", title: "Fast contact path", desc: "Direct ways to reach me and discuss work quickly." },
+            { num: "01", title: "Full-stack products", desc: "Laravel + React applications with clean architecture, real-time features, and production-grade DevOps." },
+            { num: "02", title: "AI-powered workflows", desc: "OpenAI integrations, ML pipelines, and intelligent document processing baked into real business tools." },
+            { num: "03", title: "Cloud & edge systems", desc: "AWS deployments, Docker orchestration, IoT telemetry networks, and embedded firmware on microcontrollers." },
           ].map((s) => (
             <TiltCard key={s.num} element="article" className="service-card">
               <span className="service-num"><WaveText text={s.num} /></span>
@@ -246,11 +267,11 @@ export default function HomePage({ onActivate }) {
           <HoverTypingText
             element="h2"
             variants={[
-              "B.Tech Fellow & Professional Internships",
-              "Internships, education, and traineeship",
-              "JPMorgan Chase, MedTourEasy, and VIT",
-              "A roadmap of academic and internship experience",
-              "A practical engineering timeline",
+              "From JPMC's data floors to building my own products.",
+              "Real internships. Real engineering. Real deadlines.",
+              "JPMorgan Chase, MedTourEasy, and VIT Chennai",
+              "Where I learned to ship under pressure.",
+              "Industry experience meets independent building.",
             ]}
           />
         </div>

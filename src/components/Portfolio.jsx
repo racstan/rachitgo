@@ -22,18 +22,32 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
   const [roleIndex, setRoleIndex] = useState(0);
 
   const roleOptions = [
-    "Full Stack Developer",
+    "Product Engineer",
+    "Full Stack Architect",
+    "Systems Builder",
     "Software Developer",
-    "Freelancer",
-    "Builder",
+    "Freelance Engineer",
     "Citizen of Earth",
     "Clash of Clans player (Yes, I still do upgrades)",
     "Age of Empires lover (Wood please!)",
-    "Coffee-to-Code compiler",
-    "Bug Creator & Solver",
+    "Coffee-to-Code Compiler",
+    "Professional Bug Creator & Solver",
     "Vim Escaper (Stuck since 2021)",
-    "Systems Tinkerer",
-    "Binary Art Admirer"
+    "Linux Daily Driver",
+    "Terminal Over GUI",
+    "Stack Overflow Archaeologist",
+    "Dark Mode Loyalist",
+    "git push --force Survivor",
+    "npm install Hope",
+    "Laravel Artisan",
+    "React Hook Addict",
+    "TypeScript Evangelist",
+    "Docker Compose Poet",
+    "Database Schema Designer",
+    "Open Source Contributor",
+    "Documentation Reader (Rare Breed)",
+    "Pixel Perfectionist",
+    "Keyboard Shortcut Maximizer",
   ];
 
   useEffect(() => {
@@ -74,9 +88,8 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
         </p>
         <h1>Rachit Asthana</h1>
         <p>
-          I build web products, developer tools, automation, and systems-minded experiments. The portfolio stays
-          readable for clients and recruiters, while the side lab keeps the low-level execution view as a playful
-          engineering layer.
+          I architect production software that solves real problems — from clinical AI platforms to embedded
+          IoT systems. This portfolio is the engineering layer; the professional view is one toggle away.
         </p>
         <div className="identity-strip" aria-label={`Identity shown as ${identity.label}`}>
           <span>{identity.label}</span>
@@ -85,28 +98,28 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
         <div className="hero-links">
           <a href="#projects">View projects</a>
           <a href="#services">Hire for work</a>
-          <a href="mailto:rachit@example.com">Contact me</a>
+          <a href="mailto:asthanarachit@gmail.com">Contact me</a>
         </div>
       </motion.section>
 
       <section className="section compact-section" id="about">
         <div className="section-head">
           <p className="eyebrow">about</p>
-          <h2>Software engineer focused on products that ship and systems that hold up.</h2>
+          <h2>I care about software that ships, systems that scale, and code that other engineers can actually read.</h2>
         </div>
         <div className="two-col">
           <TiltCard element="article" className="plain-panel">
             <strong>What I care about</strong>
             <p>
-              Clear architecture, production quality UX, measurable performance, and readable code that teams can
-              extend without friction.
+              Clean architecture that other engineers can read, production UX that users actually enjoy,
+              and performance metrics I can measure — not just claim.
             </p>
           </TiltCard>
           <TiltCard element="article" className="plain-panel">
             <strong>How I work</strong>
             <p>
-              Product-first delivery with structured engineering execution: scope, design, implementation, testing,
-              rollout, and iterative polish.
+              Scope it, design it, build it, test it, ship it, then polish it. I work in structured sprints
+              with clear deliverables — no ambiguity, no scope creep.
             </p>
           </TiltCard>
         </div>
@@ -115,23 +128,23 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
       <section className="section compact-section" id="services">
         <div className="section-head">
           <p className="eyebrow">what I do</p>
-          <h2>Product engineering with enough systems depth to debug the hard parts.</h2>
+          <h2>From database schemas to pixel-perfect UIs — I build the full picture.</h2>
         </div>
         <div className="service-grid">
           <TiltCard element="article" className="service-card">
             <span className="service-num">01</span>
-            <h3>React products</h3>
-            <p>Frontend interfaces, dashboards, portfolio sites, interaction design, and production polish.</p>
+            <h3>Full-stack products</h3>
+            <p>Laravel + React applications with real-time features, clean APIs, and production-grade deployment pipelines.</p>
           </TiltCard>
           <TiltCard element="article" className="service-card">
             <span className="service-num">02</span>
-            <h3>Developer tooling</h3>
-            <p>CLI tools, automation, source inspection, build workflows, and faster feedback loops.</p>
+            <h3>AI-powered workflows</h3>
+            <p>OpenAI integrations, ML pipelines, intelligent document processing, and AI scribes built into real business tools.</p>
           </TiltCard>
           <TiltCard element="article" className="service-card">
             <span className="service-num">03</span>
-            <h3>Systems learning</h3>
-            <p>Readable demos around runtimes, compilers, operating systems, memory, and execution flow.</p>
+            <h3>Cloud & edge systems</h3>
+            <p>AWS deployments, Docker orchestration, IoT telemetry networks, and embedded firmware on microcontrollers.</p>
           </TiltCard>
         </div>
         <div className="language-band" aria-label="Languages represented on this page">
@@ -221,9 +234,9 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
       >
         <div>
           <p className="eyebrow">contact</p>
-          <h2>Let us build software that people can use and engineers can understand.</h2>
+          <h2>Let's build software that people rely on and engineers respect.</h2>
         </div>
-        <a href="mailto:rachit@example.com">rachit@example.com</a>
+        <a href="mailto:asthanarachit@gmail.com">asthanarachit@gmail.com</a>
       </footer>
     </section>
   );
