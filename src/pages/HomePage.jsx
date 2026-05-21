@@ -246,10 +246,10 @@ export default function HomePage({ onActivate }) {
           <HoverTypingText
             element="h2"
             variants={[
-              "From VIT to product engineering",
-              "Internships, research, and products",
-              "Data, full-stack, and AI systems",
-              "A roadmap of shipping code",
+              "B.Tech Fellow & Professional Internships",
+              "Internships, education, and traineeship",
+              "JPMorgan Chase, MedTourEasy, and VIT",
+              "A roadmap of academic and internship experience",
               "A practical engineering timeline",
             ]}
           />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { BriefcaseBusiness, Moon, Sparkles, Sun, Menu, X } from "lucide-react";
 import WaveText from "./WaveText.jsx";
 
@@ -21,6 +21,8 @@ const professionalItems = [
 export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   // Navbar bounce/drag state
   const navRef = useRef(null);
@@ -271,16 +273,19 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
       <div id="primary-navigation" className={`nav-links ${mobileOpen ? "open" : ""}`}>
         {mode === "professional" ? (
           <>
-            {professionalItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="nav-link"
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
+            {professionalItems.map((item) => {
+              const target = isHome ? item.href : `/${item.href}`;
+              return (
+                <a
+                  key={item.href}
+                  href={target}
+                  className="nav-link"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
             <Link
               to="/resume"
               className="nav-link"

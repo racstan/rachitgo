@@ -130,7 +130,7 @@ export default function TechScroller() {
   const animRef = useRef(null);
   const [hovered, setHovered] = useState(null);
   const hoveredRef = useRef(null);
-  const isHoveredTrackRef = useRef(false);
+  const isHoveringCardRef = useRef(false);
   const stateRef = useRef({
     offset: 0,
     velocity: -0.28,
@@ -160,7 +160,7 @@ export default function TechScroller() {
 
     function loop() {
       const s = stateRef.current;
-      const isPaused = hoveredRef.current !== null;
+      const isPaused = isHoveringCardRef.current || s.dragging || hoveredRef.current?.pinned;
 
       if (!s.dragging && !isPaused) {
         s.velocity += (s.targetSpeed - s.velocity) * 0.04;
@@ -184,6 +184,7 @@ export default function TechScroller() {
         const clickedInsideTrack = trackRef.current?.contains(e.target);
         const clickedInsidePopover = popoverRef.current?.contains(e.target);
         if (!clickedInsideTrack && !clickedInsidePopover) {
+          isHoveringCardRef.current = false;
           hoveredRef.current = null;
           setHovered(null);
         }
@@ -198,12 +199,11 @@ export default function TechScroller() {
   }, []);
 
   const onMouseEnter = () => {
-    isHoveredTrackRef.current = true;
-    stateRef.current.targetSpeed = 0;
+    // Keep moving at normal target speed instead of pausing
+    stateRef.current.targetSpeed = -0.28;
   };
 
   const onMouseLeave = () => {
-    isHoveredTrackRef.current = false;
     stateRef.current.targetSpeed = -0.28;
   };
 
@@ -242,6 +242,7 @@ export default function TechScroller() {
 
   function togglePinnedCard(idx, item) {
     if (hoveredRef.current?.idx === idx && hoveredRef.current?.pinned) {
+      isHoveringCardRef.current = false;
       hoveredRef.current = null;
       setHovered(null);
       return;
@@ -253,18 +254,23 @@ export default function TechScroller() {
     <section
       id="tech-stack"
       className="stack-strip"
-      onMouseLeave={() => {
-        if (!hoveredRef.current?.pinned) {
-          hoveredRef.current = null;
-          setHovered(null);
-        }
-      }}
     >
       <div className="stack-strip-head">
         <p className="eyebrow">tech stack</p>
       </div>
 
-      <div className="stack-track-wrapper" ref={wrapperRef}>
+      <div 
+        className="stack-track-wrapper" 
+        ref={wrapperRef}
+        onMouseLeave={() => {
+          setTimeout(() => {
+            if (!isHoveringCardRef.current && !hoveredRef.current?.pinned) {
+              hoveredRef.current = null;
+              setHovered(null);
+            }
+          }, 80);
+        }}
+      >
         <div
           className="stack-track-inner"
           onMouseEnter={onMouseEnter}
@@ -292,7 +298,7 @@ export default function TechScroller() {
                   togglePinnedCard(idx, item);
                 }}
                 onBlur={() => {
-                  if (!hoveredRef.current?.pinned) setHovered(null);
+                  if (!hoveredRef.current?.pinned && !isHoveringCardRef.current) setHovered(null);
                 }}
                 aria-expanded={hovered?.idx === idx}
                 aria-controls="stack-hover-card"
@@ -310,7 +316,11 @@ export default function TechScroller() {
             id="stack-hover-card"
             className={`stack-hover-card ${hovered.pinned ? "is-pinned" : ""}`}
             style={{ "--chip-color": hovered.color }}
+            onMouseEnter={() => {
+              isHoveringCardRef.current = true;
+            }}
             onMouseLeave={() => {
+              isHoveringCardRef.current = false;
               if (!hoveredRef.current?.pinned) {
                 hoveredRef.current = null;
                 setHovered(null);

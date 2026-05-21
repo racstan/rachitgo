@@ -97,17 +97,17 @@ export const journeyTimeline = [
 export const experienceTimeline = [
   {
     year: "Jul 2025",
-    role: "B.Tech Computer Science Engineering",
-    company: "VIT Chennai, AI and Robotics Specialization",
+    role: "B.Tech Fellow",
+    company: "Vellore Institute of Technology",
     tags: ["CGPA 8.24", "AI & Robotics", "CSE"],
     desc:
-      "Graduated from Vellore Institute of Technology, Chennai with a Computer Science Engineering degree focused on AI and Robotics.",
+      "Completed B.Tech in Computer Science Engineering (AI & Robotics specialization) with a focus on core software engineering and intelligent systems.",
     color: "#8250df",
   },
   {
     year: "Nov 2023",
     role: "Data Science Intern",
-    company: "JPMC, Hyderabad",
+    company: "JPMorgan Chase & Co.",
     tags: ["Python", "R", "EDA", "Financial data"],
     desc:
       "Performed exploratory analysis on financial portfolio datasets, improved reporting workflows, and supported internal processing pipelines.",
@@ -116,29 +116,11 @@ export const experienceTimeline = [
   {
     year: "Aug 2023",
     role: "Data Analytics Trainee",
-    company: "MedTourEasy, Remote",
+    company: "MedTourEasy",
     tags: ["Python", "MySQL", "Pandas", "Scikit-learn"],
     desc:
-      "Completed a 4-week industrial traineeship covering preprocessing, structured dataset cleaning, trend analysis, and reporting with Matplotlib and Seaborn.",
+      "Completed industrial traineeship covering preprocessing, structured dataset cleaning, trend analysis, and reporting.",
     color: "#1a7f37",
-  },
-  {
-    year: "Sep 2024",
-    role: "AFib Detection Research",
-    company: "Accepted for ICSCDS 2025",
-    tags: ["ECG", "ML", "Signal processing"],
-    desc:
-      "Built an early atrial fibrillation detection workflow using ECG waveform preprocessing, filtering, and machine-learning classification.",
-    color: "#cf222e",
-  },
-  {
-    year: "Jan 2026",
-    role: "DoctlySuite",
-    company: "Medical workflow product",
-    tags: ["Laravel", "React", "Inertia.js", "AI"],
-    desc:
-      "Built a medical-professional system for clinics and hospitals, covering patient management, clinical operations, and AI-driven workflow support.",
-    color: "#9a6700",
   },
 ];
 

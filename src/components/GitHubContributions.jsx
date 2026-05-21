@@ -84,9 +84,9 @@ export default function GitHubContributions({ calendar, loading, error, username
                             transition: "all 0.2s ease"
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.color = "var(--accent)";
-                            e.currentTarget.style.borderColor = "var(--accent)";
-                            e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 8%, var(--panel-2))";
+                            e.currentTarget.style.color = "var(--accent-2)";
+                            e.currentTarget.style.borderColor = "var(--accent-2)";
+                            e.currentTarget.style.background = "color-mix(in srgb, var(--accent-2) 8%, var(--panel-2))";
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.color = "var(--muted)";
