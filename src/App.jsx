@@ -174,6 +174,8 @@ export default function App() {
   const scrollIntervalRef = useRef(null);
   const scrollTimeoutRef2 = useRef(null);
   const isLongPressActiveRef = useRef(false);
+  const keyboardScrollTimeoutRef = useRef(null);
+  const isKeyboardScrollingRef = useRef(false);
 
   const activeItem = useMemo(
     () => portfolioItems.find((item) => item.id === activeItemId) ?? portfolioItems[0],
@@ -256,6 +258,29 @@ export default function App() {
 
       const key = event.key.toLowerCase();
 
+      // Keyboard arrow keys scroll holds:
+      if (key === "arrowdown") {
+        event.preventDefault();
+        if (event.repeat) return;
+        isKeyboardScrollingRef.current = false;
+        keyboardScrollTimeoutRef.current = setTimeout(() => {
+          isKeyboardScrollingRef.current = true;
+          startContinuousScroll("down");
+        }, 220);
+        return;
+      }
+
+      if (key === "arrowup") {
+        event.preventDefault();
+        if (event.repeat) return;
+        isKeyboardScrollingRef.current = false;
+        keyboardScrollTimeoutRef.current = setTimeout(() => {
+          isKeyboardScrollingRef.current = true;
+          startContinuousScroll("up");
+        }, 220);
+        return;
+      }
+
       // M: toggle mappings popup
       if (key === "m") {
         event.preventDefault();
@@ -264,7 +289,7 @@ export default function App() {
       }
 
       // Escape: close modal
-      if (event.key === "escape") {
+      if (key === "escape") {
         setShortcutModalOpen(false);
         return;
       }
@@ -327,12 +352,12 @@ export default function App() {
         return;
       }
 
-      if (["arrowdown", "pagedown", " "].includes(key)) {
+      if (["pagedown", " "].includes(key)) {
         event.preventDefault();
         scrollToSection("down");
       }
 
-      if (["arrowup", "pageup"].includes(key)) {
+      if (["pageup"].includes(key)) {
         event.preventDefault();
         scrollToSection("up");
       }
@@ -348,8 +373,49 @@ export default function App() {
       }
     }
 
+    function onKeyUp(event) {
+      const target = event.target;
+      const tagName = target?.tagName;
+      const isEditable = target?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(tagName);
+      if (isEditable) return;
+
+      const key = event.key.toLowerCase();
+      if (key === "arrowdown") {
+        event.preventDefault();
+        if (keyboardScrollTimeoutRef.current) {
+          clearTimeout(keyboardScrollTimeoutRef.current);
+          keyboardScrollTimeoutRef.current = null;
+        }
+        const wasScrolling = isKeyboardScrollingRef.current;
+        stopContinuousScroll();
+        if (!wasScrolling) {
+          scrollToSection("down");
+        }
+      }
+
+      if (key === "arrowup") {
+        event.preventDefault();
+        if (keyboardScrollTimeoutRef.current) {
+          clearTimeout(keyboardScrollTimeoutRef.current);
+          keyboardScrollTimeoutRef.current = null;
+        }
+        const wasScrolling = isKeyboardScrollingRef.current;
+        stopContinuousScroll();
+        if (!wasScrolling) {
+          scrollToSection("up");
+        }
+      }
+    }
+
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
+      if (keyboardScrollTimeoutRef.current) {
+        clearTimeout(keyboardScrollTimeoutRef.current);
+      }
+    };
   }, [location.pathname, mode, shortcutModalOpen]);
 
   function toggleTheme() {
@@ -368,10 +434,6 @@ export default function App() {
   const startContinuousScroll = (direction) => {
     isLongPressActiveRef.current = true;
     setActiveVibrateButton(direction);
-
-    if (navigator.vibrate) {
-      navigator.vibrate([60, 40, 60]);
-    }
 
     const scrollStep = direction === "up" || direction === "top" ? -14 : 14;
 
