@@ -12,8 +12,8 @@ const navItems = [
 ];
 
 const professionalItems = [
+  { href: "#professional-experience", label: "Experience" },
   { href: "#professional-projects", label: "Projects" },
-  { href: "#professional-journey", label: "My Journey" },
   { href: "#professional-skills", label: "Skills" },
   { href: "#professional-contact", label: "Contact" },
 ];

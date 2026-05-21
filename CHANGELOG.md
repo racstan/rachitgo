@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-05-21
+
+- **System Mode Matching Theme Default**: Implemented automatic detection of `prefers-color-scheme` to launch the portfolio in dark or light mode depending on the user's system preferences, saving it to localStorage.
+- **Keyboard Shortcuts Overlay & Access**: Created a full keyboard navigation layout (triggered by `M` or `m`) mapping `Q`/`q` for mode toggle, `T`/`t` for theme, `A`/`a` for AI assistant, and keys (`H`, `P`, `J`, `B`, `C`, `L`) for primary route navigation.
+- **Scroll Button Long-Press Continuously Scrolling**: Replaced scroll action controls with Unified Pointer events. Holding a button triggers continuous smooth scrolling accompanied by CSS vibration shake animation and mobile haptics.
+- **Professional Mode Restructuring**: Positioned the Work Experience timeline above Projects, removed "My Journey" section, rendered projects vertically as sequential cards/rows, and added dual Resume / CV download actions below the name header.
+
 ## 2026-05-20
 
 - **Navbar Downloads Restructuring**: Replaced the hover-dropdown menu in both Full and Professional modes with a direct, single-click link to the `/resume` page, resolving click issues and embedding direct download buttons inside the CV/Resume page.

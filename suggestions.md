@@ -90,6 +90,14 @@ Research date: 2026-05-20
     - **Action**: Implemented CSS transition rules to gradually fade out and smooth cursor trail effects when hovering over interactive components and buttons.
 16. **Project Detail Navigation Return** (Completed)
     - **Action**: Restored project page return navigation by mapping "Back to projects" anchors to stable router state triggers.
+17. **System Preference Matching Theme** (Completed)
+    - **Action**: Enabled prefers-color-scheme detection for setting default theme, backing it with local storage persistence.
+18. **Keyboard Navigation Shortcuts Modal Overlay** (Completed)
+    - **Action**: Integrated keyboard mappings manager modal overlay (triggered by `M` or `m`) binding keys (`Q`, `T`, `A`, `H`, `P`, `J`, `B`, `C`, `L`) to layout mode, theme toggling, AI chats, and route navigation.
+19. **Tactile Scroll Controls Long-Press & CSS Vibration** (Completed)
+    - **Action**: Added pointer-driven long-press continuously scrolling, accompanied by visual CSS vibration shake animation and mobile haptics.
+20. **Professional Mode Restructuring** (Completed)
+    - **Action**: Positioned the Work Experience timeline above Projects, removed "My Journey", rendered projects vertically as sequential cards/rows, and added dual Resume / CV download actions below the name.
 
 ### [MEDIUM PRIORITY]
 7. **Interactive Lab API Playpen**

@@ -1,6 +1,6 @@
 # Portfolio Audit
 
-Updated: 2026-05-20
+Updated: 2026-05-21
 
 ## Snapshot
 
@@ -8,7 +8,9 @@ Updated: 2026-05-20
 - **Goal**: Provide a highly memorable and premium technical portfolio that showcases building craft, low-level execution context, and clean design without introducing unnecessary interaction friction.
 - **Current Direction**: Dual-mode setup:
   - **Full Mode**: High-fidelity animated technical experience featuring a canvas spring trail cursor, interactive logic simulation lab, command palette, and reactive card layers.
-  - **Professional Mode**: Clean, recruiter-readable single-page layout based on Brittany Chiang-style minimal distraction, with direct access to proof sections.
+  - **Professional Mode**: Clean, recruiter-readable single-page layout based on Brittany Chiang-style minimal distraction, now showing the Work Experience section above the Projects section (rendered as full-width sequential rows), and offering quick Resume & CV downloads.
+  - **Keyboard Navigation Manager**: Dedicated accessible navigation overlay (triggered by `M`) mapping keys to every major section, theme toggle (`T`), mode toggle (`Q`), and AI assistant (`A`).
+  - **Tactile Long-Press Scrolling**: Pointer-driven buttons with continuous scrolling and CSS vibration shake animation + haptic device feedback.
 
 ## External Inspiration Reviewed
 

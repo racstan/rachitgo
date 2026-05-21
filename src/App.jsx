@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ArrowUp, ArrowDown, ChevronsUp, ChevronsDown } from "lucide-react";
 import Navbar from "./components/Navbar.jsx";
 import BinaryCursor from "./components/BinaryCursor.jsx";
@@ -47,8 +47,117 @@ function getInitialMode() {
   return detectAcceleratedGraphics() ? "full" : "professional";
 }
 
+function getInitialTheme() {
+  try {
+    const saved = window.localStorage.getItem("portfolio-theme");
+    if (saved === "dark" || saved === "light") return saved;
+  } catch {}
+  if (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    return "dark";
+  }
+  return "light";
+}
+
+function KeyboardShortcutsModal({ isOpen, onClose }) {
+  if (!isOpen) return null;
+
+  const shortcuts = [
+    { key: "M", desc: "Toggle Keyboard Shortcuts Menu" },
+    { key: "Q", desc: "Quick Switch (Professional / Full Mode)" },
+    { key: "T", desc: "Toggle Theme (Dark / Light)" },
+    { key: "A", desc: "Toggle Resume AI Chat (Full Mode)" },
+    { key: "↑ / ↓", desc: "Scroll to Previous / Next Section" },
+    { key: "H", desc: "Go to Home Page" },
+    { key: "P", desc: "Go to Projects Page" },
+    { key: "J", desc: "Go to Journey Page" },
+    { key: "B", desc: "Go to Blogs Page" },
+    { key: "C", desc: "Go to Contact Page" },
+    { key: "L", desc: "Go to Dev Lab" },
+    { key: "Esc", desc: "Close Modals / Overlays" },
+  ];
+
+  return (
+    <div
+      className="kbd-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Keyboard shortcuts"
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 99999,
+        background: "rgba(0, 0, 0, 0.45)",
+        backdropFilter: "blur(8px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "20px"
+      }}
+    >
+      <div
+        className="kbd-modal"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          width: "100%",
+          maxWidth: "480px",
+          borderRadius: "16px",
+          border: "1px solid var(--glass-border)",
+          background: "linear-gradient(160deg, var(--panel) 30%, var(--panel-2) 100%)",
+          boxShadow: "0 24px 48px rgba(0,0,0,0.4)",
+          padding: "24px",
+          position: "relative",
+          animation: "scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)"
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid var(--line)", paddingBottom: "12px" }}>
+          <h2 style={{ fontSize: "1.3rem", margin: 0, fontWeight: "700", display: "flex", alignItems: "center", gap: "8px" }}>
+            Keyboard Shortcuts
+          </h2>
+          <button
+            onClick={onClose}
+            aria-label="Close shortcuts modal"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "var(--muted)",
+              fontSize: "20px"
+            }}
+          >
+            &times;
+          </button>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxHeight: "60vh", overflowY: "auto", paddingRight: "4px" }}>
+          {shortcuts.map((shortcut) => (
+            <div key={shortcut.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>
+              <span style={{ fontSize: "13px", color: "var(--text-dim)" }}>{shortcut.desc}</span>
+              <kbd
+                style={{
+                  background: "var(--panel-2)",
+                  border: "1px solid var(--line)",
+                  borderRadius: "6px",
+                  padding: "4px 8px",
+                  fontSize: "11px",
+                  fontWeight: "600",
+                  fontFamily: "monospace",
+                  color: "var(--accent-2)",
+                  boxShadow: "0 2px 0 var(--line)"
+                }}
+              >
+                {shortcut.key}
+              </kbd>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(getInitialTheme);
   const [mode, setMode] = useState(getInitialMode);
   const [activeItemId, setActiveItemId] = useState("profile");
   const [languageIndex, setLanguageIndex] = useState(0);
@@ -57,6 +166,14 @@ export default function App() {
   const [scrollActive, setScrollActive] = useState(false);
   const scrollTimeoutRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const [activeVibrateButton, setActiveVibrateButton] = useState(null);
+  const [shortcutModalOpen, setShortcutModalOpen] = useState(false);
+
+  const scrollIntervalRef = useRef(null);
+  const scrollTimeoutRef2 = useRef(null);
+  const isLongPressActiveRef = useRef(false);
 
   const activeItem = useMemo(
     () => portfolioItems.find((item) => item.id === activeItemId) ?? portfolioItems[0],
@@ -66,6 +183,9 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    try {
+      window.localStorage.setItem("portfolio-theme", theme);
+    } catch {}
   }, [theme]);
 
   useEffect(() => {
@@ -77,7 +197,7 @@ export default function App() {
     try {
       window.localStorage.setItem("portfolio-mode", mode);
     } catch {
-      // Non-critical; manual switch still works for the session.
+      // Non-critical
     }
   }, [mode]);
 
@@ -133,14 +253,86 @@ export default function App() {
       const isEditable = target?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(tagName);
       if (isEditable) return;
       if (target?.closest?.(".command-panel") || document.querySelector(".command-overlay")) return;
-      if (target?.closest?.("button, a, input, textarea, select, summary, [role='button']")) return;
 
-      if (["ArrowDown", "PageDown", " "].includes(event.key)) {
+      const key = event.key.toLowerCase();
+
+      // M: toggle mappings popup
+      if (key === "m") {
+        event.preventDefault();
+        setShortcutModalOpen((prev) => !prev);
+        return;
+      }
+
+      // Escape: close modal
+      if (event.key === "escape") {
+        setShortcutModalOpen(false);
+        return;
+      }
+
+      // Q: toggle mode
+      if (key === "q") {
+        event.preventDefault();
+        toggleMode();
+        return;
+      }
+
+      // T: toggle theme
+      if (key === "t") {
+        event.preventDefault();
+        toggleTheme();
+        return;
+      }
+
+      // A: toggle AI widget in full mode
+      if (key === "a") {
+        event.preventDefault();
+        if (mode === "full") {
+          const fab = document.querySelector(".resume-ai-fab");
+          if (fab) {
+            fab.click();
+          }
+        }
+        return;
+      }
+
+      // Navigation shortcuts
+      if (key === "h") {
+        event.preventDefault();
+        navigate("/");
+        return;
+      }
+      if (key === "p") {
+        event.preventDefault();
+        navigate("/projects");
+        return;
+      }
+      if (key === "j") {
+        event.preventDefault();
+        navigate("/journey");
+        return;
+      }
+      if (key === "b") {
+        event.preventDefault();
+        navigate("/blogs");
+        return;
+      }
+      if (key === "c") {
+        event.preventDefault();
+        navigate("/contact");
+        return;
+      }
+      if (key === "l") {
+        event.preventDefault();
+        navigate("/lab");
+        return;
+      }
+
+      if (["arrowdown", "pagedown", " "].includes(key)) {
         event.preventDefault();
         scrollToSection("down");
       }
 
-      if (["ArrowUp", "PageUp"].includes(event.key)) {
+      if (["arrowup", "pageup"].includes(key)) {
         event.preventDefault();
         scrollToSection("up");
       }
@@ -158,7 +350,7 @@ export default function App() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [location.pathname]);
+  }, [location.pathname, mode, shortcutModalOpen]);
 
   function toggleTheme() {
     setTheme((t) => (t === "dark" ? "light" : "dark"));
@@ -173,6 +365,49 @@ export default function App() {
     setRunToken((value) => value + 1);
   }
 
+  const startContinuousScroll = (direction) => {
+    isLongPressActiveRef.current = true;
+    setActiveVibrateButton(direction);
+
+    if (navigator.vibrate) {
+      navigator.vibrate([60, 40, 60]);
+    }
+
+    const scrollStep = direction === "up" || direction === "top" ? -14 : 14;
+
+    scrollIntervalRef.current = setInterval(() => {
+      window.scrollBy({ top: scrollStep, behavior: "auto" });
+    }, 16);
+  };
+
+  const stopContinuousScroll = () => {
+    if (scrollIntervalRef.current) {
+      clearInterval(scrollIntervalRef.current);
+      scrollIntervalRef.current = null;
+    }
+    if (scrollTimeoutRef2.current) {
+      clearTimeout(scrollTimeoutRef2.current);
+      scrollTimeoutRef2.current = null;
+    }
+    setActiveVibrateButton(null);
+  };
+
+  const handleScrollButtonPress = (direction) => {
+    stopContinuousScroll();
+    isLongPressActiveRef.current = false;
+    scrollTimeoutRef2.current = setTimeout(() => {
+      startContinuousScroll(direction);
+    }, 280);
+  };
+
+  const handleScrollButtonRelease = (direction) => {
+    const wasLongPress = isLongPressActiveRef.current;
+    stopContinuousScroll();
+    if (!wasLongPress) {
+      scrollToSection(direction);
+    }
+  };
+
   function scrollToSection(direction) {
     if (direction === "top" || direction === "bottom") {
       window.scrollTo({
@@ -183,7 +418,7 @@ export default function App() {
     }
 
     const sections = Array.from(
-      document.querySelectorAll(".hero, .section, .page, .stack-strip"),
+      document.querySelectorAll(".hero, .section, .page, .stack-strip, .professional-section"),
     );
     if (!sections.length) {
       window.scrollBy({ top: direction === "down" ? window.innerHeight * 0.85 : -window.innerHeight * 0.85, behavior: "smooth" });
@@ -201,6 +436,32 @@ export default function App() {
       window.scrollTo({ top: prev ?? 0, behavior: "smooth" });
     }
   }
+
+  const renderScrollKey = (direction, icon, label) => {
+    const isVibrating = activeVibrateButton === direction;
+    return (
+      <button
+        className={`scroll-key ${isVibrating ? "vibrating" : ""}`}
+        onPointerDown={(e) => {
+          e.preventDefault();
+          handleScrollButtonPress(direction);
+        }}
+        onPointerUp={(e) => {
+          e.preventDefault();
+          handleScrollButtonRelease(direction);
+        }}
+        onPointerCancel={(e) => {
+          e.preventDefault();
+          stopContinuousScroll();
+        }}
+        onMouseLeave={stopContinuousScroll}
+        aria-label={label}
+        title={label}
+      >
+        {icon}
+      </button>
+    );
+  };
 
   return (
     <>
@@ -250,30 +511,18 @@ export default function App() {
       <div className={`scroll-controls ${scrollActive ? "active" : ""}`} aria-label="Page scroll controls">
         {scrollState.atTop ? (
           <>
-            <button className="scroll-key" onClick={() => scrollToSection("down")} aria-label="Go to next section" title="Next section">
-              <ArrowDown size={18} className="scroll-arrow" />
-            </button>
-            <button className="scroll-key" onClick={() => scrollToSection("bottom")} aria-label="Go to bottom" title="Bottom">
-              <ChevronsDown size={18} className="scroll-arrow" />
-            </button>
+            {renderScrollKey("down", <ArrowDown size={18} className="scroll-arrow" />, "Go to next section")}
+            {renderScrollKey("bottom", <ChevronsDown size={18} className="scroll-arrow" />, "Go to bottom")}
           </>
         ) : scrollState.atBottom ? (
           <>
-            <button className="scroll-key" onClick={() => scrollToSection("up")} aria-label="Go to previous section" title="Previous section">
-              <ArrowUp size={18} className="scroll-arrow" />
-            </button>
-            <button className="scroll-key" onClick={() => scrollToSection("top")} aria-label="Go to top" title="Top">
-              <ChevronsUp size={18} className="scroll-arrow" />
-            </button>
+            {renderScrollKey("up", <ArrowUp size={18} className="scroll-arrow" />, "Go to previous section")}
+            {renderScrollKey("top", <ChevronsUp size={18} className="scroll-arrow" />, "Go to top")}
           </>
         ) : (
           <>
-            <button className="scroll-key" onClick={() => scrollToSection("up")} aria-label="Scroll up" title="Previous section">
-              <ArrowUp size={18} className="scroll-arrow" />
-            </button>
-            <button className="scroll-key" onClick={() => scrollToSection("down")} aria-label="Scroll down" title="Next section">
-              <ArrowDown size={18} className="scroll-arrow" />
-            </button>
+            {renderScrollKey("up", <ArrowUp size={18} className="scroll-arrow" />, "Scroll up")}
+            {renderScrollKey("down", <ArrowDown size={18} className="scroll-arrow" />, "Scroll down")}
           </>
         )}
       </div>
@@ -282,6 +531,8 @@ export default function App() {
       {mode === "full" && <ResumeAIWidget />}
       <Footer />
       {mode === "full" && <BinaryCursor theme={theme} />}
+
+      <KeyboardShortcutsModal isOpen={shortcutModalOpen} onClose={() => setShortcutModalOpen(false)} />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { contacts } from "../data/contacts.js";
-import { experienceTimeline, journeyTimeline, profile, projectCards, skillGroups } from "../data/profile.js";
+import { experienceTimeline, profile, projectCards, skillGroups } from "../data/profile.js";
 
 function Section({ id, eyebrow, title, children }) {
   return (
@@ -22,7 +22,8 @@ export default function ProfessionalPage() {
           <p className="professional-role">{profile.roleLine}</p>
           <p className="professional-summary">{profile.summary}</p>
           <div className="professional-actions">
-            <a href="/CV2026.pdf" target="_blank" rel="noopener noreferrer" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>Download Resume</a>
+            <a href="/CV2026.pdf" download="Rachit_Asthana_Resume.pdf" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>Download Resume</a>
+            <a href="/CV2026.pdf" download="Rachit_Asthana_CV.pdf" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>Download CV</a>
             <a href={`mailto:${profile.email}`}>Email me</a>
             <a href={profile.githubUrl} target="_blank" rel="noreferrer">GitHub</a>
             <a href={profile.linkedinUrl} target="_blank" rel="noreferrer">LinkedIn</a>
@@ -34,30 +35,37 @@ export default function ProfessionalPage() {
         </aside>
       </section>
 
-      <Section id="professional-projects" eyebrow="selected work" title="Projects with context">
-        <div className="professional-grid">
-          {projectCards.map((project) => (
-            <article key={project.id} className="professional-card">
-              <h3>{project.title}</h3>
-              <p>{project.summary}</p>
-              <ul>
-                {project.highlights.map((item) => <li key={item}>{item}</li>)}
-              </ul>
+      <Section id="professional-experience" eyebrow="experience" title="Work Experience & Education">
+        <div className="professional-timeline">
+          {experienceTimeline.map((item) => (
+            <article key={`${item.year}-${item.role}`} className="professional-row">
+              <span>{item.year}</span>
+              <div>
+                <h3>{item.role}</h3>
+                <p style={{ fontWeight: "600", color: "var(--accent-2)", margin: "2px 0 6px" }}>{item.company || "Context"}</p>
+                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", margin: "6px 0" }}>
+                  {item.tags?.map((tag) => (
+                    <span key={tag} className="tag-chip" style={{ fontSize: "10px", padding: "2px 6px", borderRadius: "4px", background: "color-mix(in srgb, var(--panel-2) 60%, transparent)", border: "1px solid var(--line)", color: "var(--text-dim)" }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <small style={{ display: "block", marginTop: "8px" }}>{item.desc}</small>
+              </div>
             </article>
           ))}
         </div>
       </Section>
 
-      <Section id="professional-journey" eyebrow="my journey" title="Roadmap and background narrative">
-        <div className="professional-timeline">
-          {journeyTimeline.map((item) => (
-            <article key={`${item.year}-${item.role}`} className="professional-row">
-              <span>{item.year}</span>
-              <div>
-                <h3>{item.role}</h3>
-                <p>{item.company || "Context"}</p>
-                <small>{item.desc}</small>
+      <Section id="professional-projects" eyebrow="selected work" title="Projects with context">
+        <div className="professional-list" style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+          {projectCards.map((project) => (
+            <article key={project.id} className="professional-project-row">
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: "12px", marginBottom: "8px" }}>
+                <h3 style={{ margin: 0, fontSize: "20px" }}>{project.title}</h3>
+                <span style={{ fontSize: "12px", color: "var(--accent-2)", fontWeight: "600", fontFamily: "monospace" }}>{project.highlights.join(" • ")}</span>
               </div>
+              <p style={{ margin: 0, color: "var(--text-dim)", fontSize: "14px", lineHeight: "1.6" }}>{project.summary}</p>
             </article>
           ))}
         </div>
