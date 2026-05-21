@@ -118,7 +118,7 @@ function getHoverPosition(target, container) {
   const containerRect = container.getBoundingClientRect();
   return {
     x: chipRect.left - containerRect.left + chipRect.width / 2,
-    y: chipRect.bottom - containerRect.top,
+    y: chipRect.top - containerRect.top,
   };
 }
 

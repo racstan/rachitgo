@@ -435,11 +435,11 @@ export default function App() {
     isLongPressActiveRef.current = true;
     setActiveVibrateButton(direction);
 
-    const scrollStep = direction === "up" || direction === "top" ? -14 : 14;
+    scrollToSection(direction);
 
     scrollIntervalRef.current = setInterval(() => {
-      window.scrollBy({ top: scrollStep, behavior: "auto" });
-    }, 16);
+      scrollToSection(direction);
+    }, 650);
   };
 
   const stopContinuousScroll = () => {
