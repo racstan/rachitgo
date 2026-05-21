@@ -6,14 +6,14 @@ import WaveText from "./WaveText.jsx";
 const navItems = [
   { to: "/", label: "Home" },
   { to: "/projects", label: "Projects" },
-  { to: "/experience", label: "Experience" },
+  { to: "/journey", label: "My Journey" },
   { to: "/blogs", label: "Blogs" },
   { to: "/contact", label: "Contact" },
 ];
 
 const professionalItems = [
   { href: "#professional-projects", label: "Projects" },
-  { href: "#professional-experience", label: "Experience" },
+  { href: "#professional-journey", label: "My Journey" },
   { href: "#professional-skills", label: "Skills" },
   { href: "#professional-contact", label: "Contact" },
 ];
@@ -286,7 +286,14 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
               className="nav-link"
               onClick={() => setMobileOpen(false)}
             >
-              Downloads
+              Resume
+            </Link>
+            <Link
+              to="/cv"
+              className="nav-link"
+              onClick={() => setMobileOpen(false)}
+            >
+              CV
             </Link>
           </>
         ) : (
@@ -307,7 +314,14 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
               className="nav-link"
               onClick={() => setMobileOpen(false)}
             >
-              <WaveText text="Downloads" />
+              <WaveText text="Resume" />
+            </Link>
+            <Link
+              to="/cv"
+              className="nav-link"
+              onClick={() => setMobileOpen(false)}
+            >
+              <WaveText text="CV" />
             </Link>
           </>
         )}

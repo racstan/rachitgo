@@ -7,7 +7,7 @@ import TiltCard from "../components/TiltCard.jsx";
 import GitHubContributions from "../components/GitHubContributions.jsx";
 import NewsletterSignup from "../components/NewsletterSignup.jsx";
 import { fetchContributions } from "../lib/github.js";
-import { profile } from "../data/profile.js";
+import { profile, experienceTimeline } from "../data/profile.js";
 
 const heroModes = [
   { value: "Rachit Asthana", label: "english", color: "var(--text)" },
@@ -158,8 +158,14 @@ export default function HomePage({ onActivate }) {
         <button
           type="button"
           className="hero-role-line"
-          onPointerEnter={() => setRoleIndex((index) => (index + 1) % roleOptions.length)}
-          onFocus={() => setRoleIndex((index) => (index + 1) % roleOptions.length)}
+          onPointerEnter={() => setRoleIndex((prev) => {
+            const next = Math.floor(Math.random() * roleOptions.length);
+            return next === prev ? (next + 1) % roleOptions.length : next;
+          })}
+          onFocus={() => setRoleIndex((prev) => {
+            const next = Math.floor(Math.random() * roleOptions.length);
+            return next === prev ? (next + 1) % roleOptions.length : next;
+          })}
           title={roleOptions.join(" / ")}
         >
           {roleText}
@@ -236,19 +242,19 @@ export default function HomePage({ onActivate }) {
 
       <section className="section compact-section" style={{ padding: "0 4vw" }}>
         <div className="section-head">
-          <p className="eyebrow">my journey</p>
+          <p className="eyebrow">experience</p>
           <HoverTypingText
             element="h2"
             variants={[
-              "My path in technology",
-              "The road to shipping",
-              "How the story unfolded",
-              "Timeline of growth",
-              "Building through the years",
+              "From VIT to product engineering",
+              "Internships, research, and products",
+              "Data, full-stack, and AI systems",
+              "A roadmap of shipping code",
+              "A practical engineering timeline",
             ]}
           />
         </div>
-        <Timeline />
+        <Timeline items={experienceTimeline} />
       </section>
 
       <TechScroller />

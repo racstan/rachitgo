@@ -1,6 +1,6 @@
 import React from "react";
 import { contacts } from "../data/contacts.js";
-import { experienceTimeline, profile, projectCards, skillGroups } from "../data/profile.js";
+import { experienceTimeline, journeyTimeline, profile, projectCards, skillGroups } from "../data/profile.js";
 
 function Section({ id, eyebrow, title, children }) {
   return (
@@ -48,14 +48,14 @@ export default function ProfessionalPage() {
         </div>
       </Section>
 
-      <Section id="professional-experience" eyebrow="experience" title="Education, internships, and research">
+      <Section id="professional-journey" eyebrow="my journey" title="Roadmap and background narrative">
         <div className="professional-timeline">
-          {experienceTimeline.map((item) => (
+          {journeyTimeline.map((item) => (
             <article key={`${item.year}-${item.role}`} className="professional-row">
               <span>{item.year}</span>
               <div>
                 <h3>{item.role}</h3>
-                <p>{item.company}</p>
+                <p>{item.company || "Context"}</p>
                 <small>{item.desc}</small>
               </div>
             </article>

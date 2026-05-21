@@ -1,14 +1,5 @@
 export const contacts = [
   {
-    id: "resume",
-    platform: "Resume",
-    handle: "CV2026.pdf",
-    href: "/CV2026.pdf",
-    iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z'/%3E%3C/svg%3E",
-    color: "#e2b714",
-    desc: "Download the traditional PDF resume for offline review and print.",
-  },
-  {
     id: "email",
     platform: "Email",
     handle: "asthanarachit@gmail.com",
@@ -22,7 +13,7 @@ export const contacts = [
     platform: "Phone",
     handle: "7780289576",
     href: "tel:7780289576",
-    iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.54 5.08c.58 2.4 1.95 4.77 3.98 6.8 2.03 2.03 4.4 3.4 6.8 3.98.35.08.58.4.5.75-.25 1.1-.38 2.25-.38 3.43 0 .53-.43.96-.96.96C9.3 21 3 14.7 3 6.5c0-.53.43-.96.96-.96 1.17 0 2.33-.13 3.43-.38.35-.08.67.15.75.5l.4 1.42z'/%3E%3C/svg%3E",
+    iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z'/%3E%3C/svg%3E",
     color: "#22c55e",
     desc: "Direct call path from the CV for urgent professional communication.",
   },

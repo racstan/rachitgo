@@ -151,7 +151,8 @@ export default function BinaryCursor({ emoji = "01", theme }) {
       const { width, height } = sizeRef.current;
       contextRef.current.clearRect(0, 0, width, height);
 
-      const targetAlpha = (isInteractiveRef.current || !cursorRef.current.active) ? 0 : 1;
+      const maxAlpha = 0.55;
+      const targetAlpha = (isInteractiveRef.current || !cursorRef.current.active) ? 0 : maxAlpha;
       const alphaSpeed = 0.05; // Fades out/in gradually over ~300ms
       if (interactiveAlphaRef.current < targetAlpha) {
         interactiveAlphaRef.current = Math.min(targetAlpha, interactiveAlphaRef.current + alphaSpeed);

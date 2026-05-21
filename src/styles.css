@@ -632,6 +632,8 @@ a { color: inherit; text-decoration: none; }
 /* ═══ SECTIONS ═══ */
 .section, .page {
   padding: clamp(36px, 5vw, 72px) clamp(18px, 5vw, 72px);
+  position: relative;
+  z-index: 1;
 }
 
 .section {
@@ -2624,6 +2626,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .resume-ai-send {
+  flex-shrink: 0;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 10px 14px;

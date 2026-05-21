@@ -342,13 +342,24 @@ export default function StackPage() {
         "Maintained structured files, clean organization, and robust integrations with adjacent technologies.",
         "Created configurations and test cases to verify the implementation's correctness."
       ],
-      codeSnippet: `// Sample ${item.name} Configuration\\nconst config = {\\n  provider: "${item.name}",\\n  enabled: true,\\n  env: "production"\\n};`,
+      codeSnippet: `// Sample ${item.name} Configuration\nconst config = {\n  provider: "${item.name}",\n  enabled: true,\n  env: "production"\n};`,
       metrics: [
         { label: "Developer Velocity", value: "High" },
         { label: "Code Coverage", value: "90%" },
         { label: "Integration", value: "Verified" }
       ]
     };
+  }, [item]);
+
+  const videoUrl = useMemo(() => {
+    const key = stackSlug(item.name);
+    if (["laravel", "php", "tailwind", "firebase"].includes(key)) {
+      return "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-34282-large.mp4";
+    }
+    if (["react", "typescript", "python", "mysql", "postgresql"].includes(key)) {
+      return "https://assets.mixkit.co/videos/preview/mixkit-data-scroll-on-a-computer-screen-34284-large.mp4";
+    }
+    return "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-developer-typing-on-a-keyboard-39749-large.mp4";
   }, [item]);
 
   return (
@@ -402,17 +413,35 @@ export default function StackPage() {
           </div>
         </TiltCard>
 
-        {/* Right Side: Code Preview and Outcome Metrics */}
+        {/* Right Side: Walkthrough Video and Outcome Metrics */}
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-          {/* Code Preview */}
-          <div style={{ borderRadius: "16px", border: "1px solid var(--line)", background: "var(--panel)", padding: "24px", position: "relative", overflow: "hidden" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", borderBottom: "1px solid var(--line)", paddingBottom: "12px" }}>
-              <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "var(--text-muted)" }}>implementation_snippet</span>
+          {/* Walkthrough Video */}
+          <div style={{ borderRadius: "16px", border: "1px solid var(--line)", background: "var(--panel)", padding: "24px", position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", gap: "12px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--line)", paddingBottom: "12px" }}>
+              <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "var(--text-muted)" }}>implementation_walkthrough_video</span>
               <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: item.color }} />
             </div>
-            <pre style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text)", lineHeight: "1.6", overflowX: "auto", whiteSpace: "pre-wrap" }}>
-              <code>{detail.codeSnippet}</code>
-            </pre>
+            <div style={{
+              position: "relative",
+              width: "100%",
+              borderRadius: "12px",
+              overflow: "hidden",
+              border: "1px solid var(--line)",
+              aspectRatio: "16/9",
+              background: "#000"
+            }}>
+              <video
+                src={videoUrl}
+                controls
+                playsInline
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block"
+                }}
+              />
+            </div>
           </div>
 
           {/* Outcome Metrics */}

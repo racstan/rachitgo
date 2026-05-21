@@ -7,6 +7,7 @@ export const caseStudies = {
     role: "Lead Full-Stack Architect",
     timeline: "Jan 2026 - Present",
     techStack: ["Laravel", "React.js", "Inertia.js", "PostgreSQL", "Tailwind CSS", "Redis", "OpenAI API"],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-34282-large.mp4",
     metrics: [
       { label: "Scribe Time Saved", value: "68%" },
       { label: "Search Latency", value: "<220ms" },
@@ -53,6 +54,7 @@ export const caseStudies = {
     role: "Lead Researcher & ML Engineer",
     timeline: "Sep 2024 - Dec 2024",
     techStack: ["Python", "PyTorch", "Scikit-learn", "Scipy", "Pan-Tompkins", "MATLAB"],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-data-scroll-on-a-computer-screen-34284-large.mp4",
     metrics: [
       { label: "Detection Accuracy", value: "96.4%" },
       { label: "F1-Score", value: "0.94" },
@@ -99,6 +101,7 @@ export const caseStudies = {
     role: "Systems Developer",
     timeline: "Jan 2025 - May 2025",
     techStack: ["ESP32-CAM", "C++", "FreeRTOS", "MQTT", "Raspberry Pi", "RFID", "Ultrasonic Sensors"],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-developer-typing-on-a-keyboard-39749-large.mp4",
     metrics: [
       { label: "Power Draw Saved", value: "85%" },
       { label: "Relay Trigger Time", value: "<150ms" },

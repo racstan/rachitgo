@@ -106,6 +106,37 @@ export default function ProjectDetailPage() {
           </div>
         </aside>
       </div>
+
+      {project.videoUrl && (
+        <section className="detail-section project-video-section" style={{ marginTop: "48px" }}>
+          <h3 style={{ marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+            <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent)" }}></span>
+            Implementation Walkthrough Video
+          </h3>
+          <div style={{
+            position: "relative",
+            width: "100%",
+            borderRadius: "16px",
+            overflow: "hidden",
+            border: "1px solid var(--line)",
+            background: "var(--panel)",
+            boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+            aspectRatio: "16/9"
+          }}>
+            <video
+              src={project.videoUrl}
+              controls
+              playsInline
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block"
+              }}
+            />
+          </div>
+        </section>
+      )}
     </article>
   );
 }

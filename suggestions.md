@@ -78,10 +78,18 @@ Research date: 2026-05-20
    - **Action**: Integrated window scroll coordinate resets on all route changes, solving page-cut-off rendering glitches on page loads.
 10. **Stack Detail Card Overlap Fix** (Completed)
     - **Action**: Converted `.stack-detail-card` layout from CSS Grid to a clean, responsive Flex Column, resolving text overlaps and layout squeeze caused by grid row-column mismatch.
-11. **Downloads Hover Dropdown Removal** (Completed)
-    - **Action**: Replaced navbar hover dropdowns with a single-click direct link to the `/resume` route, embedding PDF file downloads directly within the viewer interface to avoid sticky hover menus.
+11. **Downloads Hover Dropdown Removal & CV/Resume Splitting** (Completed)
+    - **Action**: Replaced navbar hover dropdowns with separate direct links to view/download CV and Resume on `/resume` and `/cv` routes, and cleaned contact channels with premium SVG phone/contact icons.
 12. **Rotating Personas & Custom Nicknames** (Completed)
     - **Action**: Added custom roles (e.g. Clash of Clans player) to the hero section rotation and modified technical languages to display funny nicknames site-wide.
+13. **Implementation Video Players** (Completed)
+    - **Action**: Embedded interactive, responsive video players showing real implementation demos inside all project detail views and tech stack detail pages.
+14. **Dynamic Resume AI Suggestions Pool** (Completed)
+    - **Action**: Configured 100+ context-specific suggested questions. Prompts send immediately upon tap, auto-shuffle to select three fresh options, and include a manual Refresh trigger.
+15. **Gradual Cursor Settle Transitions** (Completed)
+    - **Action**: Implemented CSS transition rules to gradually fade out and smooth cursor trail effects when hovering over interactive components and buttons.
+16. **Project Detail Navigation Return** (Completed)
+    - **Action**: Restored project page return navigation by mapping "Back to projects" anchors to stable router state triggers.
 
 ### [MEDIUM PRIORITY]
 7. **Interactive Lab API Playpen**

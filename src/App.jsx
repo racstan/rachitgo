@@ -222,7 +222,7 @@ export default function App() {
             />
             <Route path="/projects" element={<ProjectsPage onActivate={setActiveItemId} />} />
             <Route path="/projects/:id" element={<ProjectDetailPage />} />
-            <Route path="/experience" element={<ExperiencePage />} />
+            <Route path="/journey" element={<ExperiencePage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/stack/:slug" element={<StackPage />} />
@@ -241,7 +241,7 @@ export default function App() {
               }
             />
             <Route path="/resume" element={<ResumeViewPage />} />
-            <Route path="/cv" element={<Navigate to="/resume" replace />} />
+            <Route path="/cv" element={<ResumeViewPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundary>

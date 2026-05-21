@@ -37,9 +37,13 @@ Updated: 2026-05-20
 - **Detailed Case Studies**: Implemented full, evidence-backed case study detail pages (/projects/:id) for DoctlySuite, AFib Research, and IoT Systems outlining problem statements, metrics, architecture layers, and outcomes.
 - **Interactive Blog Modal Reader**: Replaced empty anchors on BlogsPage.jsx with a premium overlay modal reader that parses and renders code snippets and rich markdown-like text.
 
-- **Downloads Link Redirection**: Replaced the hover dropdown menu in the navbar with a direct, single-click link to the `/resume` page, embedding file downloads inside the viewer layout to avoid sticky mouse hovering issues.
+- **Downloads Link Redirection & CV/Resume Splitting**: Replaced the navbar hover menu with direct separate links to view/download CV and Resume in their respective viewer views, and cleaned contact details with standard SVG telephone/contact icons.
 - **Rotating Peculiar Personas**: Configured custom role profiles in the hero section ("Citizen of Earth", "Clash of Clans player (Yes I still do upgrades)", "Age of Empires lover", etc.) that rotate dynamically in both Full and Professional modes.
 - **Language Tech Stack Nicknames**: Updated technology representations with peculiar, developer-focused nicknames (such as `Go (if err != nil Generator)` or `Rust (Borrow Checker Whipping Boy)`) to personalize the codebase narrative.
+- **Project Back-to-Detail Button**: Fixed navigation restoration in project detail views by making "Back to projects" anchors point to correct hash references or router state navigation.
+- **Implementation Video Embeds**: Embedded responsive interactive video players containing actual implementation demos on all project detail views and tech stack subpages.
+- **Dynamic Resume AI Prompts Pool**: Replaced the basic 3 static prompts with a robust list of 100 context-specific suggested questions. Prompts send immediately upon tap and trigger an auto-shuffle to select three fresh options, and include a manual Refresh control.
+- **Gradual Cursor Settle Transitions**: Re-engineered cursor event transition CSS to gradually fade out and smooth cursor trail effects when moving over interactive UI controls.
 
 ## Remaining Gaps
 

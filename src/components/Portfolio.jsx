@@ -60,8 +60,14 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
         <p
           className="eyebrow"
           style={{ cursor: "pointer", display: "inline-block" }}
-          onPointerEnter={() => setRoleIndex((prev) => (prev + 1) % roleOptions.length)}
-          onFocus={() => setRoleIndex((prev) => (prev + 1) % roleOptions.length)}
+          onPointerEnter={() => setRoleIndex((prev) => {
+            const next = Math.floor(Math.random() * roleOptions.length);
+            return next === prev ? (next + 1) % roleOptions.length : next;
+          })}
+          onFocus={() => setRoleIndex((prev) => {
+            const next = Math.floor(Math.random() * roleOptions.length);
+            return next === prev ? (next + 1) % roleOptions.length : next;
+          })}
           title={roleOptions.join(" / ")}
         >
           {roleOptions[roleIndex].toLowerCase()}
