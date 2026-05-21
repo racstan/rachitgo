@@ -160,7 +160,13 @@ export default function TechScroller() {
 
     function loop() {
       const s = stateRef.current;
-      const isPaused = isHoveringCardRef.current || s.dragging || hoveredRef.current?.pinned;
+      const isSwitching = document.documentElement.dataset.themeSwitching === "true";
+      if (isSwitching && hoveredRef.current) {
+        isHoveringCardRef.current = false;
+        hoveredRef.current = null;
+        setHovered(null);
+      }
+      const isPaused = isHoveringCardRef.current || s.dragging || hoveredRef.current?.pinned || isSwitching;
 
       if (!s.dragging && !isPaused) {
         s.velocity += (s.targetSpeed - s.velocity) * 0.04;

@@ -52,6 +52,7 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
   const tiltFrameRef = useRef(null);
 
   function onMouseMove(e) {
+    if (document.documentElement.dataset.themeSwitching === "true") return;
     if (dragging || returning || dragRef.current.active || returningRef.current || window.innerWidth < 768) return;
     const el = navRef.current;
     if (!el) return;

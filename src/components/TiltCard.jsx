@@ -6,6 +6,7 @@ export function useTilt(strength = 8) {
   const nextRef = useRef({ x: 0, y: 0 });
 
   function onMove(e) {
+    if (document.documentElement.dataset.themeSwitching === "true") return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();

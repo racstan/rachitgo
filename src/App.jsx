@@ -158,6 +158,7 @@ function KeyboardShortcutsModal({ isOpen, onClose }) {
 
 export default function App() {
   const [theme, setTheme] = useState(getInitialTheme);
+  const [themeSwitching, setThemeSwitching] = useState(false);
   const [mode, setMode] = useState(getInitialMode);
   const [activeItemId, setActiveItemId] = useState("profile");
   const [languageIndex, setLanguageIndex] = useState(0);
@@ -189,6 +190,17 @@ export default function App() {
       window.localStorage.setItem("portfolio-theme", theme);
     } catch {}
   }, [theme]);
+
+  useEffect(() => {
+    if (themeSwitching) {
+      document.documentElement.dataset.themeSwitching = "true";
+      const timer = setTimeout(() => {
+        setThemeSwitching(false);
+        delete document.documentElement.dataset.themeSwitching;
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [themeSwitching]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -419,6 +431,7 @@ export default function App() {
   }, [location.pathname, mode, shortcutModalOpen]);
 
   function toggleTheme() {
+    setThemeSwitching(true);
     setTheme((t) => (t === "dark" ? "light" : "dark"));
   }
 
@@ -528,7 +541,7 @@ export default function App() {
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      {mode === "full" && <BinaryRain theme={theme} />}
+      {mode === "full" && !themeSwitching && <BinaryRain theme={theme} />}
       <Navbar theme={theme} onToggleTheme={toggleTheme} mode={mode} onToggleMode={toggleMode} currentPath={location.pathname} />
       <main className="app-shell" id="main-content">
         <ErrorBoundary key={mode}>
@@ -592,7 +605,7 @@ export default function App() {
       <CommandPalette mode={mode} onToggleMode={toggleMode} />
       {mode === "full" && <ResumeAIWidget />}
       <Footer />
-      {mode === "full" && <BinaryCursor theme={theme} />}
+      {mode === "full" && !themeSwitching && <BinaryCursor theme={theme} />}
 
       <KeyboardShortcutsModal isOpen={shortcutModalOpen} onClose={() => setShortcutModalOpen(false)} />
     </>

@@ -58,6 +58,15 @@
   --paper-opacity: 0.55;
 }
 
+/* Disable all transitions and animations during theme switching */
+:root[data-theme-switching="true"] *,
+:root[data-theme-switching="true"] *::before,
+:root[data-theme-switching="true"] *::after {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+
 * { box-sizing: border-box; margin: 0; }
 html {
   scroll-behavior: smooth;
