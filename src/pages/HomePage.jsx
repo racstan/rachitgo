@@ -275,7 +275,7 @@ export default function HomePage({ onActivate }) {
             ]}
           />
         </div>
-        <Timeline items={experienceTimeline} />
+        <Timeline items={experienceTimeline} variant="standard" />
       </section>
 
       <TechScroller />

@@ -21,7 +21,7 @@ export default function ExperiencePage() {
         />
       </div>
 
-      <Timeline items={journeyTimeline} />
+      <Timeline items={journeyTimeline} variant="alternating" />
 
       {/* Skills grid */}
       <div className="section-head" style={{ marginTop: "64px" }}>
