@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TiltCard from "../components/TiltCard.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
+import ClothParagraph from "../components/ClothParagraph.jsx";
 import { X, Calendar, Clock, Tag } from "lucide-react";
 
 const blogs = [
@@ -375,6 +376,7 @@ function renderMarkdown(content) {
 
 export default function BlogsPage() {
   const [activeBlog, setActiveBlog] = useState(null);
+  const getWordClassName = (word) => (word.toLowerCase() === "hard" ? "word-danger" : "");
 
   // Close modal on escape key
   useEffect(() => {
@@ -391,9 +393,10 @@ export default function BlogsPage() {
   return (
     <section className="page">
       <div className="section-head">
-        <p className="eyebrow">engineering writings</p>
+        <p className="eyebrow">My articles and blogs</p>
         <HoverTypingText
           element="h2"
+          getWordClassName={getWordClassName}
           variants={[
             "Things I learned\nthe hard way.",
             "Notes from the build\nand the bugs.",
@@ -403,10 +406,10 @@ export default function BlogsPage() {
           ]}
         />
       </div>
-      <p style={{ color: "var(--muted)", marginBottom: "40px", fontSize: "17px", lineHeight: "1.7" }}>
+      <ClothParagraph style={{ color: "var(--muted)", marginBottom: "40px", fontSize: "17px", lineHeight: "1.7" }}>
         Deep dives into systems programming, compiler internals, database engines, and
         the fascinating machinery hiding beneath every abstraction.
-      </p>
+      </ClothParagraph>
 
       <div className="blog-grid">
         {blogs.map((b) => (

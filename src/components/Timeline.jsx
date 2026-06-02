@@ -4,7 +4,6 @@ import TiltCard from "./TiltCard.jsx";
 import WaveText from "./WaveText.jsx";
 import { journeyTimeline } from "../data/profile.js";
 import { stackItems, stackSlug } from "./TechScroller.jsx";
-
 export const timelineData = journeyTimeline;
 
 function getMatchedStackItem(tag) {
@@ -203,7 +202,7 @@ export default function Timeline({ items, variant = "alternating" }) {
                   <span className="timeline-year">{item.year}</span>
                 </div>
                 <div className="timeline-company">{item.company}</div>
-                <p className={`timeline-desc ${canExpand ? "expandable-text" : ""}`}>{item.desc}</p>
+                  <p className={`timeline-desc ${canExpand ? "expandable-text" : ""}`}>{item.desc}</p>
                 
                 <div className="timeline-tags" style={{ position: "relative" }}>
                   {item.tags.map((t) => {
@@ -270,7 +269,7 @@ export default function Timeline({ items, variant = "alternating" }) {
                       }} />
 
                       <strong style={{ color: activeTag.item.color }}>{activeTag.item.name}</strong>
-                      <p>{activeTag.item.summary}</p>
+                        <p>{activeTag.item.summary}</p>
                       <span style={{ fontSize: "12px", color: "var(--text)", marginTop: "6px" }}>{activeTag.item.experience}</span>
                       <Link className="stack-expand-link" to={`/stack/${stackSlug(activeTag.item.name)}`}>
                         Expand page
@@ -313,103 +312,116 @@ export default function Timeline({ items, variant = "alternating" }) {
         const indexLabel = (i + 1).toString(2).padStart(digits, "0");
         const isActive = activeIndex === i;
         const isLeft = i % 2 === 0;
+        const showNaruto = Boolean(item.naruto);
 
         const cardContent = (
-          <TiltCard className={`timeline-content ${expanded === i ? "is-expanded" : ""}`} color={item.color}>
-            <div className="timeline-header">
-              <span className="timeline-role"><WaveText text={item.role} /></span>
-              <span className="timeline-year">{item.year}</span>
-            </div>
-            <div className="timeline-company">{item.company}</div>
-            <p className={`timeline-desc ${canExpand ? "expandable-text" : ""}`}>{item.desc}</p>
-            
-            <div className="timeline-tags" style={{ position: "relative" }}>
-              {item.tags.map((t) => {
-                const matched = getMatchedStackItem(t);
-                if (matched) {
+          <div className={`timeline-card-wrap ${showNaruto ? "has-naruto" : ""}`}>
+            <TiltCard className={`timeline-content ${expanded === i ? "is-expanded" : ""}`} color={item.color}>
+              <div className="timeline-header">
+                <span className="timeline-role"><WaveText text={item.role} /></span>
+                <span className="timeline-year">{item.year}</span>
+              </div>
+              <div className="timeline-company">{item.company}</div>
+                <p className={`timeline-desc ${canExpand ? "expandable-text" : ""}`}>{item.desc}</p>
+              
+              <div className="timeline-tags" style={{ position: "relative" }}>
+                {item.tags.map((t) => {
+                  const matched = getMatchedStackItem(t);
+                  if (matched) {
+                    return (
+                      <button
+                        key={t}
+                        type="button"
+                        className="timeline-tag is-interactive"
+                        style={{
+                          borderColor: `${item.color}88`,
+                          color: item.color,
+                          cursor: "pointer",
+                          background: "var(--panel-2)",
+                          borderStyle: "dashed"
+                        }}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          if (activeTag && activeTag.rowIndex === i && activeTag.tagName === t) {
+                            setActiveTag(null);
+                          } else {
+                            setActiveTag({ rowIndex: i, tagName: t, item: matched });
+                          }
+                        }}
+                      >
+                        {t}
+                      </button>
+                    );
+                  }
                   return (
-                    <button
-                      key={t}
-                      type="button"
-                      className="timeline-tag is-interactive"
-                      style={{
-                        borderColor: `${item.color}88`,
-                        color: item.color,
-                        cursor: "pointer",
-                        background: "var(--panel-2)",
-                        borderStyle: "dashed"
-                      }}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        if (activeTag && activeTag.rowIndex === i && activeTag.tagName === t) {
-                          setActiveTag(null);
-                        } else {
-                          setActiveTag({ rowIndex: i, tagName: t, item: matched });
-                        }
-                      }}
-                    >
+                    <span key={t} className="timeline-tag" style={{ borderColor: `${item.color}55`, color: item.color }}>
                       {t}
-                    </button>
+                    </span>
                   );
-                }
-                return (
-                  <span key={t} className="timeline-tag" style={{ borderColor: `${item.color}55`, color: item.color }}>
-                    {t}
-                  </span>
-                );
-              })}
+                })}
 
-              {/* Popover Card for clicked tags */}
-              {activeTag && activeTag.rowIndex === i && (
-                <article
-                  className="stack-hover-card is-pinned"
-                  style={{
-                    "--chip-color": activeTag.item.color,
-                    position: "absolute",
-                    left: "50%",
-                    top: "calc(100% + 8px)",
-                    transform: "translateX(-50%)",
-                    zIndex: 100,
-                    pointerEvents: "auto",
-                    display: "block"
+                {/* Popover Card for clicked tags */}
+                {activeTag && activeTag.rowIndex === i && (
+                  <article
+                    className="stack-hover-card is-pinned"
+                    style={{
+                      "--chip-color": activeTag.item.color,
+                      position: "absolute",
+                      left: "50%",
+                      top: "calc(100% + 8px)",
+                      transform: "translateX(-50%)",
+                      zIndex: 100,
+                      pointerEvents: "auto",
+                      display: "block"
+                    }}
+                  >
+                    <div style={{
+                      position: "absolute",
+                      top: "-8px",
+                      left: "50%",
+                      transform: "translateX(-50%) rotate(45deg)",
+                      width: "16px",
+                      height: "16px",
+                      borderLeft: "1px solid var(--glass-border)",
+                      borderTop: "1px solid var(--glass-border)",
+                      background: "var(--glass-body)",
+                      boxShadow: "inset 0 1px 0 var(--glass-highlight)"
+                    }} />
+
+                    <strong style={{ color: activeTag.item.color }}>{activeTag.item.name}</strong>
+                      <p>{activeTag.item.summary}</p>
+                    <span style={{ fontSize: "12px", color: "var(--text)", marginTop: "6px" }}>{activeTag.item.experience}</span>
+                    <Link className="stack-expand-link" to={`/stack/${stackSlug(activeTag.item.name)}`}>
+                      Expand page
+                    </Link>
+                  </article>
+                )}
+              </div>
+
+              {canExpand && (
+                <button
+                  type="button"
+                  className="timeline-expand"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setExpanded((value) => (value === i ? null : i));
                   }}
                 >
-                  <div style={{
-                    position: "absolute",
-                    top: "-8px",
-                    left: "50%",
-                    transform: "translateX(-50%) rotate(45deg)",
-                    width: "16px",
-                    height: "16px",
-                    borderLeft: "1px solid var(--glass-border)",
-                    borderTop: "1px solid var(--glass-border)",
-                    background: "var(--glass-body)",
-                    boxShadow: "inset 0 1px 0 var(--glass-highlight)"
-                  }} />
-
-                  <strong style={{ color: activeTag.item.color }}>{activeTag.item.name}</strong>
-                  <p>{activeTag.item.summary}</p>
-                  <span style={{ fontSize: "12px", color: "var(--text)", marginTop: "6px" }}>{activeTag.item.experience}</span>
-                  <Link className="stack-expand-link" to={`/stack/${stackSlug(activeTag.item.name)}`}>
-                    Expand page
-                  </Link>
-                </article>
+                  {expanded === i ? "Collapse" : "Click to expand"}
+                </button>
               )}
-            </div>
-
-            {canExpand && (
-              <button
-                type="button"
-                className="timeline-expand"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setExpanded((value) => (value === i ? null : i));
-                }}
-              >
-                {expanded === i ? "Collapse" : "Click to expand"}
-              </button>
+            </TiltCard>
+            {showNaruto && (
+              <div className={`timeline-naruto ${isLeft ? "naruto-right" : "naruto-left"}`} aria-hidden="true">
+                <div id="naruto">
+                  <section className="head" />
+                  <section className="torso" />
+                  <section className="legs" />
+                  <section className="shadow" />
+                </div>
+              </div>
             )}
-          </TiltCard>
+          </div>
         );
 
         return (

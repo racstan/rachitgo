@@ -1,4 +1,5 @@
 import React from "react";
+import ClothParagraph from "./ClothParagraph.jsx";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
@@ -8,7 +9,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <strong>Rachit Asthana</strong>
-            <p>Building production software that ships and scales.</p>
+            <ClothParagraph>Building production software that ships and scales.</ClothParagraph>
           </div>
           <div className="footer-links">
             <div className="footer-col">

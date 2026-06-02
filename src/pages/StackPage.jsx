@@ -400,7 +400,7 @@ export default function StackPage() {
           <div style={{ borderTop: "1px solid var(--line)", paddingTop: "20px", marginBottom: "20px" }}>
             <h4 style={{ margin: "0 0 4px 0", fontSize: "13px", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "1px" }}>Case Study Context</h4>
             <strong style={{ fontSize: "16px", color: "var(--text)" }}>{detail.project}</strong>
-            <p style={{ fontSize: "14px", color: "var(--accent)", margin: "2px 0 0 0" }}>{detail.role}</p>
+              <p style={{ fontSize: "14px", color: "var(--accent)", margin: "2px 0 0 0" }}>{detail.role}</p>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>

@@ -25,7 +25,7 @@ export default function CommandPalette({ mode, onToggleMode }) {
       },
       { label: "View Resume", hint: "Open Resume PDF in browser viewer", path: "/resume" },
       { label: "Download Resume", hint: "Download PDF file directly", action: "downloadResume" },
-      { label: "View CV", hint: "Open CV PDF in browser viewer", path: "/resume" },
+      { label: "View CV", hint: "Open CV PDF in browser viewer", path: "/cv" },
       { label: "Download CV", hint: "Download PDF file directly", action: "downloadCV" },
     ];
   }, [mode]);
@@ -107,7 +107,7 @@ export default function CommandPalette({ mode, onToggleMode }) {
 
     if (action.action === "downloadResume" || action.action === "downloadCV") {
       const link = document.createElement("a");
-      link.href = "/CV2026.pdf";
+      link.href = action.action === "downloadResume" ? "/docs/resumelatest.pdf" : "/docs/cvlatest.pdf";
       link.download = action.action === "downloadResume" ? "Rachit_Asthana_Resume.pdf" : "Rachit_Asthana_CV.pdf";
       document.body.appendChild(link);
       link.click();
@@ -164,7 +164,7 @@ export default function CommandPalette({ mode, onToggleMode }) {
                 autoFocus
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Jump to proof, projects, stack..."
+                placeholder="Jump to highlights, projects, stack..."
                 role="combobox"
                 aria-controls="command-results"
                 aria-expanded={open}

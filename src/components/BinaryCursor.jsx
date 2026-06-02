@@ -1,43 +1,19 @@
 import React, { useEffect, useRef } from "react";
 
 const CONFIG = {
-  dots: 7,
-  deltaT: 0.014,
-  segLength: 14,
-  springK: 8.5,
-  mass: 1,
-  gravity: 24,
-  resistance: 12,
-  stopVel: 0.06,
-  stopAcc: 0.06,
-  dotSize: 12,
-  bounce: 0.55,
+  radius: 9.5,
+  ringWidth: 1,
+  shadowBlur: 14,
+  ease: 0.48,
+  snapDistance: 80,
+  segments: 26,
+  wobbleAmp: 1.6,
+  wobbleSpeed: 0.002,
+  fillAlpha: 0.22,
+  ringAlpha: 0.35,
+  sheenAlpha: 0.3,
+  blurSize: 32,
 };
-
-class Vec {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
-class Particle {
-  constructor(canvas, start) {
-    this.position = { x: start.x, y: start.y };
-    this.velocity = { x: 0, y: 0 };
-    this.canvas = canvas;
-  }
-
-  draw(context) {
-    context.drawImage(
-      this.canvas,
-      this.position.x - this.canvas.width / 2,
-      this.position.y - this.canvas.height / 2,
-      this.canvas.width,
-      this.canvas.height,
-    );
-  }
-}
 
 function getThemeColor(variable, fallback) {
   if (typeof window === "undefined") return fallback;
@@ -45,201 +21,171 @@ function getThemeColor(variable, fallback) {
   return value || fallback;
 }
 
-function createGlyphCanvas(glyph, fill, glow) {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  const size = 18;
-
-  if (!context) return canvas;
-
-  canvas.width = size * 2;
-  canvas.height = size * 2;
-
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.font = `600 ${size}px "JetBrains Mono", monospace`;
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-  context.fillStyle = fill;
-  context.shadowColor = glow;
-  context.shadowBlur = 10;
-  context.fillText(glyph, canvas.width / 2, canvas.height / 2);
-
-  return canvas;
+function getThemeMode() {
+  if (typeof document === "undefined") return "dark";
+  return document.documentElement.dataset.theme || "dark";
 }
 
-export default function BinaryCursor({ emoji = "01", theme }) {
+export default function BinaryCursor() {
   const canvasRef = useRef(null);
-  const contextRef = useRef(null);
-  const particlesRef = useRef([]);
-  const cursorRef = useRef({ x: 0, y: 0, active: false });
-  const lastMoveRef = useRef(0);
-  const sizeRef = useRef({ width: 0, height: 0 });
-  const animationFrameRef = useRef(null);
+  const blurRef = useRef(null);
+  const sizeRef = useRef({ width: 0, height: 0, dpr: 1 });
+  const targetRef = useRef({ x: 0, y: 0 });
+  const posRef = useRef({ x: 0, y: 0 });
+  const activeRef = useRef(false);
+  const rafRef = useRef(null);
+  const colorsRef = useRef({
+    orb: "#000000",
+    ring: "rgba(255, 255, 255, 0.12)",
+    shadow: "rgba(0, 0, 0, 0.35)",
+    highlight: "rgba(255, 255, 255, 0.28)",
+  });
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const hoverNone = window.matchMedia("(hover: none)");
-    if (reduceMotion.matches || hoverNone.matches) return undefined;
-
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
 
-    const context = canvas.getContext("2d");
-    if (!context) return undefined;
-    contextRef.current = context;
+    const blur = blurRef.current;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return undefined;
 
-    const fill = getThemeColor("--accent-2", "#58a6ff");
-    const glow = getThemeColor("--accent", "#3fb950");
-    const glyphs = emoji && emoji.length > 1 ? emoji.split("") : [emoji || "0"];
-    const glyphCanvases = glyphs.map((glyph) => createGlyphCanvas(glyph, fill, glow));
+    function updateColors() {
+      const theme = getThemeMode();
+      colorsRef.current = {
+        orb: getThemeColor("--orb-bg", theme === "light" ? "#ffffff" : "#000000"),
+        ring: getThemeColor("--orb-ring", theme === "light" ? "rgba(0, 0, 0, 0.12)" : "rgba(255, 255, 255, 0.12)"),
+        shadow: getThemeColor("--orb-shadow", theme === "light" ? "rgba(0, 0, 0, 0.26)" : "rgba(0, 0, 0, 0.4)"),
+        highlight: theme === "light" ? "rgba(0, 0, 0, 0.12)" : "rgba(255, 255, 255, 0.28)",
+      };
+    }
 
     function resizeCanvas() {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      sizeRef.current = { width, height };
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      sizeRef.current = { width, height, dpr };
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      if (blur) {
+        blur.style.width = `${CONFIG.blurSize}px`;
+        blur.style.height = `${CONFIG.blurSize}px`;
+      }
     }
 
-    resizeCanvas();
-    const start = { x: sizeRef.current.width / 2, y: sizeRef.current.height / 2 };
-    cursorRef.current = { x: start.x, y: start.y, active: false };
-    lastMoveRef.current = performance.now();
-    particlesRef.current = Array.from({ length: CONFIG.dots }, (_, index) => (
-      new Particle(glyphCanvases[index % glyphCanvases.length], start)
-    ));
-
-    const isInteractiveRef = { current: false };
-    const interactiveAlphaRef = { current: 1 };
-
     function onPointerMove(event) {
-      const target = event.target;
-      isInteractiveRef.current = !!(target && (
-        target.closest("a, button, input, select, textarea, [role='button'], summary, .nav-dropdown") ||
-        target.closest(".resume-ai-panel") ||
-        target.closest(".resume-ai-fab") ||
-        target.closest(".navbar")
-      ));
-
-      cursorRef.current.active = true;
-      cursorRef.current.x = event.clientX;
-      cursorRef.current.y = event.clientY;
-      lastMoveRef.current = performance.now();
+      if (!activeRef.current) {
+        posRef.current.x = event.clientX;
+        posRef.current.y = event.clientY;
+      }
+      targetRef.current.x = event.clientX;
+      targetRef.current.y = event.clientY;
+      activeRef.current = true;
     }
 
     function onPointerLeave() {
-      cursorRef.current.active = false;
+      activeRef.current = false;
     }
 
-    function springForce(i, j, spring) {
-      const dx = particlesRef.current[i].position.x - particlesRef.current[j].position.x;
-      const dy = particlesRef.current[i].position.y - particlesRef.current[j].position.y;
-      const len = Math.sqrt(dx * dx + dy * dy);
-      if (len > CONFIG.segLength) {
-        const springF = CONFIG.springK * (len - CONFIG.segLength);
-        spring.x += (dx / len) * springF;
-        spring.y += (dy / len) * springF;
+    function drawBlob(ctxLocal, radius, wobbleAmp, time) {
+      ctxLocal.beginPath();
+      for (let i = 0; i <= CONFIG.segments; i += 1) {
+        const angle = (i / CONFIG.segments) * Math.PI * 2;
+        const noise = Math.sin(angle * 3 + time * 1.8) + Math.sin(angle * 5 - time * 1.1);
+        const wobble = noise * 0.5;
+        const r = radius + wobbleAmp * wobble;
+        const x = Math.cos(angle) * r;
+        const y = Math.sin(angle) * r;
+        if (i === 0) {
+          ctxLocal.moveTo(x, y);
+        } else {
+          ctxLocal.lineTo(x, y);
+        }
       }
+      ctxLocal.closePath();
     }
 
-    function updateParticles() {
-      if (!contextRef.current) return;
+    function drawOrb() {
       const { width, height } = sizeRef.current;
-      contextRef.current.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, width, height);
 
-      const maxAlpha = 0.55;
-      const targetAlpha = (isInteractiveRef.current || !cursorRef.current.active) ? 0 : maxAlpha;
-      const alphaSpeed = 0.05; // Fades out/in gradually over ~300ms
-      if (interactiveAlphaRef.current < targetAlpha) {
-        interactiveAlphaRef.current = Math.min(targetAlpha, interactiveAlphaRef.current + alphaSpeed);
-      } else if (interactiveAlphaRef.current > targetAlpha) {
-        interactiveAlphaRef.current = Math.max(targetAlpha, interactiveAlphaRef.current - alphaSpeed);
-      }
-
-      if (interactiveAlphaRef.current <= 0 && !cursorRef.current.active) {
+      if (!activeRef.current) {
+        if (blur) blur.style.opacity = "0";
+        rafRef.current = requestAnimationFrame(drawOrb);
         return;
       }
 
-      const now = performance.now();
-      const idleMs = now - lastMoveRef.current;
-      const fadeStart = 220;
-      const fadeEnd = 900;
-      const fadeProgress = Math.min(Math.max((idleMs - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-      const trailAlpha = (1 - fadeProgress) * interactiveAlphaRef.current;
-      const headAlpha = Math.max(0.35 * interactiveAlphaRef.current, trailAlpha);
+      const pos = posRef.current;
+      const target = targetRef.current;
+      const dx = target.x - pos.x;
+      const dy = target.y - pos.y;
+      const distance = Math.hypot(dx, dy);
+      const follow = distance > CONFIG.snapDistance ? 1 : CONFIG.ease;
+      pos.x += dx * follow;
+      pos.y += dy * follow;
 
-      particlesRef.current[0].position.x = cursorRef.current.x;
-      particlesRef.current[0].position.y = cursorRef.current.y;
-      contextRef.current.globalAlpha = headAlpha;
-      particlesRef.current[0].draw(contextRef.current);
-
-      for (let i = 1; i < CONFIG.dots; i += 1) {
-        const spring = new Vec(0, 0);
-        springForce(i - 1, i, spring);
-        if (i < CONFIG.dots - 1) springForce(i + 1, i, spring);
-
-        const resist = new Vec(
-          -particlesRef.current[i].velocity.x * CONFIG.resistance,
-          -particlesRef.current[i].velocity.y * CONFIG.resistance,
-        );
-
-        const accel = new Vec(
-          (spring.x + resist.x) / CONFIG.mass,
-          (spring.y + resist.y) / CONFIG.mass + CONFIG.gravity,
-        );
-
-        particlesRef.current[i].velocity.x += CONFIG.deltaT * accel.x;
-        particlesRef.current[i].velocity.y += CONFIG.deltaT * accel.y;
-
-        if (
-          Math.abs(particlesRef.current[i].velocity.x) < CONFIG.stopVel &&
-          Math.abs(particlesRef.current[i].velocity.y) < CONFIG.stopVel &&
-          Math.abs(accel.x) < CONFIG.stopAcc &&
-          Math.abs(accel.y) < CONFIG.stopAcc
-        ) {
-          particlesRef.current[i].velocity.x = 0;
-          particlesRef.current[i].velocity.y = 0;
-        }
-
-        particlesRef.current[i].position.x += particlesRef.current[i].velocity.x;
-        particlesRef.current[i].position.y += particlesRef.current[i].velocity.y;
-
-        if (particlesRef.current[i].position.y >= height - CONFIG.dotSize - 1) {
-          if (particlesRef.current[i].velocity.y > 0) {
-            particlesRef.current[i].velocity.y = CONFIG.bounce * -particlesRef.current[i].velocity.y;
-          }
-          particlesRef.current[i].position.y = height - CONFIG.dotSize - 1;
-        }
-
-        if (particlesRef.current[i].position.x >= width - CONFIG.dotSize) {
-          if (particlesRef.current[i].velocity.x > 0) {
-            particlesRef.current[i].velocity.x = CONFIG.bounce * -particlesRef.current[i].velocity.x;
-          }
-          particlesRef.current[i].position.x = width - CONFIG.dotSize - 1;
-        }
-
-        if (particlesRef.current[i].position.x < 0) {
-          if (particlesRef.current[i].velocity.x < 0) {
-            particlesRef.current[i].velocity.x = CONFIG.bounce * -particlesRef.current[i].velocity.x;
-          }
-          particlesRef.current[i].position.x = 0;
-        }
-
-        contextRef.current.globalAlpha = i === 0 ? headAlpha : trailAlpha;
-        particlesRef.current[i].draw(contextRef.current);
+      if (blur) {
+        blur.style.opacity = "1";
+        blur.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`;
       }
 
-      contextRef.current.globalAlpha = 1;
+      const { orb, ring, shadow, highlight } = colorsRef.current;
+      const time = performance.now() * CONFIG.wobbleSpeed;
+      const motionBoost = Math.min(distance * 0.035, 1.8);
+
+      ctx.save();
+      ctx.translate(pos.x, pos.y);
+      ctx.rotate(time * 0.35);
+
+      drawBlob(ctx, CONFIG.radius, CONFIG.wobbleAmp + motionBoost, time);
+      const baseGradient = ctx.createRadialGradient(
+        0,
+        0,
+        CONFIG.radius * 0.2,
+        0,
+        0,
+        CONFIG.radius * 1.3,
+      );
+      baseGradient.addColorStop(0, orb);
+      baseGradient.addColorStop(0.65, orb);
+      baseGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.fillStyle = baseGradient;
+      ctx.shadowColor = shadow;
+      ctx.shadowBlur = CONFIG.shadowBlur;
+      ctx.globalAlpha = CONFIG.fillAlpha;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
+
+      ctx.globalAlpha = CONFIG.ringAlpha;
+      ctx.lineWidth = CONFIG.ringWidth;
+      ctx.strokeStyle = ring;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+
+      const sheen = ctx.createRadialGradient(0, 0, CONFIG.radius * 0.2, 0, 0, CONFIG.radius * 1.4);
+      sheen.addColorStop(0, highlight);
+      sheen.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.fillStyle = sheen;
+      ctx.globalAlpha = CONFIG.sheenAlpha;
+      drawBlob(ctx, CONFIG.radius * 0.9, CONFIG.wobbleAmp * 0.6 + motionBoost * 0.4, time + 1.3);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+
+      ctx.restore();
+
+      rafRef.current = requestAnimationFrame(drawOrb);
     }
 
-    function loop() {
-      updateParticles();
-      animationFrameRef.current = requestAnimationFrame(loop);
-    }
+    updateColors();
+    resizeCanvas();
+    drawOrb();
+
+    const themeObserver = new MutationObserver(updateColors);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     window.addEventListener("pointerdown", onPointerMove, { passive: true });
@@ -247,17 +193,21 @@ export default function BinaryCursor({ emoji = "01", theme }) {
     window.addEventListener("blur", onPointerLeave);
     window.addEventListener("resize", resizeCanvas);
 
-    loop();
-
     return () => {
+      themeObserver.disconnect();
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerdown", onPointerMove);
       window.removeEventListener("pointerleave", onPointerLeave);
       window.removeEventListener("blur", onPointerLeave);
       window.removeEventListener("resize", resizeCanvas);
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [emoji, theme]);
+  }, []);
 
-  return <canvas ref={canvasRef} className="binary-cursor" aria-hidden="true" />;
+  return (
+    <div className="binary-cursor" aria-hidden="true">
+      <div ref={blurRef} className="cursor-orb-blur" />
+      <canvas ref={canvasRef} className="cursor-orb-canvas" />
+    </div>
+  );
 }

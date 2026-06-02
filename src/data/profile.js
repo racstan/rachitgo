@@ -75,6 +75,16 @@ export const journeyTimeline = [
     color: "#cf222e",
   },
   {
+    year: "Age 10-11",
+    role: "Fascination for imagination",
+    company: "Series and movies that shaped me",
+    tags: ["Series", "Movies", "Imagination"],
+    desc:
+      "Loved watching series, movies which had a profound effect on me.",
+    color: "#d29922",
+    naruto: true,
+  },
+  {
     year: "High school",
     role: "First Lines of Code",
     company: "C++ in school, HTML at home",

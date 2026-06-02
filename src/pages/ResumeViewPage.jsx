@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Download, FileText } from "lucide-react";
 import HoverTypingText from "../components/HoverTypingText.jsx";
+import ClothParagraph from "../components/ClothParagraph.jsx";
 
 export default function ResumeViewPage() {
   const location = useLocation();
@@ -9,6 +10,7 @@ export default function ResumeViewPage() {
   const eyebrow = isCv ? "Curriculum Vitae" : "Professional Resume";
   const title = isCv ? "Rachit Asthana's CV" : "Rachit Asthana's Resume";
   const downloadFilename = isCv ? "Rachit_Asthana_CV.pdf" : "Rachit_Asthana_Resume.pdf";
+  const filePath = isCv ? "/docs/cvlatest.pdf" : "/docs/resumelatest.pdf";
   const description = isCv
     ? "Inspect the comprehensive catalog of my academic milestones, publications, and full technical experience."
     : "Review a summary of my core skillsets, highlighted achievements, and latest work history.";
@@ -22,14 +24,14 @@ export default function ResumeViewPage() {
       <div className="section-head" style={{ marginBottom: "32px", display: "flex", flexDirection: "column", gap: "12px" }}>
         <p className="eyebrow">{eyebrow}</p>
         <HoverTypingText element="h2" variants={[title, isCv ? "Curriculum Vitae" : "Resume Credentials"]} />
-        <p style={{ color: "var(--text-muted)", fontSize: "15px", maxWidth: "600px", margin: 0 }}>
+        <ClothParagraph style={{ color: "var(--text-muted)", fontSize: "15px", maxWidth: "600px", margin: 0 }}>
           {description}
-        </p>
+        </ClothParagraph>
         
         {/* Premium Action Buttons */}
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginTop: "16px" }}>
           <a
-            href="/CV2026.pdf"
+            href={filePath}
             download={downloadFilename}
             className="action-btn"
             style={{
@@ -74,7 +76,7 @@ export default function ResumeViewPage() {
 
       <div style={{ width: "100%", height: "85vh", borderRadius: "16px", overflow: "hidden", border: "1px solid var(--line)", background: "var(--panel)", boxShadow: "0 20px 50px rgba(0,0,0,0.15)" }}>
         <iframe
-          src="/CV2026.pdf"
+          src={filePath}
           width="100%"
           height="100%"
           style={{ border: "none" }}

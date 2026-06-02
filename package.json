@@ -5,6 +5,7 @@
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
+    "@chenglou/pretext": "^0.0.6",
     "@vitejs/plugin-react": "^5.0.0",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.38.0",

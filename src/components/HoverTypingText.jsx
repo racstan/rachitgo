@@ -9,6 +9,7 @@ export default function HoverTypingText({
   variants,
   className = "",
   element = "span",
+  getWordClassName,
 }) {
   const texts = variants && variants.length ? variants : [""];
   const maxLines = Math.max(...texts.map((value) => splitLines(value).length));
@@ -22,7 +23,7 @@ export default function HoverTypingText({
     >
       {splitLines(displayText).map((line, idx) => (
         <span key={`${line}-${idx}`} className="hover-typing-line hover-typing-live">
-          <WaveText text={line} />
+          <WaveText text={line} getWordClassName={getWordClassName} />
         </span>
       ))}
     </Component>

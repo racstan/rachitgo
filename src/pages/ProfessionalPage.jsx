@@ -1,5 +1,7 @@
 import React from "react";
 import { contacts } from "../data/contacts.js";
+import Highlights from "../components/Highlights.jsx";
+import ClothParagraph from "../components/ClothParagraph.jsx";
 import { experienceTimeline, profile, projectCards, skillGroups } from "../data/profile.js";
 
 function Section({ id, eyebrow, title, children }) {
@@ -19,11 +21,11 @@ export default function ProfessionalPage() {
         <div>
           <p className="eyebrow">professional mode</p>
           <h1>{profile.name}</h1>
-          <p className="professional-role">{profile.roleLine}</p>
-          <p className="professional-summary">{profile.summary}</p>
+          <ClothParagraph className="professional-role">{profile.roleLine}</ClothParagraph>
+          <ClothParagraph className="professional-summary">{profile.summary}</ClothParagraph>
           <div className="professional-actions">
-            <a href="/CV2026.pdf" download="Rachit_Asthana_Resume.pdf" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>Download Resume</a>
-            <a href="/CV2026.pdf" download="Rachit_Asthana_CV.pdf" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>Download CV</a>
+            <a href="/docs/resumelatest.pdf" download="Rachit_Asthana_Resume.pdf" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>Download Resume</a>
+            <a href="/docs/cvlatest.pdf" download="Rachit_Asthana_CV.pdf" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>Download CV</a>
             <a href={`mailto:${profile.email}`}>Email me</a>
             <a href={profile.githubUrl} target="_blank" rel="noreferrer">GitHub</a>
             <a href={profile.linkedinUrl} target="_blank" rel="noreferrer">LinkedIn</a>
@@ -34,6 +36,8 @@ export default function ProfessionalPage() {
           <p>Laravel, React, TypeScript, cloud platforms, DevOps practices, and AI integrations.</p>
         </aside>
       </section>
+
+      <Highlights compact />
 
       <Section id="professional-experience" eyebrow="experience" title="Work Experience & Education">
         <div className="professional-timeline">
@@ -65,7 +69,9 @@ export default function ProfessionalPage() {
                 <h3 style={{ margin: 0, fontSize: "20px" }}>{project.title}</h3>
                 <span style={{ fontSize: "12px", color: "var(--accent-2)", fontWeight: "600", fontFamily: "monospace" }}>{project.highlights.join(" • ")}</span>
               </div>
-              <p style={{ margin: 0, color: "var(--text-dim)", fontSize: "14px", lineHeight: "1.6" }}>{project.summary}</p>
+              <p style={{ margin: 0, color: "var(--text-dim)", fontSize: "14px", lineHeight: "1.6" }}>
+                {project.summary}
+              </p>
             </article>
           ))}
         </div>

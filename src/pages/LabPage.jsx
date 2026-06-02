@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Inspector from "../components/Inspector.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
 import WaveText from "../components/WaveText.jsx";
+import ClothParagraph from "../components/ClothParagraph.jsx";
 
 // Maps text to its low-level representation on hover
 function textToHex(str) {
@@ -98,10 +99,10 @@ export default function LabPage({
           ]}
         />
       </div>
-      <p className="lab-note">
+      <ClothParagraph className="lab-note">
         Hover over any highlighted text below to see how the computer converts user input through the full pipeline —
         from characters to ASCII to hex to binary to stdout.
-      </p>
+      </ClothParagraph>
 
       {/* Hoverable text demo */}
       <div className="lab-hover-demo">

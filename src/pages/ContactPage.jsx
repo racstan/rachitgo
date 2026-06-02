@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TiltCard from "../components/TiltCard.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
 import WaveText from "../components/WaveText.jsx";
+import ClothParagraph from "../components/ClothParagraph.jsx";
 import { contacts } from "../data/contacts.js";
 
 function ContactCard({ item }) {
@@ -96,10 +97,10 @@ export default function ContactPage() {
           ]}
         />
       </div>
-      <p style={{ color: "var(--muted)", marginBottom: "40px", fontSize: "17px", lineHeight: "1.7" }}>
+      <ClothParagraph style={{ color: "var(--muted)", marginBottom: "40px", fontSize: "17px", lineHeight: "1.7" }}>
         Open for software development, freelance builds, engineering collaboration,
         and meaningful conversations about tech. Pick whichever platform you prefer.
-      </p>
+      </ClothParagraph>
 
       <div className="contact-grid">
         {contacts.map((item) => (

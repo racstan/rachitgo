@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { caseStudies } from "../data/caseStudies.js";
+import ProblemStatementCloth from "../components/ProblemStatementCloth.jsx";
+import ClothParagraph from "../components/ClothParagraph.jsx";
 import { ArrowLeft, Cpu, AlertCircle, Award, CheckCircle } from "lucide-react";
 
 export default function ProjectDetailPage() {
@@ -23,8 +25,8 @@ export default function ProjectDetailPage() {
           <span className="project-duration">{project.timeline}</span>
         </div>
         <h1>{project.title}</h1>
-        <p className="project-subtitle">{project.subtitle}</p>
-        <p className="project-role-badge">Role: <strong>{project.role}</strong></p>
+        <ClothParagraph className="project-subtitle">{project.subtitle}</ClothParagraph>
+        <ClothParagraph className="project-role-badge" text={`Role: ${project.role}`} />
       </header>
 
       {/* Metrics Row */}
@@ -42,7 +44,7 @@ export default function ProjectDetailPage() {
         <div className="project-detail-main">
           <section className="detail-section">
             <h3>Problem Statement</h3>
-            <p className="lead-text">{project.problem}</p>
+            <ProblemStatementCloth text={project.problem} />
           </section>
 
           <section className="detail-section">

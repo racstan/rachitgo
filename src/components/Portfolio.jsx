@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import TiltCard from "./TiltCard.jsx";
+import ClothParagraph from "./ClothParagraph.jsx";
 import { portfolioItems } from "../data/portfolio.js";
 import { languages } from "../data/languages.js";
 
@@ -87,10 +88,10 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
           {roleOptions[roleIndex].toLowerCase()}
         </p>
         <h1>Rachit Asthana</h1>
-        <p>
+        <ClothParagraph>
           I architect production software that solves real problems — from clinical AI platforms to embedded
           IoT systems. This portfolio is the engineering layer; the professional view is one toggle away.
-        </p>
+        </ClothParagraph>
         <div className="identity-strip" aria-label={`Identity shown as ${identity.label}`}>
           <span>{identity.label}</span>
           <code key={identity.value}>{identity.value}</code>
@@ -199,9 +200,7 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
           <p className="eyebrow">skills</p>
           <h2>{skills.title}</h2>
           <strong>{skills.subtitle}</strong>
-          <p>
-            {skills.detail}
-          </p>
+          <p>{skills.detail}</p>
           <div className="language-band">
             {languages.map((language) => (
               <span key={language.id}>{language.name}</span>

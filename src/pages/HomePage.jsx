@@ -6,6 +6,7 @@ import WaveText from "../components/WaveText.jsx";
 import TiltCard from "../components/TiltCard.jsx";
 import GitHubContributions from "../components/GitHubContributions.jsx";
 import NewsletterSignup from "../components/NewsletterSignup.jsx";
+import Highlights from "../components/Highlights.jsx";
 import { fetchContributions } from "../lib/github.js";
 import { profile, experienceTimeline } from "../data/profile.js";
 
@@ -74,7 +75,14 @@ export default function HomePage({ onActivate }) {
   const { displayText, mode } = useHeroModes(heroModes);
   const containerRef = useRef(null);
   const textRef = useRef(null);
+  const heroRef = useRef(null);
+  const spotlightActiveRef = useRef(false);
+  const orbTargetRef = useRef({ x: 0, y: 0 });
+  const orbCurrentRef = useRef({ x: 0, y: 0 });
+  const orbRafRef = useRef(null);
   const [fontSize, setFontSize] = useState(76);
+  const [orbActive, setOrbActive] = useState(false);
+  const [spotlightActive, setSpotlightActive] = useState(false);
   const roleOptions = [
     "Product Engineer",
     "Full Stack Architect",
@@ -110,6 +118,10 @@ export default function HomePage({ onActivate }) {
     "Keyboard Shortcut Maximizer",
     "sudo rm -rf Fears Collector",
   ];
+  const getLouderWordClassName = (word) => {
+    const cleaned = word.toLowerCase().replace(/[^a-z]/g, "");
+    return cleaned === "louder" ? "word-magnify" : "";
+  };
   const [roleIndex, setRoleIndex] = useState(0);
   const [calendar, setCalendar] = useState(null);
   const [repos, setRepos] = useState([]);
@@ -165,16 +177,138 @@ export default function HomePage({ onActivate }) {
     return () => window.removeEventListener("resize", updateScale);
   }, [targetText]);
 
+  useEffect(() => {
+    function resetOrbToCenter() {
+      const hero = heroRef.current;
+      if (!hero || spotlightActiveRef.current) return;
+      const rect = hero.getBoundingClientRect();
+      const center = { x: rect.width / 2, y: rect.height / 2 };
+      orbTargetRef.current = center;
+      orbCurrentRef.current = { ...center };
+    }
+
+    function animateOrb() {
+      const hero = heroRef.current;
+      if (!hero) {
+        orbRafRef.current = requestAnimationFrame(animateOrb);
+        return;
+      }
+
+      const target = orbTargetRef.current;
+      const current = orbCurrentRef.current;
+      const ease = 0.14;
+      current.x += (target.x - current.x) * ease;
+      current.y += (target.y - current.y) * ease;
+
+      hero.style.setProperty("--spot-x", `${current.x}px`);
+      hero.style.setProperty("--spot-y", `${current.y}px`);
+
+      const textEl = textRef.current;
+      if (textEl) {
+        const heroRect = hero.getBoundingClientRect();
+        const textRect = textEl.getBoundingClientRect();
+        const absoluteX = heroRect.left + current.x;
+        const absoluteY = heroRect.top + current.y;
+        textEl.style.setProperty("--reveal-x", `${absoluteX - textRect.left}px`);
+        textEl.style.setProperty("--reveal-y", `${absoluteY - textRect.top}px`);
+      }
+
+      orbRafRef.current = requestAnimationFrame(animateOrb);
+    }
+
+    resetOrbToCenter();
+    orbRafRef.current = requestAnimationFrame(animateOrb);
+    window.addEventListener("resize", resetOrbToCenter);
+
+    return () => {
+      window.removeEventListener("resize", resetOrbToCenter);
+      if (orbRafRef.current) cancelAnimationFrame(orbRafRef.current);
+    };
+  }, []);
+
+  function moveHeroSpotlight(event) {
+    const hero = heroRef.current;
+    const textEl = textRef.current;
+    if (!hero) return;
+    if (!orbActive) setOrbActive(true);
+    const heroRect = hero.getBoundingClientRect();
+    const pointerX = event.clientX - heroRect.left;
+    const pointerY = event.clientY - heroRect.top;
+    const centerX = heroRect.width / 2;
+    const centerY = heroRect.height / 2;
+
+    const textRect = textEl?.getBoundingClientRect();
+    const nearText = textRect
+      ? event.clientX >= textRect.left - 42 &&
+        event.clientX <= textRect.right + 42 &&
+        event.clientY >= textRect.top - 42 &&
+        event.clientY <= textRect.bottom + 42
+      : false;
+
+    const magnetFactor = nearText ? 0.9 : 0.7;
+    orbTargetRef.current = {
+      x: centerX + (pointerX - centerX) * magnetFactor,
+      y: centerY + (pointerY - centerY) * magnetFactor,
+    };
+
+    if (nearText && !spotlightActiveRef.current) {
+      spotlightActiveRef.current = true;
+      setSpotlightActive(true);
+    } else if (!nearText && spotlightActiveRef.current) {
+      spotlightActiveRef.current = false;
+      setSpotlightActive(false);
+    }
+  }
+
   return (
     <section className="portfolio">
-      <section className="hero">
+      <section
+        className={`hero hero-spotlight-stage ${orbActive ? "orb-active" : ""} ${spotlightActive ? "spotlight-active" : ""}`}
+        ref={heroRef}
+        onPointerMove={moveHeroSpotlight}
+        onPointerEnter={(event) => {
+          setOrbActive(true);
+          moveHeroSpotlight(event);
+        }}
+        onPointerLeave={() => {
+          setOrbActive(false);
+          spotlightActiveRef.current = false;
+          setSpotlightActive(false);
+          const heroRect = heroRef.current?.getBoundingClientRect();
+          if (heroRect) {
+            const center = { x: heroRect.width / 2, y: heroRect.height / 2 };
+            orbTargetRef.current = center;
+          }
+        }}
+      >
+        <svg className="hero-goo-filter" aria-hidden="true" focusable="false">
+          <filter id="hero-goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+            />
+          </filter>
+        </svg>
+        <div className="hero-follow-orb" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </div>
         <div className="hero-typing-container" ref={containerRef}>
-          <h1 className="hero-typing" style={{ color: mode.color, fontSize: `${fontSize}px` }}>
-            <span ref={textRef} className="hero-typing-text" data-full-text={targetText}>
-              {displayText}
-            </span>
-            <span className="hero-cursor" style={{ background: mode.color }} />
-          </h1>
+          <div className="hero-typing-stack" ref={textRef}>
+            <h1 className="hero-typing hero-typing-base" style={{ fontSize: `${fontSize}px` }}>
+              <span className="hero-typing-text" data-full-text={targetText}>
+                {displayText}
+              </span>
+              <span className="hero-cursor" />
+            </h1>
+            <h1 className="hero-typing hero-typing-reveal" aria-hidden="true" style={{ fontSize: `${fontSize}px` }}>
+              <span className="hero-typing-text">{displayText}</span>
+              <span className="hero-cursor" />
+            </h1>
+          </div>
         </div>
         <button
           type="button"
@@ -198,6 +332,7 @@ export default function HomePage({ onActivate }) {
           <p className="eyebrow"><WaveText text="github profile snapshot" /></p>
           <HoverTypingText
             element="h2"
+            getWordClassName={getLouderWordClassName}
             variants={[
               "The code speaks louder.",
               "Green squares don't lie.",
@@ -260,6 +395,8 @@ export default function HomePage({ onActivate }) {
           ))}
         </div>
       </section>
+
+      <Highlights />
 
       <section className="section compact-section" style={{ padding: "0 4vw" }}>
         <div className="section-head">
