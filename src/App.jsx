@@ -2,8 +2,6 @@ import React, { useEffect, useMemo, useState, useRef } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ArrowUp, ArrowDown, ChevronsUp, ChevronsDown } from "lucide-react";
 import Navbar from "./components/Navbar.jsx";
-import BinaryCursor from "./components/BinaryCursor.jsx";
-import BinaryRain from "./components/BinaryRain.jsx";
 import Footer from "./components/Footer.jsx";
 import CommandPalette from "./components/CommandPalette.jsx";
 import ResumeAIWidget from "./components/ResumeAIWidget.jsx";
@@ -541,7 +539,6 @@ export default function App() {
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      {mode === "full" && !themeSwitching && <BinaryRain theme={theme} />}
       <Navbar theme={theme} onToggleTheme={toggleTheme} mode={mode} onToggleMode={toggleMode} currentPath={location.pathname} />
       <main className="app-shell" id="main-content">
         <ErrorBoundary key={mode}>
@@ -559,7 +556,7 @@ export default function App() {
             <Route path="/projects" element={<ProjectsPage onActivate={setActiveItemId} />} />
             <Route path="/projects/:id" element={<ProjectDetailPage />} />
             <Route path="/journey" element={<ExperiencePage />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/contact" element={<ContactPage theme={theme} />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/stack/:slug" element={<StackPage />} />
             <Route
@@ -576,8 +573,26 @@ export default function App() {
                 />
               }
             />
-            <Route path="/resume" element={<ResumeViewPage />} />
-            <Route path="/cv" element={<ResumeViewPage />} />
+            <Route
+              path="/resume"
+              element={
+                mode === "professional" ? (
+                  <ProfessionalPage defaultHash="#professional-resume" />
+                ) : (
+                  <ResumeViewPage />
+                )
+              }
+            />
+            <Route
+              path="/cv"
+              element={
+                mode === "professional" ? (
+                  <ProfessionalPage defaultHash="#professional-cv" />
+                ) : (
+                  <ResumeViewPage />
+                )
+              }
+            />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundary>
@@ -604,8 +619,7 @@ export default function App() {
 
       <CommandPalette mode={mode} onToggleMode={toggleMode} />
       {mode === "full" && <ResumeAIWidget />}
-      <Footer />
-      {mode === "full" && !themeSwitching && <BinaryCursor theme={theme} />}
+      <Footer mode={mode} />
 
       <KeyboardShortcutsModal isOpen={shortcutModalOpen} onClose={() => setShortcutModalOpen(false)} />
     </>

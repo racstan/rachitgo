@@ -2,7 +2,9 @@ import React from "react";
 import ClothParagraph from "./ClothParagraph.jsx";
 import { Link } from "react-router-dom";
 
-export default function Footer() {
+export default function Footer({ mode }) {
+  const isProfessional = mode === "professional";
+
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -14,11 +16,23 @@ export default function Footer() {
           <div className="footer-links">
             <div className="footer-col">
               <span className="footer-col-title">Navigate</span>
-              <Link to="/">Home</Link>
-              <Link to="/projects">Projects</Link>
-              <Link to="/journey">My Journey</Link>
-              <Link to="/blogs">Blogs</Link>
-              <Link to="/contact">Contact</Link>
+              {isProfessional ? (
+                <>
+                  <a href="#professional-home">Home</a>
+                  <a href="#professional-experience">Experience</a>
+                  <a href="#professional-projects">Projects</a>
+                  <a href="#professional-skills">Skills</a>
+                  <a href="#professional-contact">Contact</a>
+                </>
+              ) : (
+                <>
+                  <Link to="/">Home</Link>
+                  <Link to="/projects">Projects</Link>
+                  <Link to="/journey">My Journey</Link>
+                  <Link to="/blogs">Blogs</Link>
+                  <Link to="/contact">Contact</Link>
+                </>
+              )}
             </div>
             <div className="footer-col">
               <span className="footer-col-title">Connect</span>
@@ -29,8 +43,17 @@ export default function Footer() {
             </div>
             <div className="footer-col">
               <span className="footer-col-title">Resources</span>
-              <Link to="/resume">Resume</Link>
-              <Link to="/cv">CV</Link>
+              {isProfessional ? (
+                <>
+                  <a href="#professional-resume">Resume</a>
+                  <a href="#professional-cv">CV</a>
+                </>
+              ) : (
+                <>
+                  <Link to="/resume">Resume</Link>
+                  <Link to="/cv">CV</Link>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import TiltCard from "../components/TiltCard.jsx";
 import HoverTypingText from "../components/HoverTypingText.jsx";
 import WaveText from "../components/WaveText.jsx";
 import ClothParagraph from "../components/ClothParagraph.jsx";
+import BinaryRain from "../components/BinaryRain.jsx";
 import { contacts } from "../data/contacts.js";
 
 function ContactCard({ item }) {
@@ -81,9 +82,10 @@ function ContactCard({ item }) {
   );
 }
 
-export default function ContactPage() {
+export default function ContactPage({ theme }) {
   return (
     <section className="page">
+      <BinaryRain theme={theme} />
       <div className="section-head">
         <p className="eyebrow">let's connect</p>
         <HoverTypingText

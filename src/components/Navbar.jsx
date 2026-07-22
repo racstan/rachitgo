@@ -15,6 +15,8 @@ const professionalItems = [
   { href: "#professional-experience", label: "Experience" },
   { href: "#professional-projects", label: "Projects" },
   { href: "#professional-skills", label: "Skills" },
+  { href: "#professional-resume", label: "Resume" },
+  { href: "#professional-cv", label: "CV" },
   { href: "#professional-contact", label: "Contact" },
 ];
 
@@ -287,20 +289,6 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
                 </a>
               );
             })}
-            <Link
-              to="/resume"
-              className="nav-link"
-              onClick={() => setMobileOpen(false)}
-            >
-              Resume
-            </Link>
-            <Link
-              to="/cv"
-              className="nav-link"
-              onClick={() => setMobileOpen(false)}
-            >
-              CV
-            </Link>
           </>
         ) : (
           <>

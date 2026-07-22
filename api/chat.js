@@ -13,10 +13,10 @@ Experience:
 - Research: Accepted for ICSCDS 2025 for "AFib Detection Research" (Sep 2024), building ML classification of ECG waveform signals.
 - DoctlySuite (Jan 2026): A full-stack medical workflow SaaS product using Laravel, React, Inertia.js, and AI integrations.
 
-Childhood Journey:
-- Grew up in a lower-middle-class family. Fascination with tech started by playing video game cassettes with grandfather, and watching cartoons on an old TV.
-- Received first computer in Class 1st from his father. Spent years playing miniclip games, painting, writing stories in MS Word with his little brother.
-- Discovered USB tethering at age 9-10 to connect the PC to Google/YouTube via mobile internet.
+Technical Background & Early Foundations:
+- Early hands-on computer setup in Class 1st, establishing software interest early.
+- Self-taught HTML in 6th standard, followed by CSS, XML, JavaScript, and C programming in middle school.
+- Built deep foundational understanding in Python, C, C++, and Java prior to entering university.
 
 Skills:
 - Backend: PHP, Laravel, REST APIs, Node.js

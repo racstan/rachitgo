@@ -39,111 +39,138 @@ export const projectCards = [
 
 export const journeyTimeline = [
   {
-    year: "Childhood",
-    role: "First Fascination",
-    company: "Home, family, and old electronics",
-    tags: ["Curiosity", "Games", "TV", "Family"],
+    year: "Early Standard",
+    role: "First Computer Setup",
+    company: "Hands-on hardware & OS introduction",
+    tags: ["Computer", "Hardware", "OS Fundamentals"],
     desc:
-      "Growing up in a lower-middle-class family made every piece of technology feel valuable. Video game cassettes with my grandfather, cartoons on the old TV, and small moments at home became the beginning of my fascination with tech.",
-    color: "#1a7f37",
-  },
-  {
-    year: "Class 1",
-    role: "First Computer",
-    company: "School interest became a home machine",
-    tags: ["Computer", "School", "Discovery"],
-    desc:
-      "After showing deep interest in the computers at school, I came home one day and found a computer waiting there. My father had brought it for me, and that changed how I saw what was possible.",
+      "Gained initial access to a dedicated personal computer, initiating continuous hands-on exploration of operating systems and software tools.",
     color: "#0969da",
   },
   {
-    year: "Early school",
-    role: "Games, Paint, and MS Word",
-    company: "Road Rash, Zuma Deluxe, Paint, stories",
-    tags: ["Miniclip", "MS Word", "Paint"],
-    desc:
-      "I spent years exploring small games and basic tools with my younger brother. Those tiny 1-2 MB games, Paint, and writing stories in MS Word made me the kid in class who genuinely loved computers.",
-    color: "#9a6700",
-  },
-  {
     year: "Age 9-10",
-    role: "Internet on My PC",
-    company: "USB tethering discovery",
-    tags: ["Google", "YouTube", "Tethering"],
+    role: "Network Setup & Internet Access",
+    company: "Hardware tethering & connectivity",
+    tags: ["Networking", "Tethering", "Web Concepts"],
     desc:
-      "Mobile internet was limited and expensive, and I had only seen the internet properly on school computers. Figuring out USB tethering and seeing Google work on my own PC became one of my proudest early tech moments.",
+      "Independently configured USB tethering to connect a desktop system to mobile internet, establishing an early foundation in computer networking.",
     color: "#cf222e",
   },
   {
-    year: "Age 10-11",
-    role: "Fascination for imagination",
-    company: "Series and movies that shaped me",
-    tags: ["Series", "Movies", "Imagination"],
+    year: "Class 3",
+    role: "Productivity Software",
+    company: "MS Office & software mastering",
+    tags: ["MS Office", "Software Tools"],
     desc:
-      "Loved watching series, movies which had a profound effect on me.",
+      "Explored core productivity suites, mastering document structure, formatting, and software navigation shortcuts.",
     color: "#d29922",
-    naruto: true,
   },
   {
-    year: "High school",
-    role: "First Lines of Code",
-    company: "C++ in school, HTML at home",
-    tags: ["C++", "HTML", "Curiosity"],
+    year: "Class 6",
+    role: "First Web Code (HTML)",
+    company: "Early web development",
+    tags: ["HTML", "Websites", "Frontend"],
     desc:
-      "School introduced me to C++ and basic programming concepts. At home, I started tinkering with HTML, building terrible-looking pages and loving every second of it. The idea that I could make a computer do what I wanted was addictive.",
+      "Began writing HTML to build early static web pages, discovering a strong interest in software engineering and web technologies.",
     color: "#e5534b",
   },
   {
-    year: "12th Grade",
-    role: "The Coding Obsession",
-    company: "Python, competitive coding, and YouTube tutorials",
-    tags: ["Python", "Competitive", "Self-taught"],
+    year: "Class 8",
+    role: "CSS & XML",
+    company: "UI styling & structured data",
+    tags: ["CSS", "XML", "Styling"],
     desc:
-      "I discovered Python and competitive programming. YouTube channels became my university. I started solving problems daily, building small automation scripts, and realized software engineering was what I wanted to do for the rest of my life.",
+      "Learned CSS for responsive page layouts and visual styling, alongside XML for structured data hierarchy.",
     color: "#3776AB",
   },
   {
+    year: "Class 10",
+    role: "JavaScript & C Programming",
+    company: "Logic & client-side scripting",
+    tags: ["JavaScript", "C", "Web Development"],
+    desc:
+      "Built initial full web applications combining HTML, CSS, and JavaScript while studying core procedural logic and memory concepts in C.",
+    color: "#8250df",
+  },
+  {
+    year: "Post-10th",
+    role: "Multi-Language Deep Dive",
+    company: "Language paradigms & execution models",
+    tags: ["Python", "C", "C++", "Java", "Self-taught"],
+    desc:
+      "Conducted deep self-study across Python, C, C++, and Java, developing strong foundational knowledge of object-oriented design and low-level system mechanics.",
+    color: "#0a66c2",
+  },
+  {
     year: "2021",
-    role: "Engineering Begins",
+    role: "Engineering Degree Begins",
     company: "Vellore Institute of Technology, Chennai",
     tags: ["VIT", "CSE", "AI & Robotics"],
     desc:
-      "Joined VIT Chennai for B.Tech in Computer Science with AI and Robotics specialization. The next four years became a concentrated sprint through systems, data, web, cloud, and embedded engineering.",
+      "Enrolled in B.Tech Computer Science & Engineering (Specialization in AI & Robotics), embarking on intensive study of systems engineering, algorithms, and software design.",
     color: "#8250df",
+  },
+  {
+    year: "1st Year",
+    role: "Core Software Engineering & DSA",
+    company: "Algorithms & web ecosystems",
+    tags: ["Python", "DSA", "Java", "PHP", "JS Frameworks"],
+    desc:
+      "Mastered Data Structures & Algorithms, Java, and Python while building early backend services in PHP and exploring frontend JavaScript frameworks.",
+    color: "#1a7f37",
+  },
+  {
+    year: "2nd Year",
+    role: "Full-Stack Web & AI Exploration",
+    company: "Laravel, ReactJS & SQL databases",
+    tags: ["Laravel", "ReactJS", "SQL", "Robotics", "AI Tools"],
+    desc:
+      "Built full-stack applications with Laravel, React, and MySQL while exploring AI integration workflows and starting robotics coursework.",
+    color: "#cf222e",
+  },
+  {
+    year: "3rd Year",
+    role: "Compiler Engineering & JPMC Internship",
+    company: "Custom language design & financial tech",
+    tags: ["Compiler Design", "Networking", "JPMC", "Hackathons"],
+    desc:
+      "Engineered a custom programming language compiler. Participated in technical hackathons and secured a Data Science internship at JPMorgan Chase & Co.",
+    color: "#9a6700",
+  },
+  {
+    year: "4th Year",
+    role: "Research Paper & Production Shipping",
+    company: "ICSCDS 2025 & full-stack applications",
+    tags: ["Robotics", "AI", "Laravel", "React", "Research Paper"],
+    desc:
+      "Authored an ML research paper accepted at ICSCDS 2025 for ECG AFib detection while architecting and shipping production-grade React and Laravel products.",
+    color: "#d29922",
   },
   {
     year: "2025",
-    role: "B.Tech CSE Graduate",
-    company: "Vellore Institute of Technology, Chennai",
-    tags: ["AI & Robotics", "CGPA 8.24", "CSE"],
+    role: "Software Developer",
+    company: "Soraxus — Generative AI for HRMS",
+    tags: ["Soraxus", "LangGraph", "LangChain", "Laravel AI SDK"],
     desc:
-      "Completed B.Tech in Computer Science Engineering with AI and Robotics specialization. Four years of building, researching, interning, and shipping — culminating in a published research paper and production software.",
-    color: "#8250df",
-  },
-  {
-    year: "2026",
-    role: "Shipping Real Products",
-    company: "DoctlySuite, portfolio systems, and freelance builds",
-    tags: ["Laravel", "React", "AI", "Cloud"],
-    desc:
-      "Building production software that people actually use. DoctlySuite is live in clinical pilot, and I'm taking on freelance architecture work while continuing to push into cloud-native and AI-integrated product engineering.",
+      "Joined Canadian startup Soraxus post-graduation, implementing production Generative AI features into enterprise HRMS using LangGraph, LangChain, and Laravel AI SDK.",
     color: "#0a66c2",
   },
 ];
 
+
 export const experienceTimeline = [
   {
-    year: "Jul 2025",
-    role: "B.Tech Fellow",
-    company: "Vellore Institute of Technology",
-    tags: ["CGPA 8.24", "AI & Robotics", "CSE"],
+    year: "Aug 2025 – Present",
+    role: "Software Developer",
+    company: "Soraxus",
+    tags: ["LangChain", "LangGraph", "Laravel", "React", "MySQL"],
     desc:
-      "Graduated with a Computer Science degree specializing in AI & Robotics. Focused on systems engineering, ML research, full-stack product development, and embedded systems across four intensive years.",
-    color: "#8250df",
+      "Developing products at a Canadian startup using LangChain and LangGraph within a Laravel, React, and MySQL ecosystem. Building Generative AI-powered features into production applications.",
+    color: "#0a66c2",
   },
   {
     year: "Nov 2023",
-    role: "Data Science Intern",
+    role: "Software Developer",
     company: "JPMorgan Chase & Co.",
     tags: ["Python", "R", "EDA", "Financial data"],
     desc:
@@ -158,6 +185,15 @@ export const experienceTimeline = [
     desc:
       "Industrial traineeship covering the full analytics lifecycle — from raw dataset ingestion and cleaning through trend analysis, feature engineering, and automated reporting using Python, SQL, and ML libraries.",
     color: "#1a7f37",
+  },
+  {
+    year: "Jul 2025",
+    role: "B.Tech",
+    company: "Vellore Institute of Technology",
+    tags: ["CGPA 8.24", "CSE", "AI & Robotics"],
+    desc:
+      "Graduated with a Computer Science and Engineering degree specializing in AI & Robotics. Focused on systems engineering, ML research, full-stack product development, and embedded systems across four intensive years.",
+    color: "#8250df",
   },
 ];
 
