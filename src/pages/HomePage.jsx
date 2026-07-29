@@ -349,7 +349,7 @@ export default function HomePage({ onActivate }) {
               { label: "Open Source", value: "Real projects, public repos" },
               { label: "Consistency", value: "Building every week, not every quarter" },
               { label: "Depth", value: "Full-stack systems, not todo apps" },
-              { label: "Focus Areas", value: "Laravel, React, ML, and IoT" },
+              { label: "Focus Areas", value: "Laravel, React, ML, and FinTech AI" },
             ].map((stat) => (
               <TiltCard key={stat.label} element="article" className="github-card">
                 <strong><WaveText text={stat.label} /></strong>
@@ -385,7 +385,7 @@ export default function HomePage({ onActivate }) {
           {[
             { num: "01", title: "Full-stack products", desc: "Laravel + React applications with clean architecture, real-time features, and production-grade DevOps." },
             { num: "02", title: "AI-powered workflows", desc: "OpenAI integrations, ML pipelines, and intelligent document processing baked into real business tools." },
-            { num: "03", title: "Cloud & edge systems", desc: "AWS deployments, Docker orchestration, IoT telemetry networks, and embedded firmware on microcontrollers." },
+            { num: "03", title: "High-performance systems", desc: "AWS deployments, Docker orchestration, AI data processing pipelines, and high-performance background job architectures." },
           ].map((s) => (
             <TiltCard key={s.num} element="article" className="service-card">
               <span className="service-num"><WaveText text={s.num} /></span>

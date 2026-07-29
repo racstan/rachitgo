@@ -17,7 +17,7 @@ export default function ProjectsPage({ onActivate }) {
           element="h2"
           variants={[
             "Projects with real context.",
-            "Healthcare, research, and embedded systems.",
+            "Healthcare, research, and trading AI systems.",
             "What I have built so far.",
             "From prototypes to product systems.",
             "A practical project snapshot.",

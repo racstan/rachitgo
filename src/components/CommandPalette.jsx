@@ -13,7 +13,7 @@ export default function CommandPalette({ mode, onToggleMode }) {
   const actionsList = useMemo(() => {
     return [
       { label: "Home", hint: "Hero and GitHub snapshot", path: "/" },
-      { label: "Projects", hint: "DoctlySuite, research, embedded systems", path: "/projects" },
+      { label: "Projects", hint: "DoctlySuite, research, Forgededge AI engine", path: "/projects" },
       { label: "Experience", hint: "Timeline, internships, skills", path: "/experience" },
       { label: "Contact", hint: "Email, GitHub, LinkedIn", path: "/contact" },
       { label: "Blogs", hint: "Tech blogs and system design articles", path: "/blogs" },

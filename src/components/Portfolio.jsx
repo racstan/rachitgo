@@ -89,8 +89,8 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
         </p>
         <h1>Rachit Asthana</h1>
         <ClothParagraph>
-          I architect production software that solves real problems — from clinical AI platforms to embedded
-          IoT systems. This portfolio is the engineering layer; the professional view is one toggle away.
+          I architect production software that solves real problems — from clinical AI platforms to high-performance
+          AI trading engines like Forgededge. This portfolio is the engineering layer; the professional view is one toggle away.
         </ClothParagraph>
         <div className="identity-strip" aria-label={`Identity shown as ${identity.label}`}>
           <span>{identity.label}</span>
@@ -144,8 +144,8 @@ export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }
           </TiltCard>
           <TiltCard element="article" className="service-card">
             <span className="service-num">03</span>
-            <h3>Cloud & edge systems</h3>
-            <p>AWS deployments, Docker orchestration, IoT telemetry networks, and embedded firmware on microcontrollers.</p>
+            <h3>High-performance systems</h3>
+            <p>AWS deployments, Docker orchestration, AI data processing pipelines, and high-performance background job architectures.</p>
           </TiltCard>
         </div>
         <div className="language-band" aria-label="Languages represented on this page">

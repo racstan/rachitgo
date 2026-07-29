@@ -93,51 +93,51 @@ export const caseStudies = {
     ],
     outcomes: "The ensemble classifier achieved 96.4% test accuracy with an F1-score of 0.94, outperforming several published baseline networks on the MIT-BIH dataset. The SMOTE-augmented training pipeline eliminated classifier bias that plagued earlier approaches. The full methodology paper was formally accepted for presentation at the ICSCDS 2025 Conference, validating the clinical relevance of the approach."
   },
-  "iot-systems": {
-    id: "iot-systems",
-    title: "IoT & Embedded Systems",
-    subtitle: "Hardware-Software Interfaces & Telemetry Networks",
-    category: "Hardware / Embedded Systems",
-    role: "Systems Developer",
-    timeline: "Jan 2025 - May 2025",
-    techStack: ["ESP32-CAM", "C++", "FreeRTOS", "MQTT", "Raspberry Pi", "RFID", "Ultrasonic Sensors"],
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-developer-typing-on-a-keyboard-39749-large.mp4",
+  forgededge: {
+    id: "forgededge",
+    title: "Forgededge — AI Trading Analytics Engine",
+    subtitle: "High-Performance Financial Intelligence & Complex AI Systems Architecture",
+    category: "FinTech / Trading AI",
+    role: "Full-Stack & AI Architect",
+    timeline: "2025 - Present",
+    techStack: ["Laravel 12", "React.js", "Inertia.js", "Python", "PostgreSQL", "Redis Queues", "WebSockets"],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-financial-charts-and-data-on-screens-43098-large.mp4",
     metrics: [
-      { label: "Power Draw Saved", value: "85%" },
-      { label: "Relay Trigger Time", value: "<150ms" },
-      { label: "Data Delivery Rate", value: "99.9%" },
-      { label: "BMS Voltage Check", value: "0.01V Resolution" }
+      { label: "AI Data Utilization", value: "100%" },
+      { label: "Async Pipeline", value: "<300ms" },
+      { label: "Trade Context", value: "Full RAG" },
+      { label: "Broadcasting", value: "Real-Time" }
     ],
     problem:
-      "Modern physical computing demands close integration between hardware edge nodes and cloud-based dashboard services. This series of academic projects solved three distinct problems: secure face-recognition gate entry, real-time telemetry for EV battery cells, and automated pathfinding with obstacle avoidance.",
+      "Traders and financial analysts generate vast amounts of trade executions, journal entries, and market metrics, but standard platforms store this data passively without intelligent extraction. The goal of Forgededge was to build a shiny, high-performance platform where any trading data is utilized to its maximum extent by a complex background AI architecture.",
     architecture: [
       {
-        layer: "Edge Processing",
-        details: "ESP32 microcontrollers run C++ firmware under FreeRTOS to schedule sensor polls, camera captures, and serial communications."
+        layer: "Inertia + React Client",
+        details: "Single-page interface utilizing custom Inertia deferred props and dynamic reactive components for real-time portfolio and trade display."
       },
       {
-        layer: "Network Protocol",
-        details: "Lightweight MQTT brokers pass telemetry data packets between microcontrollers and a local Raspberry Pi broker node."
+        layer: "Asynchronous Queue Discipline",
+        details: "Background jobs (EmbedTradeJob and AnalyzeTradeJob) decouple heavy AI tasks from HTTP requests, keeping user interactions smooth."
       },
       {
-        layer: "Telemetry Dashboard",
-        details: "React-based status screens that render real-time graphs showing voltage, temperature trends, and access logs."
+        layer: "Complex AI & RAG Engine",
+        details: "Generates high-dimensional vector embeddings of trade logs and context, allowing LLM agents (using GetTradeStats tools) to deliver deep market insights."
       },
       {
-        layer: "Actuator Controller",
-        details: "Direct GPIO triggers controlling high-voltage relays, servo steering linkages, and motor drivers."
+        layer: "Real-Time Broadcast Network",
+        details: "Pushes job completions via private Echo WebSockets (PrivateChannel), triggering pinpoint React state reloads without full page refreshes."
       }
     ],
     challenges: [
       {
-        title: "ESP32-CAM Memory Limits",
-        description: "Running local face detection on the ESP32 chip often exceeded PSRAM boundaries. Resolved by downscaling camera frames to QQVGA and optimizing local feature matrices."
+        title: "Non-Blocking Heavy AI Execution",
+        description: "Calling LLM and embedding APIs synchronously stalled user requests. Solved by isolating heavy workloads to dedicated Redis queue workers under strict queue discipline."
       },
       {
-        title: "Battery Level Noise",
-        description: "EV battery sensors generated erratic spikes due to load fluctuations. Implemented a Kalman filtering algorithm on the firmware side to yield clean voltage trends."
+        title: "Real-Time Partial UI Synchronization",
+        description: "Updating client states after background jobs finished required dynamic push events. Resolved by pairing Laravel Echo broadcasting with Inertia router partial reloads."
       }
     ],
-    outcomes: "All three embedded systems demonstrated stable, reliable hardware-software integration in testing environments. The deep sleep implementation on ESP32 reduced inactive power consumption by 85%, making solar-powered edge deployment viable. The EV BMS maintained 0.01V measurement resolution even under load fluctuation, and the face-recognition system achieved consistent sub-150ms relay trigger times for gate entry."
+    outcomes: "Forgededge transformed raw trading records into actionable intelligence with zero UI latency. By leveraging complex AI agents and vector embeddings, 100% of user-provided trading data is analyzed in context, generating automated R-multiple evaluations, strategy diagnostic feedback, and real-time dashboard updates."
   }
 };

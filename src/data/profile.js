@@ -7,7 +7,7 @@ export const profile = {
   githubUrl: "https://github.com/racstan",
   linkedinUrl: "https://linkedin.com/in/rachitasthana/",
   summary:
-    "I architect production software that solves real problems — from clinical AI platforms to embedded IoT systems. My work lives at the intersection of clean engineering, thoughtful design, and relentless shipping. Laravel and React for the stack, curiosity for everything else.",
+    "I architect production software that solves real problems — from clinical AI platforms to high-performance AI trading engines like Forgededge. My work lives at the intersection of clean engineering, thoughtful design, and relentless shipping. Laravel and React for the stack, curiosity for everything else.",
 };
 
 export const projectCards = [
@@ -28,12 +28,12 @@ export const projectCards = [
     href: "/projects/afib-research",
   },
   {
-    id: "iot-systems",
+    id: "forgededge",
     activateId: "academics",
-    title: "IoT & Embedded Systems",
-    summary: "A portfolio of hardware-software builds: face-recognition door locks on ESP32-CAM, real-time EV battery telemetry, and autonomous obstacle-avoidance vehicles — all running on microcontrollers with sub-150ms response times.",
-    highlights: ["ESP32-CAM + FreeRTOS", "MQTT Telemetry + React Dashboard", "Kalman-filtered BMS"],
-    href: "/projects/iot-systems",
+    title: "Forgededge",
+    summary: "A high-performance AI trading analytics engine where any data a user inputs about trading is utilized to its maximum extent by a complex background AI architecture, vector RAG pipelines, and real-time WebSocket broadcasting.",
+    highlights: ["Laravel + React + Inertia.js", "Async AI Pipeline & Vector RAG", "Real-Time WebSocket Echo"],
+    href: "/projects/forgededge",
   },
 ];
 
@@ -134,7 +134,7 @@ export const journeyTimeline = [
     company: "Custom language design & financial tech",
     tags: ["Compiler Design", "Networking", "JPMC", "Hackathons"],
     desc:
-      "Engineered a custom programming language compiler. Participated in technical hackathons and secured a Data Science internship at JPMorgan Chase & Co.",
+      "Engineered a custom programming language compiler. Participated in technical hackathons and completed a Data Science / Software Engineering Internship at JPMorgan Chase & Co.",
     color: "#9a6700",
   },
   {
@@ -152,20 +152,20 @@ export const journeyTimeline = [
 export const experienceTimeline = [
   {
     year: "Nov 2023",
-    role: "Software Developer",
+    role: "Software Engineering Intern",
     company: "JPMorgan Chase & Co.",
-    tags: ["Python", "R", "EDA", "Financial data"],
+    tags: ["Python", "R", "EDA", "Financial data", "Internship"],
     desc:
-      "Performed exploratory data analysis on financial portfolio datasets at one of the world's largest investment banks. Improved internal reporting pipelines, built statistical visualizations, and supported data-driven decision workflows across teams.",
+      "Completed a Software Engineering Internship focused on exploratory data analysis of financial portfolio datasets at JPMorgan Chase & Co. Improved internal reporting pipelines, built statistical visualizations, and supported data-driven decision workflows across teams.",
     color: "#0969da",
   },
   {
     year: "Aug 2023",
-    role: "Data Analytics Trainee",
+    role: "Data Analytics Intern",
     company: "MedTourEasy",
-    tags: ["Python", "MySQL", "Pandas", "Scikit-learn"],
+    tags: ["Python", "MySQL", "Pandas", "Scikit-learn", "Internship"],
     desc:
-      "Industrial traineeship covering the full analytics lifecycle — from raw dataset ingestion and cleaning through trend analysis, feature engineering, and automated reporting using Python, SQL, and ML libraries.",
+      "Data analytics internship covering the full analytics lifecycle — from raw dataset ingestion and cleaning through trend analysis, feature engineering, and automated reporting using Python, SQL, and ML libraries.",
     color: "#1a7f37",
   },
   {
@@ -174,7 +174,7 @@ export const experienceTimeline = [
     company: "Vellore Institute of Technology",
     tags: ["CGPA 8.24", "CSE", "AI & Robotics"],
     desc:
-      "Graduated with a Computer Science and Engineering degree specializing in AI & Robotics. Focused on systems engineering, ML research, full-stack product development, and embedded systems across four intensive years.",
+      "Graduated with a Computer Science and Engineering degree specializing in AI & Robotics. Focused on systems engineering, ML research, full-stack product development, and complex AI architecture across four intensive years.",
     color: "#8250df",
   },
 ];
