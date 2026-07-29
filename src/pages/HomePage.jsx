@@ -11,13 +11,66 @@ import { fetchContributions } from "../lib/github.js";
 import { profile, experienceTimeline } from "../data/profile.js";
 
 const heroModes = [
-  { value: "Rachit Asthana", label: "english", color: "var(--text)" },
+  { value: "Rachit Asthana", label: "English", color: "var(--text)" },
+  { value: "रचित अस्थाना", label: "Hindi", color: "#f9a825" },
+  { value: "ラチット・アスタナ", label: "Japanese", color: "#ff4081" },
+  { value: "Рачит Астхана", label: "Russian", color: "#40c4ff" },
+  { value: "راتشيت أستانا", label: "Arabic", color: "#69f0ae" },
+  { value: "रचितः अस्थाना", label: "Sanskrit", color: "#e040fb" },
 ];
 
 function useHeroModes(modes) {
+  const [modeIndex, setModeIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+
+  useEffect(() => {
+    const mode = modes[modeIndex];
+    let charIndex = 0;
+    let timer = null;
+    let phase = "typing";
+
+    setDisplayText("");
+
+    function tick() {
+      if (phase === "typing") {
+        charIndex += 1;
+        setDisplayText(mode.value.slice(0, charIndex));
+        if (charIndex >= mode.value.length) {
+          phase = "holding";
+          timer = window.setTimeout(tick, 2200);
+          return;
+        }
+        timer = window.setTimeout(tick, 90);
+        return;
+      }
+
+      if (phase === "holding") {
+        phase = "deleting";
+        timer = window.setTimeout(tick, 70);
+        return;
+      }
+
+      charIndex -= 1;
+      setDisplayText(mode.value.slice(0, Math.max(charIndex, 0)));
+      if (charIndex > 0) {
+        timer = window.setTimeout(tick, 50);
+        return;
+      }
+
+      phase = "typing";
+      setModeIndex((prev) => (prev + 1) % modes.length);
+    }
+
+    timer = window.setTimeout(tick, 150);
+
+    return () => {
+      if (timer) window.clearTimeout(timer);
+    };
+  }, [modeIndex, modes]);
+
   return {
-    displayText: "Rachit Asthana",
-    mode: modes[0],
+    displayText,
+    mode: modes[modeIndex],
   };
 }
 
@@ -277,45 +330,7 @@ export default function HomePage({ onActivate }) {
         </button>
       </section>
 
-      <section className="section compact-section">
-        <div className="section-head">
-          <p className="eyebrow"><WaveText text="github profile snapshot" /></p>
-          <HoverTypingText
-            element="h2"
-            getWordClassName={getLouderWordClassName}
-            variants={[
-              "The code speaks louder.",
-              "Green squares don't lie.",
-              "Commit history is the real resume.",
-              "Shipping, not just planning.",
-              "Every square is a build day.",
-            ]}
-          />
-        </div>
-
-        <div className="github-snapshot">
-          <div className="github-strip">
-            {[
-              { label: "Open Source", value: "Real projects, public repos" },
-              { label: "Consistency", value: "Building every week, not every quarter" },
-              { label: "Depth", value: "Full-stack systems, not todo apps" },
-              { label: "Focus Areas", value: "Laravel, React, ML, and FinTech AI" },
-            ].map((stat) => (
-              <TiltCard key={stat.label} element="article" className="github-card">
-                <strong><WaveText text={stat.label} /></strong>
-                <p><WaveText text={stat.value} /></p>
-              </TiltCard>
-            ))}
-          </div>
-          <GitHubContributions
-            calendar={calendar}
-            loading={loadingCalendar}
-            error={calendarError}
-            username={profile.githubHandle}
-            repos={repos}
-          />
-        </div>
-      </section>
+      <TechScroller />
 
       <section className="section compact-section">
         <div className="section-head">
@@ -365,7 +380,46 @@ export default function HomePage({ onActivate }) {
         <Timeline items={experienceTimeline} variant="standard" />
       </section>
 
-      <TechScroller />
+      <section className="section compact-section">
+        <div className="section-head">
+          <p className="eyebrow"><WaveText text="github profile snapshot" /></p>
+          <HoverTypingText
+            element="h2"
+            getWordClassName={getLouderWordClassName}
+            variants={[
+              "The code speaks louder.",
+              "Green squares don't lie.",
+              "Commit history is the real resume.",
+              "Shipping, not just planning.",
+              "Every square is a build day.",
+            ]}
+          />
+        </div>
+
+        <div className="github-snapshot">
+          <div className="github-strip">
+            {[
+              { label: "Open Source", value: "Real projects, public repos" },
+              { label: "Consistency", value: "Building every week, not every quarter" },
+              { label: "Depth", value: "Full-stack systems, not todo apps" },
+              { label: "Focus Areas", value: "Laravel, React, ML, and FinTech AI" },
+            ].map((stat) => (
+              <TiltCard key={stat.label} element="article" className="github-card">
+                <strong><WaveText text={stat.label} /></strong>
+                <p><WaveText text={stat.value} /></p>
+              </TiltCard>
+            ))}
+          </div>
+          <GitHubContributions
+            calendar={calendar}
+            loading={loadingCalendar}
+            error={calendarError}
+            username={profile.githubHandle}
+            repos={repos}
+          />
+        </div>
+      </section>
+
       <NewsletterSignup />
     </section>
   );
