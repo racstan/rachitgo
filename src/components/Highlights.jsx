@@ -36,20 +36,15 @@ export default function Highlights({ compact = false }) {
   return (
     <section className={`highlights ${compact ? "highlights-compact" : ""}`} aria-label="Project highlights">
       <div className="highlights-head">
-        <div>
-          <p className="eyebrow">highlights</p>
-          <HoverTypingText
-            element="h2"
-            variants={[
-              "Highlights with the build story on video.",
-              "Curated moments and project walkthroughs.",
-              "Metrics that mattered.",
-            ]}
-          />
-        </div>
-        <ClothParagraph>
-          Curated moments from each project, paired with the walkthrough video and the metrics that mattered.
-        </ClothParagraph>
+        <p className="eyebrow">highlights</p>
+        <HoverTypingText
+          element="h2"
+          variants={[
+            "Highlights with the build story on video.",
+            "Curated moments and project walkthroughs.",
+            "Metrics that mattered.",
+          ]}
+        />
       </div>
 
       <div className="highlights-grid">
