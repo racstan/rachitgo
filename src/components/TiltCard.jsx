@@ -141,7 +141,9 @@ export default function TiltCard({ children, className = "", color, element = "d
 
   useEffect(() => {
     function handleInterrupt() {
-      resetCardImmediate();
+      if (dragRef.current.active || returningRef.current) {
+        resetCardImmediate();
+      }
     }
 
     function handleVisibilityChange() {

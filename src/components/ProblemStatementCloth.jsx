@@ -479,7 +479,8 @@ export default function ProblemStatementCloth({
         }
       }
 
-      drawCloth(state, container.getBoundingClientRect());
+      const currentRect = rectRef.current || container.getBoundingClientRect();
+      drawCloth(state, currentRect);
     }
 
     function loop(now) {

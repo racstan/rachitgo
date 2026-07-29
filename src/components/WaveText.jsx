@@ -1,8 +1,9 @@
 import React from "react";
 
+const segmenter = typeof Intl !== "undefined" && Intl.Segmenter ? new Intl.Segmenter(undefined, { granularity: "grapheme" }) : null;
+
 function splitGraphemes(value) {
-  if (typeof Intl !== "undefined" && Intl.Segmenter) {
-    const segmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
+  if (segmenter) {
     return Array.from(segmenter.segment(value), (part) => part.segment);
   }
   return Array.from(value);
