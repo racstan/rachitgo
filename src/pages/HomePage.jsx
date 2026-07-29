@@ -221,6 +221,7 @@ export default function HomePage({ onActivate }) {
           moveHeroSpotlight(event);
         }}
         onPointerLeave={() => {
+          setOrbActive(false);
           spotlightActiveRef.current = false;
           setSpotlightActive(false);
           const heroRect = heroRef.current?.getBoundingClientRect();
