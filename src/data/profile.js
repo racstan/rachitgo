@@ -35,6 +35,22 @@ export const projectCards = [
     highlights: ["Laravel + React + Inertia.js", "Async AI Pipeline & Vector RAG", "Real-Time WebSocket Echo"],
     href: "/projects/forgededge",
   },
+  {
+    id: "compiler-engine",
+    activateId: "academics",
+    title: "Compiler & Language Engine",
+    summary: "A hand-crafted programming language compiler featuring a custom lexer, recursive descent parser, AST generator, and stack-based virtual machine execution engine.",
+    highlights: ["C++ & Python", "Lexer / Parser / AST", "Custom Stack Execution VM"],
+    href: "/projects/compiler-engine",
+  },
+  {
+    id: "quant-journal",
+    activateId: "academics",
+    title: "Quant Trade Journal & Telemetry",
+    summary: "An automated quantitative trading journal and strategy telemetry platform calculating real-time Sharpe/Sortino ratios, drawdown curves, and strategy execution telemetry.",
+    highlights: ["Python & PostgreSQL", "Sharpe & Drawdown Metrics", "Automated Strategy Telemetry"],
+    href: "/projects/quant-journal",
+  },
 ];
 
 export const journeyTimeline = [

@@ -139,5 +139,79 @@ export const caseStudies = {
       }
     ],
     outcomes: "Forgededge transformed raw trading records into actionable intelligence with zero UI latency. By leveraging complex AI agents and vector embeddings, 100% of user-provided trading data is analyzed in context, generating automated R-multiple evaluations, strategy diagnostic feedback, and real-time dashboard updates."
+  },
+  "compiler-engine": {
+    id: "compiler-engine",
+    title: "Compiler & Custom Language Engine",
+    subtitle: "Custom Programming Language Lexer, Parser & Bytecode Execution Engine",
+    category: "Systems & Compilers",
+    role: "Lead Systems Architect",
+    timeline: "2024 - 2025",
+    techStack: ["C++", "Python", "LLVM IR Concepts", "AST Parsers", "Lexical Analyzers"],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-34282-large.mp4",
+    metrics: [
+      { label: "Parse Throughput", value: ">50k lines/s" },
+      { label: "VM Execution Latency", value: "<15ms" },
+      { label: "AST Construction", value: "100% Validated" },
+      { label: "Lexical Accuracy", value: "Zero Leak" }
+    ],
+    problem:
+      "Engineered a custom compiled domain-specific programming language from scratch to understand low-level virtual machine execution, lexing token streams, AST node evaluation, and stack memory layout.",
+    architecture: [
+      {
+        layer: "Lexical Analysis (Scanner)",
+        details: "Transforms raw string source code into typed token streams, managing whitespace stripping, keyword lookups, and symbol table registration."
+      },
+      {
+        layer: "Recursive Descent Parser",
+        details: "Parses token sequences into structured Abstract Syntax Trees (AST) enforcing operator precedence and strict grammatical production rules."
+      },
+      {
+        layer: "Stack Virtual Machine",
+        details: "Evaluates AST bytecodes on a custom stack-based execution engine with dynamic variable scoping and memory stack management."
+      }
+    ],
+    challenges: [
+      {
+        title: "Complex Operator Precedence",
+        description: "Handling nested arithmetic expressions with correct precedence without left recursion infinite loops. Solved via Pratt parsing and explicit precedence climbing."
+      }
+    ],
+    outcomes: "Successfully executed custom scripts, control flow loops, function invocations, and dynamic evaluation on the stack VM with sub-15ms execution latency."
+  },
+  "quant-journal": {
+    id: "quant-journal",
+    title: "Quant Trade Journal & Telemetry Engine",
+    subtitle: "Quantitative Portfolio Backtesting & Performance Risk Analytics",
+    category: "Quantitative Finance",
+    role: "Quant Systems Developer",
+    timeline: "2024 - Present",
+    techStack: ["Python", "Pandas", "NumPy", "PostgreSQL", "React", "Vectorized Backtesting"],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-financial-charts-and-data-on-screens-43098-large.mp4",
+    metrics: [
+      { label: "Backtest Speed", value: "<180ms" },
+      { label: "Risk Metrics Computed", value: "Sharpe/Sortino" },
+      { label: "Data Pipeline", value: "Vectorized" },
+      { label: "Drawdown Calculation", value: "Real-Time" }
+    ],
+    problem:
+      "Algorithmic traders require automated telemetry to measure strategy edge, risk-adjusted returns, and max drawdown curves across historical trade logs without manual spreadsheet overhead.",
+    architecture: [
+      {
+        layer: "Vectorized Analytics Engine",
+        details: "Calculates Sharpe ratio, Sortino ratio, max drawdown, win rate, and profit factor over thousands of trade executions in under 180ms using NumPy & Pandas."
+      },
+      {
+        layer: "Telemetry Dashboard",
+        details: "Interactive React visualizations rendering cumulative PnL equity curves, win/loss distributions, and risk exposure matrix."
+      }
+    ],
+    challenges: [
+      {
+        title: "High-Volume Tick Data Aggregation",
+        description: "Aggregating sub-second execution logs created database query bottlenecks. Resolved using PostgreSQL window functions and indexed time-bucket views."
+      }
+    ],
+    outcomes: "Delivered an automated quantitative analytics pipeline providing real-time strategy diagnostics, equity curve rendering, and precise risk metric calculations."
   }
 };
