@@ -22,33 +22,6 @@ export default function ExperiencePage() {
       </div>
 
       <Timeline items={journeyTimeline} variant="alternating" />
-
-      {/* Skills grid */}
-      <div className="section-head" style={{ marginTop: "64px" }}>
-        <p className="eyebrow">technical skills</p>
-        <HoverTypingText
-          element="h2"
-          variants={[
-            "The full stack, top to bottom.",
-            "Frontend to backend to systems.",
-            "From UI polish to infra glue.",
-            "A stack built for shipping.",
-            "Skills that span the build.",
-          ]}
-        />
-      </div>
-      <div className="skills-grid">
-        {skillGroups.map((group) => (
-          <TiltCard key={group.cat} className="skill-card" color="var(--accent)">
-            <h3 className="skill-cat">{group.cat}</h3>
-            <div className="skill-items">
-              {group.items.map((item) => (
-                <span key={item} className="skill-badge">{item}</span>
-              ))}
-            </div>
-          </TiltCard>
-        ))}
-      </div>
     </section>
   );
 }

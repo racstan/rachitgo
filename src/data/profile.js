@@ -198,8 +198,8 @@ export const experienceTimeline = [
 export const skillGroups = [
   { cat: "Backend", items: ["PHP", "Laravel", "REST APIs", "Node.js"] },
   { cat: "Frontend", items: ["JavaScript", "TypeScript", "React.js", "HTML5", "CSS3", "Tailwind CSS"] },
-  { cat: "Databases", items: ["MySQL", "PostgreSQL", "Firebase", "ChromaDB"] },
+  { cat: "Databases & Vector DBs", items: ["MySQL", "PostgreSQL", "Firebase", "ChromaDB", "Qdrant", "Neo4j", "Redis Semantic Cache"] },
   { cat: "Cloud & DevOps", items: ["AWS", "Microsoft Azure", "GCP", "Docker", "Linux", "Git", "Postman"] },
-  { cat: "AI", items: ["Generative AI", "LangChain", "LangGraph", "ML Fundamentals"] },
+  { cat: "AI & LLM Architecture", items: ["Generative AI", "vLLM", "LangGraph", "LangChain", "LlamaIndex", "DSPy", "Pydantic", "Docling", "BGE-M3", "BGE Reranker", "Mem0", "Langfuse", "Ragas", "ML Fundamentals"] },
   { cat: "Certifications", items: ["Azure AI Fundamentals", "GCP ML Fundamentals", "SFPC", "MySQL for BI", "IIT Bombay Python/Java/C++"] },
 ];

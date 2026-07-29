@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import HoverTypingText from "../components/HoverTypingText.jsx";
 import TiltCard from "../components/TiltCard.jsx";
 import { stackItems, stackSlug } from "../components/TechScroller.jsx";
+import { skillGroups } from "../data/profile.js";
 
 // Detailed project logs mapping for each tech stack item
 const techDetails = {
@@ -488,6 +489,34 @@ export default function StackPage() {
               </TiltCard>
             );
           })}
+        </div>
+      </section>
+
+      {/* Technical Skills Overview Grid */}
+      <section style={{ marginTop: "64px" }}>
+        <div className="section-head">
+          <p className="eyebrow">technical skills coverage</p>
+          <HoverTypingText
+            element="h2"
+            variants={[
+              "The full stack, top to bottom.",
+              "Frontend to backend to AI systems.",
+              "From UI polish to vector infrastructure.",
+              "Skills that span the entire build.",
+            ]}
+          />
+        </div>
+        <div className="skills-grid">
+          {skillGroups.map((group) => (
+            <TiltCard key={group.cat} className="skill-card" color="var(--accent)">
+              <h3 className="skill-cat">{group.cat}</h3>
+              <div className="skill-items">
+                {group.items.map((item) => (
+                  <span key={item} className="skill-badge">{item}</span>
+                ))}
+              </div>
+            </TiltCard>
+          ))}
         </div>
       </section>
     </section>
