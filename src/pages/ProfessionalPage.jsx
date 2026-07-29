@@ -45,7 +45,6 @@ export default function ProfessionalPage({ defaultHash }) {
     <article className="professional-page">
       <section id="professional-home" className="professional-hero">
         <div>
-          <p className="eyebrow">professional mode</p>
           <h1>{profile.name}</h1>
           <ClothParagraph className="professional-role">{profile.roleLine}</ClothParagraph>
           <ClothParagraph className="professional-summary">{profile.summary}</ClothParagraph>

@@ -12,63 +12,13 @@ import { profile, experienceTimeline } from "../data/profile.js";
 
 const heroModes = [
   { value: "Rachit Asthana", label: "english", color: "var(--text)" },
-  { value: "52 61 63 68 69 74 20 41 73 74 68 61 6E 61", label: "hexadecimal", color: "var(--accent-2)" },
-  { value: "01010010 01100001 01100011 01101000 01101001", label: "binary", color: "var(--accent)" },
-  { value: "रचित अस्थाना", label: "hindi", color: "#f9a825" },
-  { value: 'print("Rachit Asthana")', label: "python", color: "#4fc3f7" },
-  { value: 'println!("Rachit Asthana");', label: "rust", color: "#ff7043" },
-  { value: "UmFjaGl0IEFzdGhhbmE=", label: "base64", color: "#69f0ae" },
 ];
 
 function useHeroModes(modes) {
-  const [modeIndex, setModeIndex] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-
-  useEffect(() => {
-    const mode = modes[modeIndex];
-    let charIndex = 0;
-    let timer = null;
-    let phase = "typing";
-
-    setDisplayText("");
-
-    function tick() {
-      if (phase === "typing") {
-        charIndex += 1;
-        setDisplayText(mode.value.slice(0, charIndex));
-        if (charIndex >= mode.value.length) {
-          phase = "holding";
-          timer = window.setTimeout(tick, 2300);
-          return;
-        }
-        timer = window.setTimeout(tick, 95);
-        return;
-      }
-
-      if (phase === "holding") {
-        phase = "deleting";
-        timer = window.setTimeout(tick, 80);
-        return;
-      }
-
-      charIndex -= 1;
-      setDisplayText(mode.value.slice(0, Math.max(charIndex, 0)));
-      if (charIndex > 0) {
-        timer = window.setTimeout(tick, 58);
-        return;
-      }
-
-      setModeIndex((idx) => (idx + 1) % modes.length);
-    }
-
-    timer = window.setTimeout(tick, 220);
-
-    return () => {
-      if (timer) window.clearTimeout(timer);
-    };
-  }, [modeIndex, modes]);
-
-  return { displayText, mode: modes[modeIndex] };
+  return {
+    displayText: "Rachit Asthana",
+    mode: modes[0],
+  };
 }
 
 export default function HomePage({ onActivate }) {
@@ -271,7 +221,6 @@ export default function HomePage({ onActivate }) {
           moveHeroSpotlight(event);
         }}
         onPointerLeave={() => {
-          setOrbActive(false);
           spotlightActiveRef.current = false;
           setSpotlightActive(false);
           const heroRect = heroRef.current?.getBoundingClientRect();

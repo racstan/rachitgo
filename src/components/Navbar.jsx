@@ -191,6 +191,7 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
       ref={navRef}
       className={`navbar ${scrolled ? "scrolled" : ""} ${mode === "professional" ? "professional-navbar" : ""} ${dragging ? "is-dragging" : ""} ${returning ? "is-returning" : ""}`}
       onPointerDown={(e) => {
+        if (mode === "professional") return;
         if (e.button !== undefined && e.button !== 0) return;
         if (isInteractiveTarget(e.target)) return;
         
@@ -216,6 +217,7 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
         navRef.current?.setPointerCapture?.(e.pointerId);
       }}
       onPointerMove={(e) => {
+        if (mode === "professional") return;
         const state = dragRef.current;
         if (!state.active) {
           if (!dragging && !returningRef.current) {
@@ -243,10 +245,12 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
         setNavTransform(state.x, state.y, clamp(state.x / 60, -3, 3), 1.005);
       }}
       onMouseMove={(e) => {
+        if (mode === "professional") return;
         if (dragRef.current.active || returningRef.current) return;
         onMouseMove(e);
       }}
       onPointerUp={(e) => {
+        if (mode === "professional") return;
         const state = dragRef.current;
         if (state.active) {
           navRef.current?.releasePointerCapture?.(e.pointerId);

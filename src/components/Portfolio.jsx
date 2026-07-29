@@ -10,12 +10,7 @@ const experience = portfolioItems.find((item) => item.id === "experience");
 const academics = portfolioItems.find((item) => item.id === "academics");
 const skills = portfolioItems.find((item) => item.id === "skills");
 const identityModes = [
-  { label: "plain", value: "Rachit Asthana" },
-  { label: "hex", value: "52 61 63 68 69 74 20 41 73 74 68 61 6e 61" },
-  { label: "binary", value: "01010010 01100001 01100011 01101000 01101001 01110100" },
-  { label: "python", value: 'print("Rachit Asthana")' },
-  { label: "rust", value: 'println!("Rachit Asthana");' },
-  { label: "hindi", value: "रचित अस्थाना" },
+  { label: "developer", value: "Rachit Asthana" },
 ];
 
 export default function Portfolio({ activeId, onActivate, labOpen, onToggleLab }) {
