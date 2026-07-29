@@ -21,5 +21,3 @@ In 2nd year, expanded into robotics, Laravel, ReactJS, SQL, and relational datab
 In 3rd year, engineered a custom programming language compiler, participated in technical hackathons, and secured a Data Science internship at JPMorgan Chase & Co.
 
 In 4th year, authored a machine learning research paper accepted at ICSCDS 2025 for ECG AFib detection, while shipping production-grade React and Laravel applications.
-
-After graduation, joined Canadian startup Soraxus as a Software Developer, building enterprise Generative AI integrations for HRMS using LangGraph, LangChain, and Laravel AI SDK.

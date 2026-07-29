@@ -146,28 +146,10 @@ export const journeyTimeline = [
       "Authored an ML research paper accepted at ICSCDS 2025 for ECG AFib detection while architecting and shipping production-grade React and Laravel products.",
     color: "#d29922",
   },
-  {
-    year: "2025",
-    role: "Software Developer",
-    company: "Soraxus — Generative AI for HRMS",
-    tags: ["Soraxus", "LangGraph", "LangChain", "Laravel AI SDK"],
-    desc:
-      "Joined Canadian startup Soraxus post-graduation, implementing production Generative AI features into enterprise HRMS using LangGraph, LangChain, and Laravel AI SDK.",
-    color: "#0a66c2",
-  },
 ];
 
 
 export const experienceTimeline = [
-  {
-    year: "Aug 2025 – Present",
-    role: "Software Developer",
-    company: "Soraxus",
-    tags: ["LangChain", "LangGraph", "Laravel", "React", "MySQL"],
-    desc:
-      "Developing products at a Canadian startup using LangChain and LangGraph within a Laravel, React, and MySQL ecosystem. Building Generative AI-powered features into production applications.",
-    color: "#0a66c2",
-  },
   {
     year: "Nov 2023",
     role: "Software Developer",
