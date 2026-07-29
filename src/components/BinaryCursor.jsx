@@ -115,6 +115,14 @@ export default function BinaryCursor({ emoji = "01", theme }) {
 
     const isInteractiveRef = { current: false };
     const interactiveAlphaRef = { current: 1 };
+    let isLoopRunning = false;
+
+    function startLoop() {
+      if (!isLoopRunning) {
+        isLoopRunning = true;
+        loop();
+      }
+    }
 
     function onPointerMove(event) {
       const target = event.target;
@@ -129,6 +137,7 @@ export default function BinaryCursor({ emoji = "01", theme }) {
       cursorRef.current.x = event.clientX;
       cursorRef.current.y = event.clientY;
       lastMoveRef.current = performance.now();
+      startLoop();
     }
 
     function onPointerLeave() {
@@ -147,7 +156,7 @@ export default function BinaryCursor({ emoji = "01", theme }) {
     }
 
     function updateParticles() {
-      if (!contextRef.current) return;
+      if (!contextRef.current) return false;
       const { width, height } = sizeRef.current;
       contextRef.current.clearRect(0, 0, width, height);
 
@@ -161,7 +170,7 @@ export default function BinaryCursor({ emoji = "01", theme }) {
       }
 
       if (interactiveAlphaRef.current <= 0 && !cursorRef.current.active) {
-        return;
+        return false;
       }
 
       const now = performance.now();
@@ -234,10 +243,15 @@ export default function BinaryCursor({ emoji = "01", theme }) {
       }
 
       contextRef.current.globalAlpha = 1;
+      return true;
     }
 
     function loop() {
-      updateParticles();
+      const active = updateParticles();
+      if (!active) {
+        isLoopRunning = false;
+        return;
+      }
       animationFrameRef.current = requestAnimationFrame(loop);
     }
 
@@ -247,7 +261,7 @@ export default function BinaryCursor({ emoji = "01", theme }) {
     window.addEventListener("blur", onPointerLeave);
     window.addEventListener("resize", resizeCanvas);
 
-    loop();
+    startLoop();
 
     return () => {
       window.removeEventListener("pointermove", onPointerMove);

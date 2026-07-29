@@ -229,14 +229,21 @@ export default function App() {
       ticking = false;
     }
 
+    let isScrolling = false;
+
     function onScroll() {
-      setScrollActive(true);
+      if (!isScrolling) {
+        isScrolling = true;
+        setScrollActive(true);
+      }
+
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
       scrollTimeoutRef.current = setTimeout(() => {
+        isScrolling = false;
         setScrollActive(false);
-      }, 1500);
+      }, 400);
 
       if (!ticking) {
         requestAnimationFrame(updateScrollState);

@@ -19,15 +19,24 @@ function Section({ id, eyebrow, title, children }) {
 export default function ProfessionalPage({ defaultHash }) {
   const location = useLocation();
 
+  const handleScrollTo = (e, targetId) => {
+    e.preventDefault();
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.pushState(null, "", `#${targetId}`);
+    }
+  };
+
   useEffect(() => {
     const hash = location.hash || defaultHash;
     if (hash) {
       const targetId = hash.replace("#", "");
       const el = document.getElementById(targetId);
       if (el) {
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100);
+        });
       }
     }
   }, [location.hash, defaultHash]);
@@ -41,10 +50,18 @@ export default function ProfessionalPage({ defaultHash }) {
           <ClothParagraph className="professional-role">{profile.roleLine}</ClothParagraph>
           <ClothParagraph className="professional-summary">{profile.summary}</ClothParagraph>
           <div className="professional-actions">
-            <a href="#professional-resume" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>
+            <a
+              href="#professional-resume"
+              onClick={(e) => handleScrollTo(e, "professional-resume")}
+              style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}
+            >
               View Resume
             </a>
-            <a href="#professional-cv" style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}>
+            <a
+              href="#professional-cv"
+              onClick={(e) => handleScrollTo(e, "professional-cv")}
+              style={{ background: "var(--accent-2)", color: "#ffffff", borderColor: "var(--accent-2)" }}
+            >
               View CV
             </a>
             <a href="/docs/resumelatest.pdf" download="Rachit_Asthana_Resume.pdf">
@@ -184,13 +201,14 @@ export default function ProfessionalPage({ defaultHash }) {
             </div>
           </div>
 
-          <div style={{ width: "100%", height: "750px", borderRadius: "14px", overflow: "hidden", border: "1px solid var(--line)", background: "var(--panel)", boxShadow: "0 12px 36px rgba(0,0,0,0.12)" }}>
+          <div style={{ width: "100%", height: "750px", borderRadius: "14px", overflow: "hidden", border: "1px solid var(--line)", background: "var(--panel)", boxShadow: "0 12px 36px rgba(0,0,0,0.12)", contain: "content", transform: "translateZ(0)", willChange: "transform" }}>
             <iframe
               src="/docs/resumelatest.pdf"
               width="100%"
               height="100%"
-              style={{ border: "none" }}
+              style={{ border: "none", display: "block" }}
               title="Rachit Asthana Resume"
+              loading="lazy"
             />
           </div>
         </div>
@@ -250,13 +268,14 @@ export default function ProfessionalPage({ defaultHash }) {
             </div>
           </div>
 
-          <div style={{ width: "100%", height: "750px", borderRadius: "14px", overflow: "hidden", border: "1px solid var(--line)", background: "var(--panel)", boxShadow: "0 12px 36px rgba(0,0,0,0.12)" }}>
+          <div style={{ width: "100%", height: "750px", borderRadius: "14px", overflow: "hidden", border: "1px solid var(--line)", background: "var(--panel)", boxShadow: "0 12px 36px rgba(0,0,0,0.12)", contain: "content", transform: "translateZ(0)", willChange: "transform" }}>
             <iframe
               src="/docs/cvlatest.pdf"
               width="100%"
               height="100%"
-              style={{ border: "none" }}
+              style={{ border: "none", display: "block" }}
               title="Rachit Asthana CV"
+              loading="lazy"
             />
           </div>
         </div>

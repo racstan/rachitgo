@@ -283,7 +283,18 @@ export default function Navbar({ theme, onToggleTheme, mode, onToggleMode }) {
                   key={item.href}
                   href={target}
                   className="nav-link"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    if (isHome && item.href.startsWith("#")) {
+                      const targetId = item.href.replace("#", "");
+                      const el = document.getElementById(targetId);
+                      if (el) {
+                        e.preventDefault();
+                        el.scrollIntoView({ behavior: "smooth", block: "start" });
+                        window.history.pushState(null, "", item.href);
+                      }
+                    }
+                  }}
                 >
                   {item.label}
                 </a>
